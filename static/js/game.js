@@ -1,8 +1,9 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 5; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 6; // internal version number indicating only changes on client-side requiring a user to refresh their page
 
 var Terminal;
 var History;
+var Characters = {};
 
 function update() {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
@@ -12,6 +13,22 @@ function update() {
       } else if (data.echo) {
         Terminal.echo(data.echo);
       }
+
+      if (data.characters) {
+        for (character in data.characters) {
+          if (!Characters[character]) {
+            Terminal.echo("[[;white;]" + character + "] enters.");
+            Characters[character] = true;
+          }
+        }
+        for (character in Characters) {
+          if (!data.characters[character]) {
+            Terminal.echo("[[;white;]" + character + "] has left.");
+            delete Characters[character];
+          }
+        }
+      }
+
     } else {
       Terminal.echo("[[b;pink;]Connection/Server error]: " + status);
     }
