@@ -9,8 +9,6 @@ Users = require "models.Users"
 class extends lapis.Application
   @path: "/command"
 
-  layout: "command_layout"
-
   [command: ""]: respond_to {
     GET: =>
       return layout: false, status: 405, "Method not allowed."
@@ -54,10 +52,10 @@ class extends lapis.Application
           unless Users\find admin: true
             user\update { admin: true }
 
-          return "Welcome, #{user.name}!" -- TODO TEST
+          return layout: false, "Welcome, #{user.name}!"
 
         else
-          return errMsg -- TODO TEST
+          return layout: false, errMsg
 
       elseif @session.id
         @user = Users\find id: @session.id
