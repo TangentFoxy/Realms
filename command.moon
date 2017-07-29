@@ -138,7 +138,6 @@ class extends lapis.Application
             for character in *characters
               user = character\get_user!
               if user.name == args[2]
-                return layout: false, "TODO"
                 -- punch them!
                 character\update { health: character.health - 1 }
                 local msg
