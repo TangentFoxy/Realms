@@ -132,7 +132,7 @@ class extends lapis.Application
       rawCharacters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - 60
       characters = {}
       for character in *rawCharacters
-        user = rawCharacters\get_user!
+        user = character\get_user!
         table.insert characters, user.name
 
     else
