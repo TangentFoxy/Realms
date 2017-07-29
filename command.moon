@@ -68,8 +68,22 @@ class extends lapis.Application
           return layout: false, "Goodbye, #{@user.name}..."
 
         elseif args[1] == "whoami"
-          return layout: false, "#{@user.name} (#{@user.id}) #{@user.email}" -- temporary
+          return layout: false, "You are #{@user.name}."
 
+        elseif args[1] == "list"
+          if @user.admin
+            users = Users\select "WHERE true ORDER BY name ASC"
+
+            out = ""
+            for user in *users
+              out ..= "#{user.name} (#{user.id}) #{user.email}"
+
+            out ..= "#{Users\count!} users."
+
+            return layout: false, out
+
+
+        -- no else, because some commands can error out
         return layout: false, "[[;red;]Invalid command.]"
 
       else
