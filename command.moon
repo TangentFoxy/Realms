@@ -59,7 +59,12 @@ class extends lapis.Application
 
       elseif @session.id
         @user = Users\find id: @session.id
-        return layout: false, "This is a work-in-progress. Nothing happens yet."
+
+        if @params.command == "logout"
+          @session.id = nil
+          return layout: false, "Goodbye, #{@user.name}..."
+
+        return layout: false, "Invalid command. I should really make this appear as an error. Remind me to do that."
 
       else
         return layout: false, "You must log in first."
