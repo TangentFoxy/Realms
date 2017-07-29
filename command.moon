@@ -158,4 +158,13 @@ class extends lapis.Application
       return json: { :you, :characters }
 
     else
-      return json: { } -- nothing, you are not logged in
+      -- return json: { } -- nothing, you are not logged in
+
+      -- get everyone who was here within the timeOut
+      rawCharacters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", 0, 0, os.date "!%Y-%m-%d %X", os.time! - timeOut
+      characters = {}
+      for character in *rawCharacters
+        user = character\get_user!
+        characters[user.name] = { name: user.name, health: character.health }
+
+      return json: { :characters }
