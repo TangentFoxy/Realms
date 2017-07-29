@@ -1,5 +1,7 @@
 lapis = require "lapis"
 
+Users = require "Users"
+
 class extends lapis.Application
   @before_filter =>
     u = @req.parsed_url
@@ -19,4 +21,7 @@ class extends lapis.Application
     return layout: false, err.."\n\n"..trace
 
   [index: "/"]: =>
+    if @session.id
+      @user = Users\find id: @session.id
+
     render: true
