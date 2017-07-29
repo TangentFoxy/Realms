@@ -119,5 +119,20 @@ class extends lapis.Application
     if not @params.version or tonumber(@params.version) < version
       return json: { echo: "[[;red;]An update has been pushed. Please refresh the page.]\n(Server: #{version} Client: #{@params.version})" }
 
+    elseif @session.id
+      @user = Users\find id: @session.id
+      @character = Characters\find user_id: @user.id
+      unless @character
+        Characters\create { user_id: @user.id }
+
+      @character\update { time: os.date "!%Y-%m-%d %X" } -- we are here now
+
+      -- get everyone who was here in the past 60 seconds
+      rawCharacters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - 60
+      characters = {}
+      for character in *rawCharacters
+        user = rawCharacters\get_user!
+        table.insert characters, user.name
+
     else
-      return json: { } -- nothing happened
+      return json: { :characters }

@@ -12,7 +12,7 @@ class extends lapis.Application
   layout: "layout"
 
   @include "githook"
-  @include "users"
+  -- @include "users" -- do not allow logins without interface
   @include "command"
 
   handle_error: (err, trace) =>
