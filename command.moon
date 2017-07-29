@@ -264,6 +264,18 @@ class extends lapis.Application
               y: 0
               realm: "nullspace"
             }
+              Events\create {
+                source_id: @character.id
+                type: "msg"
+                data: "[[;white;]#{@user.name}] has revived!"
+
+                -- trying to decide whether to care or not if these are the old values or nullspace 0,0
+                -- maybe I'll care later
+                x: @character.x
+                y: @character.y
+                realm: @character.realm
+                time: now!
+              }
               return layout: false, "[[;lime;]You have revived!]"
             else
               return layout: false, "[[;red;]Something went wrong, please ][[;white;[report][[;red;] this error! D:]"
