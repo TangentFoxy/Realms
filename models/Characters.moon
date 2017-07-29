@@ -1,4 +1,5 @@
 import Model from require "lapis.db.model"
+import timeOut from require "utility.numbers"
 
 local Characters
 
