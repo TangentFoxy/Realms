@@ -30,7 +30,7 @@ function update() {
       }
 
       if (data.characters) {
-        for (character in data.characters) {
+        for (var character in data.characters) {
           if (!Characters[character]) {
             if (character != Self.name) {
               if (justEntered) {
@@ -42,7 +42,7 @@ function update() {
             Characters[character] = character;
           }
         }
-        for (character in Characters) {
+        for (var character in Characters) {
           if (!data.characters[character]) {
             if (character == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
@@ -63,10 +63,10 @@ function update() {
         }
       }
 
-      for (event in Events) {
-        if (!event.done) {
-          Terminal.echo(event.msg);
-          event.done = true;
+      for (var e in Events) {
+        if (!e.done) {
+          Terminal.echo(e.msg);
+          e.done = true;
         }
         // TODO remove old Events
       }
