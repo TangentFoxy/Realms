@@ -52,7 +52,7 @@ Optional arguments are in brackets. OR indicates either version works for a comm
   topics: ->
     output = ""
     for name in *topics
-      output ..= "  [[;white;]"..@[name].."]\n"
+      output ..= "  [[;white;]"..name.."]\n"
 
     return output\sub 1, #output - 1
 
