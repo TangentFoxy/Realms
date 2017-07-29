@@ -109,3 +109,6 @@ class extends lapis.Application
       else
         return layout: false, "[[;red;]You must log in first.]"
   }
+
+  [command_update: "/update"]: =>
+    return json: { run: "Hello world!" }

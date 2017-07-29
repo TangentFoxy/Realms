@@ -3,6 +3,22 @@ var commandUrl = "https://ld39.guard13007.com/command";
 var Terminal;
 var History;
 
+function update() {
+  $.post(commandUrl + "/update", {}, function(data, status) {
+    if (status == "success") {
+      // data should be JSON (already parsed actually)
+      // it will say to do something or not
+      if (data.run) {
+        Terminal.echo("data.run: " + data.run); // NOTE TEMPORARY FOR TESTING
+      }
+    } else {
+      Terminal.echo("[[;red;]Connection/Server error: " + status + "]");
+    }
+  })
+
+  setTimeout(update, 1000);
+}
+
 $(function() {
   $('#terminal').terminal(function(command, term) {
     if (command == "") { return false; }
@@ -146,4 +162,8 @@ $(function() {
       History = term.history();
     }
   });
+});
+
+$(document).ready(function() {
+  setTimeout(update, 1000);
 });

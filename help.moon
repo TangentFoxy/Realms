@@ -19,11 +19,11 @@ Optional arguments are in brackets. These arguments will be prompted for if you 
 terminal = [[
 Other Commands:
 
-Optional arguments are in brackets.
+Optional arguments are in brackets. OR indicates either version works for a command.
 
   [[;white;]clear] - clears the terminal screen
   [[;white;]help] [page] - prints all help pages or a named page
-  [[;white;]history] [-c] [clear] - prints your command history or clears it
+  [[;white;]history] [-c OR clear] - prints your command history or clears it
   [[;exit;]exit] - logs out of a user, and if your system permits it, closes the page
 ]]
 
