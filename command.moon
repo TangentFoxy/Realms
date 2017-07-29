@@ -1,5 +1,6 @@
 lapis = require "lapis"
 bcrypt = require "bcrypt"
+help = require "help"
 config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
@@ -15,10 +16,21 @@ class extends lapis.Application
       return layout: false, status: 405, "Method not allowed."
 
     POST: json_params =>
-      if @params.command == "help"
-        return layout: false, "Help text would go here, if I was a better programmer."
+      args = split @params.command
 
-      elseif @params.command == "login"
+      if args[1] == "help"
+        if args[2]
+          if help[args[2]]
+            return layout: false, help[args[2]]
+          else
+            if @session.id
+              if user = Users\find id: @session.id
+                if user.admin
+                  return layout: false, help\build true
+
+            return layout: false, help\build!
+
+      elseif args[1] == "login"
         if @session.id
           if user = Users\find id: @session.id
             return layout: false, "[[;red;]You are already logged in, #{user.name}.]"
@@ -33,7 +45,7 @@ class extends lapis.Application
 
         return layout: false, "[[;red;]Invalid username or password.]"
 
-      elseif @params.command == "create"
+      elseif args[1] == "create"
         if @session.id
           if user = Users\find id: @session.id
             return layout: false, "[[;red;]You are already logged in as #{user.name}!]"
@@ -61,8 +73,6 @@ class extends lapis.Application
       elseif @session.id
         @user = Users\find id: @session.id
 
-        args = split @params.command
-
         if args[1] == "logout"
           @session.id = nil
           return layout: false, "Goodbye, #{@user.name}..."
@@ -81,13 +91,13 @@ class extends lapis.Application
             for user in *users
               output ..= "[[;white;]#{user.name}] ([[;white;]#{user.id}]) [[;white;]#{user.email}]\n"
 
-            output ..= "[[;lime;]#{Users\count!}] users."
+            output ..= "[[;lime;]#{Users\count!}] users"
 
             return layout: false, output
 
 
         -- no else, because some commands can error out
-        return layout: false, "[[;red;]Invalid command '][[;white;]#{args[1]}][[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
+        return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
 
       else
         return layout: false, "[[;red;]You must log in first.]"

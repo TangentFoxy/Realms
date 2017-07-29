@@ -10,7 +10,11 @@ $(function() {
     var args = command.split(" ");
 
     if (args[0] == "exit") {
-      return $.post(commandUrl, {command: "logout"});
+      Terminal.pause();
+      $.post(commandUrl, {command: "logout"}).then(function(response) {
+        Terminal.echo(response);
+      });
+      window.close(); // may or may not be permitted by the browser
 
     } else if (args[0] == "login") {
       var user, password;
@@ -56,28 +60,31 @@ $(function() {
       var calls = 0;    // stupid hack because onStart triggers twice for some reason
       var calls2 = 0;   // same thing...
 
-      Terminal.push(function(c) {
-        password = c;
-        Terminal.pop();
-        History.enable();
+      if (args[3]) {
+        var data = History.data();
+        data.pop();
+        History.set(data);
+        return $.post(commandUrl, {command: "create", name: args[1], email: args[2], password: args[3]});
+      } else {
+        Terminal.push(function(c) {
+          password = c;
+          Terminal.pop();
+          History.enable();
 
-        return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
-        // Terminal.pause();
-        // $.post(commandUrl, {command: "create", name: user, email: email, password: password}).then(function(response) {
-        //   Terminal.echo(response).resume();
-        // });
-      }, {
-        prompt: "Password: ",
-        onStart: function() {
-          Terminal.set_mask(true);
-          if (calls == 0) {
-            calls += 1;
-          } else {
-            Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
+          return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
+        }, {
+          prompt: "Password: ",
+          onStart: function() {
+            Terminal.set_mask(true);
+            if (calls == 0) {
+              calls += 1;
+            } else {
+              Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
+            }
+            History.disable();
           }
-          History.disable();
-        }
-      });
+        });
+      }
 
       if (args[2]) {
         email = args[2];
@@ -124,11 +131,7 @@ $(function() {
       return false;
 
     } else {
-      // return $.post(commandUrl, {command: command});
-      Terminal.pause();
-      $.post(commandUrl, {command: command}).then(function(response) {
-        Terminal.echo(response).resume();
-      });
+      return $.post(commandUrl, {command: command});
     }
   }, {
     prompt: "> ",
