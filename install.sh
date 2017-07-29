@@ -40,7 +40,7 @@ make build
 sudo make install
 # some rocks
 sudo luarocks install lapis
-sudo luarocks install luacrypto    # weird error happened before I did this
+sudo luarocks install luacrypto    # NOTE weird error happened before I did this
 sudo luarocks install moonscript
 sudo luarocks install bcrypt
 
