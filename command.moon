@@ -179,7 +179,7 @@ class extends lapis.Application
             y: @character.y
             time: now!
           }
-          return layout: false, "You say, \"#{output\sub 5}\""
+          return layout: false, false
 
         elseif args[1] == "rename"
           if args[2]
@@ -187,6 +187,15 @@ class extends lapis.Application
               return layout: false, "You are now [[;white;]#{@user.name}]."
             else
               return layout: false, "That name is taken."
+          else
+            return layout: false, "[[;red;]Invalid command syntax.]"
+
+        elseif args[1] == "chmail"
+          if args[2]
+            if @user\update { email: args[2] }
+              return layout: false, "Your email is now [[;white;]#{@user.email}]."
+            else
+              return layout: false, "That email is taken by another account."
           else
             return layout: false, "[[;red;]Invalid command syntax.]"
 

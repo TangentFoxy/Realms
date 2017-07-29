@@ -17,6 +17,8 @@ Optional arguments are in brackets. These arguments will be prompted for if you 
   [[;white;]login] [user] [password] - logs in as an existing user
   [[;white;]logout] - logs out of a user
   [[;white;]whoami] - prints your username
+  [[;white;]rename] name - rename yourself
+  [[;white;]chmail] email - change your email address
 ]]
 
 interact = [[
