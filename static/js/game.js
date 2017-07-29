@@ -23,6 +23,7 @@ function update() {
 
       if (data.characters) {
         for (character in data.characters) {
+          console.log("LOOP REACHED");
           if (!Characters[character.name]) {
             if (character.name != Self.name) {
               Terminal.echo("[[;white;]" + character.name + "] enters.");
@@ -32,6 +33,7 @@ function update() {
         }
         for (character in Characters) {
           if (!data.characters[character.name]) {
+            console.log("LOOP 2 RTEACHED");
             if (character.name == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
             } else {
