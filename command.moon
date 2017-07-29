@@ -1,4 +1,4 @@
-version = 16   -- alert user to update their client by refreshing
+version = 17   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
@@ -86,6 +86,9 @@ class extends lapis.Application
 
       elseif @session.id
         @user = Users\find id: @session.id
+        @character = Characters\find user_id: @user.id
+        unless @character
+          @character = Characters\create { user_id: @user.id }
 
         if args[1] == "logout"
           @session.id = nil
@@ -157,7 +160,7 @@ class extends lapis.Application
       @user = Users\find id: @session.id
       @character = Characters\find user_id: @user.id
       unless @character
-        Characters\create { user_id: @user.id }
+        @character = Characters\create { user_id: @user.id }
 
       @character\update { time: os.date "!%Y-%m-%d %X" } -- we are here now
       you = { name: @user.name, health: @character.health }
