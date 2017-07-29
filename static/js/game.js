@@ -30,18 +30,15 @@ $(function() {
         password = c;
         Terminal.pop();
         Terminal.set_mask(false);
+        return $.post(commandUrl, {command: "login", name: user, password: password});
         History.enable();
       }, {
         prompt: "Password: "
       });
 
       // now log in
-      return $.post(commandUrl, {command: "login", name: user, password: password});
+      // return $.post(commandUrl, {command: "login", name: user, password: password});
       // History.disable(); Terminal.set_mask(true); Terminal.push(function(c) { Terminal.clear(); Terminal.echo('do something'); Terminal.pop(); History.enable(); }, {prompt: "COMMAND PROMPT"});
-      term.pause();
-      $.post(commandUrl, {command: "login", name: user, password: password}).then(function(response) {
-        term.echo(response).resume();
-      });
 
     } else {
       // return $.post(commandUrl, {command: command});
