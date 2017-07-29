@@ -17,8 +17,9 @@ class extends lapis.Application
         return layout: false, "Help text would go here, if I was a better programmer."
 
       elseif @params.command == "login"
-        if @session.id and user = Users\find id: @session.id
-          return layout: false, "You are already logged in, #{user.name}."
+        if @session.id
+          if user = Users\find id: @session.id
+            return layout: false, "You are already logged in, #{user.name}."
 
         if user = Users\find name: @params.name
           if bcrypt.verify @params.password, user.digest
