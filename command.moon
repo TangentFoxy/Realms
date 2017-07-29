@@ -115,7 +115,7 @@ class extends lapis.Application
         return layout: false, "[[;red;]You must log in first.]"
   }
 
-  [command_update: "/update"]: =>
+  [command_update: "/update"]: json_params =>
     if not @params.version or @params.version < version
       return json: { echo: "[[;red;]An update has been pushed. Please refresh the page and try again.]" }
 
