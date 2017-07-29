@@ -6,6 +6,7 @@ $(function() {
     greetings: "Test?",
     onBlur: function() {
       return false;
-    }
+    },
+    describe: "say.tell.sack.sam"
   });
 });
