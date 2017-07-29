@@ -240,7 +240,6 @@ class extends lapis.Application
       you = { name: @user.name, health: @character.health }
 
       -- get everyone who was here within the timeOut
-      -- rawCharacters = Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
       rawCharacters = @character\here!
       characters = {}
       for character in *rawCharacters
@@ -248,7 +247,7 @@ class extends lapis.Application
         -- characters[user.name] = { name: user.name, health: character.health }
         characters[user.name] = { name: user.name }
 
-      rawEvents = Events\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
+      rawEvents = Events\here @character
       events = {}
       for event in *rawEvents
         unless event\get_source!.id == @character.id
