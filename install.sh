@@ -1,6 +1,6 @@
 #!/bin/bash
-PROJECT=base
-DOMAIN=null    # uncomment certbot-auto line below
+PROJECT=ld39
+DOMAIN=ld39.guard13007.com    # uncomment certbot-auto line below
 
 set -o errexit   # exit on error
 
@@ -10,7 +10,7 @@ sudo apt-get install wget curl lua5.1 liblua5.1-0-dev zip unzip libreadline-dev 
 wget https://dl.eff.org/certbot-auto
 chmod a+x ./certbot-auto
 mv ./certbot-auto /bin/certbot-auto
-#certbot-auto certonly --standalone -m paul.liverman.iii@gmail.com -d $PROJECT
+certbot-auto certonly --standalone -m paul.liverman.iii@gmail.com -d $PROJECT
 
 echo "RUN 'createdb ld39'"
 echo "THEN 'psql' and:"
