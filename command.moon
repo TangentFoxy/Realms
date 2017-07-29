@@ -127,6 +127,19 @@ class extends lapis.Application
 
             return layout: false, output
 
+        elseif args[1] == "punch"
+          if args[2]
+            characters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
+            for character in *characters
+              if character\get_user!.name == args[2]
+                -- punch them!
+                -- return
+
+            return layout: false, "[[;white;]#{args[2]}] isn't here, or doesn't exist."
+
+          else
+            return layout: false, "You swing your fists wildly at nothing."
+
 
         -- no else, because some commands can error out
         return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"

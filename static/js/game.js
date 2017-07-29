@@ -26,7 +26,6 @@ function update() {
 
       if (data.characters) {
         for (character in data.characters) {
-          // if (character == undefined) { break; }
           if (!Characters[character]) {
             if (character != Self.name) {
               Terminal.echo("[[;white;]" + character + "] enters.");
@@ -35,7 +34,6 @@ function update() {
           }
         }
         for (character in Characters) {
-          // if (character == undefined) { break; }
           if (!data.characters[character]) {
             if (character == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
