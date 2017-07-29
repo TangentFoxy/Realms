@@ -105,7 +105,7 @@ class extends lapis.Application
         Events\create {
           source_id: source_id
           type: "report"
-          data: "[[;white;]#{user.name}]: #{output\sub 8}"
+          data: "[[;white;]#{user.name}]: [[;lime;]#{output\sub 8}]"
 
           x: x or 0
           y: y or 0
