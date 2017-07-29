@@ -8,7 +8,4 @@ class extends Widget
     script src: @build_url "static/js/game.js"
     link rel: "stylesheet", href: @build_url "static/css/game.css"
 
-    if @user
-      script -> raw "var Self = { name: '#{@user.name}', health: #{@character.health} };"
-
     div id: "terminal"
