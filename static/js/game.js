@@ -53,24 +53,19 @@ $(function() {
     } else if (args[0] == "create") {
       var user, email, password;
 
-      Terminal.push(function(c) {
-        password = c;
-        Terminal.pop();
-        History.enable();
-
-        return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
-        // Terminal.pause();
-        // $.post(commandUrl, {command: "create", name: user, email: email, password: password}).then(function(response) {
-        //   Terminal.echo(response).resume();
-        // });
-      }, {
-        prompt: "Password: ",
-        onStart: function() {
-          Terminal.set_mask(true);
-          Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
-          History.disable();
-        }
-      });
+      if (args[1]) {
+        user = args[1];
+      } else {
+        Terminal.push(function(c) {
+          user = c;
+          Terminal.pop();
+        }, {
+          prompt: "Username: ",
+          onStart: function() {
+            Terminal.set_mask(false);
+          }
+        });
+      }
 
       if (args[2]) {
         email = args[2];
@@ -85,21 +80,22 @@ $(function() {
             Terminal.echo("[[;lime;]Email addresses are not required, but you will not be able to reset your password.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
           }
         });
-
-        if (args[1]) {
-          user = args[1];
-        } else {
-          Terminal.push(function(c) {
-            user = c;
-            Terminal.pop();
-          }, {
-            prompt: "Username: ",
-            onStart: function() {
-              Terminal.set_mask(false);
-            }
-          });
-        }
       }
+
+      Terminal.push(function(c) {
+        password = c;
+        Terminal.pop();
+        History.enable();
+
+        return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
+      }, {
+        prompt: "Password: ",
+        onStart: function() {
+          Terminal.set_mask(true);
+          Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
+          History.disable();
+        }
+      });
 
     } else if (args[0] == "history") {
       if (args[1] == "-c" || args[1] == "clear") {
