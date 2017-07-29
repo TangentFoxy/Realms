@@ -8,7 +8,7 @@ function update() {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
     if (status == "success") {
       if (typeof(data) == "string") {
-        Terminal.echo("[[b;pink;]SERVER ERROR]\n[[;red;]" + data.slice(1, data.indexOf("\n") - 1) + "]");
+        Terminal.echo("[[b;pink;]SERVER ERROR]: [[;red;]" + data.slice(1, data.indexOf("\n") - 1) + "]");
       } else if (data.echo) {
         Terminal.echo(data.echo);
       }
