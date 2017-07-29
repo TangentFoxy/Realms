@@ -7,6 +7,7 @@ var History;
 function update() {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
     if (status == "success") {
+      Terminal.echo(data); // tmeporary
       if (data.echo) {
         Terminal.echo(data.echo);
       }
