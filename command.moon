@@ -20,7 +20,14 @@ class extends lapis.Application
 
       if args[1] == "help"
         if args[2] and help[args[2]]
-          return layout: false, help[args[2]]
+          if args[2] == "admin"
+            if @session.id
+              if user = Users\find id: @session.id
+                if user.admin
+                  return layout: false, help.admin
+            return layout: false, "[[;red;]You do not have permission to view that page.]"
+          else
+            return layout: false, help[args[2]]
 
         else
           if @session.id

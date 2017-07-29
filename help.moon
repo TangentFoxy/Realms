@@ -33,6 +33,13 @@ Optional arguments are in brackets.
   terminal: terminal\sub 2, #terminal - 1
 
   build: (is_admin) => -- self should be the correct thing?
-    output = @
-    return tostring(output) -- temporary testing!
+    local output
+    if is_admin
+      output = @admin.."\n\n"
+    else
+      output = ""
+
+    output ..= @user.."\n\n"..@terminal
+
+    return output
 }
