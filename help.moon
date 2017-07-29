@@ -1,3 +1,5 @@
+topics = {"user", "interact", "combat", "terminal"}
+
 admin = [[
 Admin Commands:
 
@@ -15,6 +17,12 @@ Optional arguments are in brackets. These arguments will be prompted for if you 
   [[;white;]login] [user] [password] - logs in as an existing user
   [[;white;]logout] - logs out of a user
   [[;white;]whoami] - prints your username
+]]
+
+interact = [[
+Interaction:
+
+  [[;white;]say] - say something to everyone in the room you are in
 ]]
 
 combat = [[
@@ -37,8 +45,16 @@ Optional arguments are in brackets. OR indicates either version works for a comm
 {
   admin: admin\sub 1, #admin - 1
   user: user\sub 1, #user - 1
+  interact: interact\sub 1, #interact - 1
   combat: combat\sub 1, #combat - 1
   terminal: terminal\sub 1, #terminal - 1
+
+  topics: ->
+    output = ""
+    for name in *topics
+      output ..= "  [[;white;]"..@[name].."]\n"
+
+    return output\sub 1, #output - 1
 
   build: (is_admin) => -- self should be the correct thing?
     local output
@@ -47,7 +63,7 @@ Optional arguments are in brackets. OR indicates either version works for a comm
     else
       output = ""
 
-    for name in *{"user", "combat", "terminal"}
+    for name in *topics
       output ..= @[name].."\n\n"
 
     return output\sub 1, #output - 2

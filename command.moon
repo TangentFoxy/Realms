@@ -28,15 +28,18 @@ class extends lapis.Application
       args = split @params.command
 
       if args[1] == "help"
-        if args[2] and help[args[2]]
-          if args[2] == "admin"
-            if @session.id
-              if user = Users\find id: @session.id
-                if user.admin
-                  return layout: false, help.admin
-            return layout: false, "[[;red;]You do not have permission to view that page.]"
-          else
-            return layout: false, help[args[2]]
+        if args[2]
+          if args[2] == "topics"
+            return layout: false, help.topics!
+          elseif help[args[2]]
+            if args[2] == "admin"
+              if @session.id
+                if user = Users\find id: @session.id
+                  if user.admin
+                    return layout: false, help.admin
+              return layout: false, "[[;red;]You do not have permission to view that page.]"
+            else
+              return layout: false, help[args[2]]
 
         else
           if @session.id
