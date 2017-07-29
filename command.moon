@@ -8,7 +8,7 @@ config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
 import split from require "utility.string"
-import now from require "utility.time"
+-- import now from require "utility.time"
 
 Users = require "models.Users"
 Characters = require "models.Characters"
@@ -136,15 +136,16 @@ class extends lapis.Application
           if args[2]
             characters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
             for character in *characters
-              if character\get_user!.name == args[2]
+              user = character\get_user!
+              if user.name == args[2]
                 return layout: false, "TODO"
                 -- punch them!
                 character\update { health: character.health - 1 }
                 local msg
                 if character.health <= 0
-                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{character\get_user!.name}], killing them!"
+                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{user.name}], killing them!"
                 else
-                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{character\get_user!.name}]!"
+                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{user.name}]!"
                 Events\create {
                   source_id: @character.id
                   target_id: character.id
@@ -153,12 +154,12 @@ class extends lapis.Application
 
                   x: @character.x
                   y: @character.y
-                  time: now!
+                  time: os.date "!%Y-%m-%d %X" -- now!
                 }
                 if character.health <= 0
-                  return layout: false, "You punched [[;white;]#{character\get_user!.name}], killing them!"
+                  return layout: false, "You punched [[;white;]#{user.name}], killing them!"
                 else
-                  return layout: false, "You punched [[;white;]#{character\get_user!.name}]!"
+                  return layout: false, "You punched [[;white;]#{user.name}]!"
 
             return layout: false, "[[;white;]#{args[2]}] isn't here, or doesn't exist."
 
