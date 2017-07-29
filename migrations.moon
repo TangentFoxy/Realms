@@ -1,4 +1,6 @@
-import create_table, types from require "lapis.db.schema"
+db = require "lapis.db"
+
+import create_table, types, add_column from require "lapis.db.schema"
 
 Characters = require "models.Characters"
 
@@ -25,4 +27,10 @@ Characters = require "models.Characters"
     users = Users\select "WHERE true"
     for user in *users
       Characters\create { user_id: user.id }
+
+  [3]: =>
+    add_column "characters", "health", types.integer default: 1
+    db.update "characters", {
+      health: 1 -- what to do
+    }, "true" -- WHERE true
 }
