@@ -50,7 +50,7 @@ $(function() {
       }
 
     } else if (args[0] == "history") {
-      if (args[1] == "-c" or args[1] == "clear") {
+      if (args[1] == "-c" || args[1] == "clear") {
         History.clear();
       } else {
         var data = History.data();
