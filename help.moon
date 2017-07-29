@@ -10,6 +10,8 @@ Admin Commands:
 ]]
 
 user = [[
+(Most commands require you to be logged in.)
+
 User Management:
 
 Optional arguments are in brackets. These arguments will be prompted for if you do not specify them.
@@ -27,6 +29,7 @@ interact = [[
 Interaction:
 
   [[;white;]say] - say something to everyone in the room you are in
+  [[;white;]report] - send a message to administrators (reporting a bug, player, an idea - whatever!)
 ]]
 
 combat = [[

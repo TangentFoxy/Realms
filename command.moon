@@ -168,12 +168,18 @@ class extends lapis.Application
               user = character\get_user!
               if user.name == args[2]
                 -- punch them!
-                character\update { health: character.health - 1 }
                 local msg
-                if character.health <= 0
-                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{user.name}], killing them!"
+                deadBody = false
+                if character.health > 0
+                  character\update { health: character.health - 1 }
+                  if character.health <= 0
+                    msg = "[[;white;]#{@user.name}] punched [[;white;]#{user.name}], killing them!"
+                  else
+                    msg = "[[;white;]#{@user.name}] punched [[;white;]#{user.name}]!"
                 else
-                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{user.name}]!"
+                  deadBody = true
+                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{user.name}]'s corpse. How disrespectful."
+
                 Events\create {
                   source_id: @character.id
                   target_id: character.id
@@ -185,10 +191,13 @@ class extends lapis.Application
                   realm: @character.realm
                   time: now!
                 }
-                if character.health <= 0
-                  return layout: false, "You punched [[;white;]#{user.name}], killing them!"
+                if deadBody
+                  return layout: false, "You punched [[;white;]#{user.name}]'s dead body."
                 else
-                  return layout: false, "You punched [[;white;]#{user.name}]!"
+                  if character.health <= 0
+                    return layout: false, "You punched [[;white;]#{user.name}], killing them!"
+                  else
+                    return layout: false, "You punched [[;white;]#{user.name}]!"
 
             return layout: false, "[[;white;]#{args[2]}] isn't here, or doesn't exist."
 
