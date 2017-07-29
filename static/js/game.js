@@ -37,7 +37,10 @@ $(function() {
           user = c;
           Terminal.pop();
         }, {
-          prompt: "Username: "
+          prompt: "Username: ",
+          onStart: function() {
+            Terminal.set_mask(false);
+          }
         });
       }
 
