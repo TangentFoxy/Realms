@@ -58,15 +58,14 @@ function update() {
         for (var i = 0; i < data.events.length; i++) {
           var event = data.events[i];
           if (!Events[event.id]) {
-            Events[event.id] = data.event;
+            Events[event.id] = event;
           }
         }
       }
 
       for (event in Events) {
         if (!event.done) {
-          // Terminal.echo(event.msg);
-          console.log(event.msg); // what
+          Terminal.echo(event.msg);
           event.done = true;
         }
         // TODO remove old Events
