@@ -8,7 +8,7 @@ var Self = {}; // defined by first update() call
 var Characters = {};
 var Events = {};
 
-function update() {
+function update(first) {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
     if (status == "success") {
       console.log(data);
@@ -23,7 +23,9 @@ function update() {
 
       if (data.you) {
         if (!Self.name) {
-          Terminal.echo("Welcome back, " + data.you.name + "!"); // NOTE will probably echo at login / create commands, instead of just on page load...
+          if (first) {
+            Terminal.echo("Welcome back, " + data.you.name + "!");
+          }
           justEntered = true;
         }
         Self = data.you;
@@ -254,5 +256,5 @@ $(function() {
 });
 
 $(document).ready(function() {
-  update();
+  update(true); // first call gets 'true'
 });

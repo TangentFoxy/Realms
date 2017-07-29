@@ -18,8 +18,4 @@ Different perspective
 
 guard, wall of sticky notes, faq book
 
-say, tell, ask, read, look, examine, exits, punch, attack, north, west, east, south
-
-
-Every command needs to access the server and return some info basically.
-There also needs to be a background process that sends stuff to the player.
+ask, read, attack, north, west, east, south
