@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 21; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 22; // internal version number indicating only changes on client-side requiring a user to refresh their page
 var timeOut = 30;
 
 var Terminal;
@@ -224,6 +224,27 @@ $(function() {
             }
           });
         }
+      }
+
+    } else if (args[0] == "chpass") {
+      if (args[1]) {
+        var data = History.data();
+        data.pop();
+        History.set(data);
+        return $.post(commandUrl, {command: "chpass", password: args[1], version: version});
+      } else {
+        Terminal.push(function(c) {
+          Terminal.pop();
+          History.enable();
+          return $.post(commandUrl, {command: "chpass", password: c, version: version});
+        }, {
+          prompt: "Password: ",
+          onStart: function() {
+            Terminal.set_mask(true);
+            Terminal.echo("[[;red;]WARNING][[;lime;]: You can set nothing as your password, but you won't be able to log in again.]", {keepWords: true});
+            History.disable();
+          }
+        });
       }
 
     } else if (args[0] == "history") {

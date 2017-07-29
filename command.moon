@@ -1,4 +1,4 @@
-version = 21   -- alert user to update their client by refreshing
+version = 22   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
@@ -70,7 +70,7 @@ class extends lapis.Application
             return layout: false, "[[;red;]You are already logged in as #{user.name}!]"
 
         local digest
-        if @params.password
+        if @params.password and @params.password\len! > 0
           digest = bcrypt.digest @params.password, config.digest_rounds
 
         user, errMsg = Users\create {
@@ -101,7 +101,7 @@ class extends lapis.Application
           character\update { time: os.date "!%Y-%m-%d %X", os.time! - (timeOut + 1) } -- time is set to just before timeOut, we leave immediately
           return layout: false, "Goodbye, #{@user.name}..."
 
-        elseif args[1] == "whoami"
+        elseif args[1] == "whoami" or (args[1] == "who" and args[2] == "am" and args[3] == "i")
           if @user.admin
             return layout: false, "[[;white;]#{@user.name}] ([[;white;]#{@user.id}]) [[;white;]#{@user.email}]"
           else
@@ -198,6 +198,14 @@ class extends lapis.Application
               return layout: false, "That email is taken by another account."
           else
             return layout: false, "[[;red;]Invalid command syntax.]"
+
+        elseif args[1] == "chpass"
+          if @params.password and @params.password\len! > 0
+            if @user\update { digest: bcrypt.digest @params.password, config.digest_rounds }
+              return layout: false, "Your password has been updated."
+          else
+            if @user\update { digest: nil } -- dunno if this works
+              return layout: false, "Your password has been removed."
 
 
         -- no else, because some commands can error out
