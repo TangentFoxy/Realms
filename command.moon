@@ -15,4 +15,4 @@ class extends lapis.Application
       return layout: false, "FUCK YEA"
 
     else
-      return "You must log in."
+      return layout: false, "You must log in."
