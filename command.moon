@@ -165,6 +165,6 @@ class extends lapis.Application
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
-        characters[user.name] = { name: user.name, health: character.health }
+        characters[user.name] = { name: user.name, health: tostring(character.health) }
 
       return json: { :characters }
