@@ -68,15 +68,19 @@ $(function() {
         }
       });
 
-      Terminal.push(function(c) {
-        email = c;
-        Terminal.pop();
-      }, {
-        prompt: "Email: ",
-        onStart: function() {
-          Terminal.set_mask(false);
-        }
-      });
+      if (args[2]) {
+        email = args[2];
+      } else {
+        Terminal.push(function(c) {
+          email = c;
+          Terminal.pop();
+        }, {
+          prompt: "Email: ",
+          onStart: function() {
+            Terminal.set_mask(false);
+          }
+        });
+      }
 
       if (args[1]) {
         user = args[1];
