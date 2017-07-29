@@ -92,7 +92,7 @@ class extends lapis.Application
 
       elseif args[1] == "report"
         output = table.concat args, " "
-        local source_id, x, y, realm
+        local user, source_id, x, y, realm
         if @session.id
           if user = Users\find id: @session.id
             if character = user\get_character!
@@ -100,10 +100,12 @@ class extends lapis.Application
               x = character.x
               y = character.y
               realm = character.realm
+        unless user
+          user = { name: "not logged in" }
         Events\create {
           source_id: source_id
           type: "report"
-          data: "[[;white;]#{@user.name}]: #{output\sub 8}"
+          data: "[[;white;]#{user.name}]: #{output\sub 8}"
 
           x: x or 0
           y: y or 0
