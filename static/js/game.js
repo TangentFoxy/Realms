@@ -20,7 +20,7 @@ $(function() {
         password = c;
         Terminal.pop();
         Terminal.set_mask(false);
-        Terminal.echo("Name: " + user " Password: " + password);
+        Terminal.echo("Name: " + user + " Password: " + password);
         return $.post(commandUrl, {command: "login", name: user, password: password});
         History.enable();
       }, {
