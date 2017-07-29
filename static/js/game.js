@@ -15,21 +15,16 @@ $(function() {
       var user, password
 
       History.disable();
-
-      if (args[2]) {
-        // clear screen, remove last history item
-      } else {
-        Terminal.push(function(c) {
-          password = c;
-          Terminal.pop();
-          Terminal.set_mask(false);
-          Terminal.echo("Name: " + user + " Password: " + password);
-          return $.post(commandUrl, {command: "login", name: user, password: password});
-          History.enable();
-        }, {
-          prompt: "Password: "
-        });
-      }
+      Terminal.push(function(c) {
+        password = c;
+        Terminal.pop();
+        Terminal.set_mask(false);
+        Terminal.echo("Name: " + user + " Password: " + password);
+        return $.post(commandUrl, {command: "login", name: user, password: password});
+        History.enable();
+      }, {
+        prompt: "Password: "
+      });
 
       if (args[1]) {
         user = args[1]
