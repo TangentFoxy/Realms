@@ -184,6 +184,7 @@ class extends lapis.Application
         elseif args[1] == "rename"
           if args[2]
             @user\update { name: args[2] }
+            return layout: false, "You are now [[;white;]#{@user.name}]."
           else
             return layout: false, "[[;red;]Invalid command syntax.]"
 
