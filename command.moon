@@ -3,6 +3,7 @@ bcrypt = require "bcrypt"
 config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
+import split from require "utility.string"
 
 Users = require "models.Users"
 
@@ -60,9 +61,14 @@ class extends lapis.Application
       elseif @session.id
         @user = Users\find id: @session.id
 
-        if @params.command == "logout"
+        args = split @params.command
+
+        if args[1] == "logout"
           @session.id = nil
           return layout: false, "Goodbye, #{@user.name}..."
+
+        elseif args[1] == "whoami"
+          return layout: false, "#{@user.name} (#{@user.id}) #{@user.email}" -- temporary
 
         return layout: false, "Invalid command. I should really make this appear as an error. Remind me to do that."
 
