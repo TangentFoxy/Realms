@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 8; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 9; // internal version number indicating only changes on client-side requiring a user to refresh their page
 
 var Terminal;
 var History;

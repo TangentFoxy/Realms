@@ -1,4 +1,4 @@
-version = 8   -- alert user to update their client by refreshing
+version = 9   -- alert user to update their client by refreshing
 
 lapis = require "lapis"
 bcrypt = require "bcrypt"
@@ -136,3 +136,6 @@ class extends lapis.Application
         characters[user.name] = true
 
       return json: { :characters }
+
+    else
+      return json: { } -- nothing, you are not logged in
