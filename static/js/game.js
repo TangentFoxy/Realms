@@ -1,7 +1,7 @@
 $(function() {
   $('#terminal').terminal(function(command, term) {
-    if (command.indexOf("exit") == 0) {
-      return true
+    if (command.indexOf("exit ") == 0) {
+      return false
     } else {
       return $.post('https://ld39.guard13007.com/command', {command: command});
     }
