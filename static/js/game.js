@@ -49,11 +49,22 @@ $(function() {
         });
       }
 
+    } else if (args[0] == "history") {
+      if (args[1] == "-c" or args[1] == "clear") {
+        History.clear();
+      } else {
+        var data = History.data();
+        for (var i = 0; i < data.length; i++) {
+          Terminal.echo(data[i]);
+        }
+      }
+      return false;
+
     } else {
       // return $.post(commandUrl, {command: command});
-      term.pause();
+      Terminal.pause();
       $.post(commandUrl, {command: command}).then(function(response) {
-        term.echo(response).resume();
+        Terminal.echo(response).resume();
       });
     }
   }, {
