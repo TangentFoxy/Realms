@@ -23,7 +23,7 @@ function update() {
 
       if (data.characters) {
         for (character in data.characters) {
-          // if (character == undefined) { break; }
+          if (character == undefined) { break; }
           if (!Characters[character.name]) {
             if (character.name != Self.name) {
               Terminal.echo("[[;white;]" + character.name + "] enters.");
@@ -32,7 +32,7 @@ function update() {
           }
         }
         for (character in Characters) {
-          // if (character == undefined) { break; }
+          if (character == undefined) { break; }
           if (!data.characters[character.name]) {
             if (character.name == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
