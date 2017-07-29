@@ -165,6 +165,19 @@ class extends lapis.Application
           else
             return layout: false, "You swing your fists wildly at nothing."
 
+        elseif args[1] == "say"
+          output = table.concat args, " "
+          Events\create {
+            source_id: @character.id
+            type: "msg"
+            data: "[[;white;]#{@user.name}] said, \"#{output\sub 5}\""
+
+            x: @character.x
+            y: @character.y
+            time: now!
+          }
+          return layout: false, "You say, \"#{output\sub 5}\""
+
 
         -- no else, because some commands can error out
         return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
