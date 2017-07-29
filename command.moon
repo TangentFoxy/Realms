@@ -68,7 +68,10 @@ class extends lapis.Application
           return layout: false, "Goodbye, #{@user.name}..."
 
         elseif args[1] == "whoami"
-          return layout: false, "You are [[;white;]#{@user.name}]."
+          if @user.admin
+            return layout: false, "[[;white;]#{@user.name}] ([[;white;]#{@user.id}]) [[;white;]#{@user.email}]"
+          else
+            return layout: false, "You are [[;white;]#{@user.name}]."
 
         elseif args[1] == "list"
           if @user.admin
