@@ -19,7 +19,7 @@ class extends lapis.Application
 
     POST: json_params =>
       if not @params.version or tonumber(@params.version) < version
-        return layout: false, "[[;red;]An update has been pushed. Please refresh the page and try again.]"
+        return layout: false, "[[;red;]An update has been pushed. Please refresh the page and try again.]\n(Server: #{version} Client: #{@params.version})"
 
       args = split @params.command
 
@@ -117,7 +117,7 @@ class extends lapis.Application
 
   [command_update: "/update"]: json_params =>
     if not @params.version or tonumber(@params.version) < version
-      return json: { echo: "[[;red;]An update has been pushed. Please refresh the page and try again.]" }
+      return json: { echo: "[[;red;]An update has been pushed. Please refresh the page.]\n(Server: #{version} Client: #{@params.version})" }
 
     else
       return json: { } -- nothing happened
