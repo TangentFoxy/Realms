@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 15; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 16; // internal version number indicating only changes on client-side requiring a user to refresh their page
 
 var Terminal;
 var History;
@@ -31,7 +31,7 @@ function update() {
             if (character != Self.name) {
               Terminal.echo("[[;white;]" + character + "] enters.");
             }
-            Characters[character] = data.characters[character];
+            Characters[character] = character;
           }
         }
         for (character in Characters) {

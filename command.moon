@@ -1,4 +1,4 @@
-version = 15   -- alert user to update their client by refreshing
+version = 16   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
@@ -158,13 +158,4 @@ class extends lapis.Application
       return json: { :you, :characters }
 
     else
-      -- return json: { } -- nothing, you are not logged in
-
-      -- get everyone who was here within the timeOut
-      rawCharacters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", 0, 0, os.date "!%Y-%m-%d %X", os.time! - timeOut
-      characters = {}
-      for character in *rawCharacters
-        user = character\get_user!
-        characters[user.name] = { name: user.name, health: tostring(character.health) }
-
-      return json: { :characters }
+      return json: { } -- nothing, you are not logged in

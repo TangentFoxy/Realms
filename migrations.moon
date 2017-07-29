@@ -24,9 +24,10 @@ Characters = require "models.Characters"
       {"time", types.time default: "1970-01-01 00:00:00"} -- assume they've never been on by default
     }
 
-    users = Users\select "WHERE true"
-    for user in *users
-      Characters\create { user_id: user.id }
+    -- this errored for some reason
+    -- users = Users\select "WHERE true"
+    -- for user in *users
+    --   Characters\create { user_id: user.id }
 
   [3]: =>
     add_column "characters", "health", types.integer default: 1
