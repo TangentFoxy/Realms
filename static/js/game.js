@@ -14,12 +14,9 @@ $(function() {
     } else if (args[0] == "login") {
       var user, password
 
-      History.disable();
       Terminal.push(function(c) {
         password = c;
         Terminal.pop();
-        // Terminal.set_mask(false);
-        Terminal.echo("Name: " + user + " Password: " + password);
         History.enable();
 
         return $.post(commandUrl, {command: "login", name: user, password: password});
@@ -27,6 +24,7 @@ $(function() {
         prompt: "Password: ",
         onStart: function() {
           Terminal.set_mask(true);
+          History.disable();
         }
       });
 
