@@ -13,7 +13,20 @@ $(function() {
 
     } else if (args[0] == "login") {
       var user, password
+
       History.disable();
+      Terminal.set_mask(true);
+      Terminal.push(function(c) {
+        password = c;
+        Terminal.pop();
+        Terminal.set_mask(false);
+        Terminal.echo("Name: " + user " Password: " + password);
+        return $.post(commandUrl, {command: "login", name: user, password: password});
+        History.enable();
+      }, {
+        prompt: "Password: "
+      });
+
       if (args[1]) {
         user = args[1]
       } else {
@@ -24,17 +37,6 @@ $(function() {
           prompt: "Username: "
         });
       }
-
-      Terminal.set_mask(true);
-      Terminal.push(function(c) {
-        password = c;
-        Terminal.pop();
-        Terminal.set_mask(false);
-        return $.post(commandUrl, {command: "login", name: user, password: password});
-        History.enable();
-      }, {
-        prompt: "Password: "
-      });
 
       // now log in
       // return $.post(commandUrl, {command: "login", name: user, password: password});
