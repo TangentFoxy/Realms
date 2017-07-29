@@ -181,6 +181,12 @@ class extends lapis.Application
           }
           return layout: false, "You say, \"#{output\sub 5}\""
 
+        elseif args[1] == "rename"
+          if args[2]
+            @user\update { name: args[2] }
+          else
+            return layout: false, "[[;red;]Invalid command syntax.]"
+
 
         -- no else, because some commands can error out
         return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
