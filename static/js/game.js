@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 23; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 24; // internal version number indicating only changes on client-side requiring a user to refresh their page
 var timeOut = 30;
 
 var Terminal;
@@ -36,6 +36,8 @@ function update(first) {
           if (!Characters[character]) {
             if (character != Self.name) {
               if (justEntered) {
+                // if data.characters[character]
+                console.log(character); // temporary
                 Terminal.echo("[[;white;]" + character + "] is here.");
               } else {
                 Terminal.echo("[[;white;]" + character + "] enters.");

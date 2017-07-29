@@ -1,4 +1,4 @@
-version = 23   -- alert user to update their client by refreshing
+version = 24   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 db = require "lapis.db"
@@ -295,8 +295,10 @@ class extends lapis.Application
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
-        -- characters[user.name] = { name: user.name, health: character.health } -- decided you should not know others' health
-        characters[user.name] = { name: user.name }
+        if character.health > 0
+          characters[user.name] = { name: user.name, health: 1 } -- it's actually a boolean for if they are alive or not :P
+        else
+          characters[user.name] = { name: user.name, health: 0 }
 
       rawEvents = Events\here @character
       events = {}
@@ -313,18 +315,6 @@ class extends lapis.Application
             table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix: event.time }
 
       return json: { :you, :characters, :events }
-
-      -- create_table "events", {
-      --   {"id", types.serial primary_key: true}
-      --   {"source_id", types.foreign_key null: true}
-      --   {"target_id", types.foreign_key null: true}
-      --   {"type", types.text}
-      --   {"data", types.text}
-      --
-      --   {"x", types.integer default: 0}
-      --   {"y", types.integer default: 0}
-      --   {"time", types.time default: "1970-01-01 00:00:00"}
-      -- }
 
     else
       return json: { } -- nothing, you are not logged in
