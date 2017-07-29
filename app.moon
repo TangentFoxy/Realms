@@ -15,8 +15,8 @@ class extends lapis.Application
   -- @include "users" -- do not allow logins without interface
   @include "command"
 
-  handle_error: (err, trace) =>
-    return layout: false, err.."\n\n"..trace
+  -- handle_error: (err, trace) =>
+  --   return layout: false, err.."\n\n"..trace
 
   [index: "/"]: =>
     render: true
