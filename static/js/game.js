@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 18; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 19; // internal version number indicating only changes on client-side requiring a user to refresh their page
 var timeOut = 30;
 
 var Terminal;
@@ -55,11 +55,20 @@ function update() {
       }
 
       if (data.events) {
-        for (event in data.events) {
-          if (!Events[event]) {
-            Events[event] = event;
+        for (var i = 0; i < data.events.length; i++) {
+          var event = data.events[i];
+          if (!Events[event.id]) {
+            Events[event.id] = data.event;
           }
         }
+      }
+
+      for (event in Events) {
+        if (!event.done) {
+          Terminal.echo(event.msg);
+          event.done = true;
+        }
+        // TODO remove old Events
       }
 
     } else {

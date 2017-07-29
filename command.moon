@@ -1,4 +1,4 @@
-version = 18   -- alert user to update their client by refreshing
+version = 19   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
@@ -197,7 +197,7 @@ class extends lapis.Application
       rawEvents = Events\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
       events = {}
       for event in *rawEvents
-        events[event.time] = { msg: event.data, time: event.time }
+        table.insert events, { id: event.id, msg: event.data, time: event.time }
 
       return json: { :you, :characters, :events }
 
