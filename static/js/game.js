@@ -7,12 +7,13 @@ var History;
 function update() {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
     if (status == "success") {
-      Terminal.echo(data); // tmeporary
-      if (data.echo) {
+      if (typeof(data) == "string") {
+        Terminal.echo("[[b;pink;]SERVER ERROR]\n[[;red;]" + data.slice(1, data.indexOf("\n") - 1) + "]");
+      } else if (data.echo) {
         Terminal.echo(data.echo);
       }
     } else {
-      Terminal.echo("[[;red;]Connection/Server error: " + status + "]");
+      Terminal.echo("[[b;pink;]Connection/Server error]: " + status);
     }
   })
 
