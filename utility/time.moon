@@ -18,4 +18,5 @@ db_time_to_unix = (time) ->
 
 {
   :now
+  :db_time_to_unix
 }
