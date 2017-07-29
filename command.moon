@@ -21,7 +21,7 @@ class extends lapis.Application
       elseif @params.command == "login"
         if @session.id
           if user = Users\find id: @session.id
-            return layout: false, "You are already logged in, #{user.name}."
+            return layout: false, "[[;red;]You are already logged in, #{user.name}.]"
           -- else
           --   @session.id = nil
           --   return layout: false, "You were somehow logged into a non-existant account..."
@@ -31,12 +31,12 @@ class extends lapis.Application
             @session.id = user.id
             return layout: false, "Welcome back, #{user.name}!"
 
-        return layout: false, "Invalid username or password."
+        return layout: false, "[[;red;]Invalid username or password.]"
 
       elseif @params.command == "create"
         if @session.id
           if user = Users\find id: @session.id
-            return layout: false, "You are already logged in as #{user.name}!"
+            return layout: false, "[[;red;]You are already logged in as #{user.name}!]"
 
         local digest
         if @params.password
@@ -56,7 +56,7 @@ class extends lapis.Application
           return layout: false, "Welcome, #{user.name}!"
 
         else
-          return layout: false, errMsg
+          return layout: false, "[[;red;]#{errMsg}]"
 
       elseif @session.id
         @user = Users\find id: @session.id
@@ -68,24 +68,24 @@ class extends lapis.Application
           return layout: false, "Goodbye, #{@user.name}..."
 
         elseif args[1] == "whoami"
-          return layout: false, "You are #{@user.name}."
+          return layout: false, "You are [[;white;]#{@user.name}]."
 
         elseif args[1] == "list"
           if @user.admin
             users = Users\select "WHERE true ORDER BY name ASC"
 
-            out = ""
+            output = ""
             for user in *users
-              out ..= "#{user.name} (#{user.id}) #{user.email}"
+              output ..= "[[;white;]#{user.name}] ([[;white;]#{user.id}]) [[;white;]#{user.email}]"
 
-            out ..= "#{Users\count!} users."
+            output ..= "[[;lime;]#{Users\count!}] users."
 
-            return layout: false, out
+            return layout: false, output
 
 
         -- no else, because some commands can error out
-        return layout: false, "[[;red;]Invalid command.]"
+        return layout: false, "[[;red;]Invalid command '][[;white;]#{args[1]}][[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
 
       else
-        return layout: false, "You must log in first."
+        return layout: false, "[[;red;]You must log in first.]"
   }

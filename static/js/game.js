@@ -10,8 +10,7 @@ $(function() {
     var args = command.split(" ");
 
     if (args[0] == "exit") {
-      // TODO have this log you out
-      return false
+      return $.post(commandUrl, {command: "logout"});
 
     } else if (args[0] == "login") {
       var user, password;
@@ -59,15 +58,16 @@ $(function() {
         Terminal.pop();
         History.enable();
 
-        // return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
-        Terminal.pause();
-        $.post(commandUrl, {command: "create", name: user, email: email, password: password}).then(function(response) {
-          Terminal.echo(response).resume();
-        });
+        return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
+        // Terminal.pause();
+        // $.post(commandUrl, {command: "create", name: user, email: email, password: password}).then(function(response) {
+        //   Terminal.echo(response).resume();
+        // });
       }, {
-        prompt: "Passwords are not required, however, if you log out or the session cookie for ld39.guard13007.com is removed, you will not be able to log in again.\nPassword: ",
+        prompt: "Password: ",
         onStart: function() {
           Terminal.set_mask(true);
+          Terminal.echo("[[;lime;]Passwords are not required, however, if you log out or the session cookie for ld39.guard13007.com is removed, you will not be able to log in again.]", {keepWords: true});
           History.disable();
         }
       });
@@ -82,7 +82,7 @@ $(function() {
           prompt: "Email: ",
           onStart: function() {
             Terminal.set_mask(false);
-            Terminal.echo("Email addresses are not required, however, you will not be able to reset your password if you forget it.\n([[;red;]Note]: Password resets don't exist yet. Remind me to do that.)", {keepWords: true});
+            Terminal.echo("[[;lime;]Email addresses are not required, however, you will not be able to reset your password if you forget it.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
           }
         });
       }
