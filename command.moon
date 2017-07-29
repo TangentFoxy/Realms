@@ -1,4 +1,5 @@
-version = 10   -- alert user to update their client by refreshing
+version = 11   -- alert user to update their client by refreshing
+timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
 bcrypt = require "bcrypt"
@@ -89,7 +90,7 @@ class extends lapis.Application
         if args[1] == "logout"
           @session.id = nil
           character = @user\get_character!
-          character\update { time: os.date "!%Y-%m-%d %X", os.time! - 61 } -- time is set to just before a minute ago, we leave immediately
+          character\update { time: os.date "!%Y-%m-%d %X", os.time! - (timeOut + 1) } -- time is set to just before timeOut, we leave immediately
           return layout: false, "Goodbye, #{@user.name}..."
 
         elseif args[1] == "whoami"
@@ -109,6 +110,20 @@ class extends lapis.Application
             output ..= "[[;lime;]#{Users\count!}] users"
 
             return layout: false, output
+
+        elseif args[1] == "online"
+          if @user.admin
+            characters = Characters\select "WHERE time >= ?", os.date "!%Y-%m-%d %X", os.time! - timeOut
+            list = {}
+            for character in *characters
+              table.insert list, {character\get_user!.name, character.x, character.y}
+
+            table.sort list, (a, b) -> return a[1] > b[1]
+            output = ""
+            for user in *list
+              output ..= "[[;white;]#{user[1]}] at [[;white;]#{user[2]}],[[;white;]#{user[3]}]\n"
+
+            output ..= "[[;lime;]#{#list}] users online"
 
 
         -- no else, because some commands can error out
@@ -130,8 +145,8 @@ class extends lapis.Application
 
       @character\update { time: os.date "!%Y-%m-%d %X" } -- we are here now
 
-      -- get everyone who was here in the past 60 seconds
-      rawCharacters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - 60
+      -- get everyone who was here within the timeOut
+      rawCharacters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
       characters = {}
       for character in *rawCharacters
         user = character\get_user!

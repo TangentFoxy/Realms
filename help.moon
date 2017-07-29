@@ -2,6 +2,7 @@ admin = [[
 Admin Commands:
 
   [[;white;]list] - lists all users, along with their user IDs and email addresses
+  [[;white;]online] - lists all users online, along with their coordinates
   [[;white;]whoami] - lists your username, user ID, and email address
 ]]
 
