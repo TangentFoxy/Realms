@@ -64,12 +64,11 @@ function update() {
       }
 
       for (var e in Events) {
-        // if (!e.done) {
-        //   Terminal.echo(e.msg);
-        //   e.done = true;
-        // }
-        Terminal.echo(e.msg);
-        e.done = true;
+        var event = Events[e];
+        if (!event.done) {
+          Terminal.echo(event.msg);
+          event.done = true;
+        }
         // TODO remove old Events
       }
 
