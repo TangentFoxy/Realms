@@ -114,4 +114,8 @@ class extends lapis.Application
   }
 
   [command_update: "/update"]: =>
-    return json: { run: "Hello world!" }
+    if not @params.version
+      return json: { echo: "[[;red;]An update has been pushed. Please refresh the page and try again.]" }
+
+    else
+      return json: { } -- nothing happened

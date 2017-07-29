@@ -7,8 +7,8 @@ var History;
 function update() {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
     if (status == "success") {
-      if (data.run) {
-        //Terminal.echo("data.run: " + data.run); // NOTE TEMPORARY FOR TESTING
+      if (data.echo) {
+        Terminal.echo(data.echo);
       }
     } else {
       Terminal.echo("[[;red;]Connection/Server error: " + status + "]");
