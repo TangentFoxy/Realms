@@ -257,7 +257,7 @@ class extends lapis.Application
               return layout: false, "Failed to delete [[;white;]#{user.name}]."
 
         elseif args[1] == "revive"
-          if @character.health == 0
+          if @character.health <= 0
             if @character\update {
               health: 1
               x: 0
