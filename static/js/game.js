@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 14; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 15; // internal version number indicating only changes on client-side requiring a user to refresh their page
 
 var Terminal;
 var History;
@@ -19,28 +19,28 @@ function update() {
 
       if (data.you) {
         if (!Self.name) {
-          Terminal.echo("[[;green;]Welcome back, " + data.you.name + "!]");
+          Terminal.echo("Welcome back, " + data.you.name + "!");
         }
         Self = data.you;
       }
 
       if (data.characters) {
         for (character in data.characters) {
-          if (character == undefined) { break; }
+          // if (character == undefined) { break; }
           if (!Characters[character]) {
             if (character != Self.name) {
-              Terminal.echo("[[;white;]" + character + "] enters.");
+              Terminal.echo("[[;white;]" + character.name + "] enters.");
             }
             Characters[character] = character;
           }
         }
         for (character in Characters) {
-          if (character == undefined) { break; }
+          // if (character == undefined) { break; }
           if (!data.characters[character]) {
             if (character == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
             } else {
-              Terminal.echo("[[;white;]" + character + "] has left.");
+              Terminal.echo("[[;white;]" + character.name + "] has left.");
             }
             delete Characters[character];
           }
