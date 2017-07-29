@@ -23,7 +23,10 @@ $(function() {
         return $.post(commandUrl, {command: "login", name: user, password: password});
         History.enable();
       }, {
-        prompt: "Password: "
+        prompt: "Password: ",
+        onInit: function() {
+          Terminal.set_mask(true);
+        }
       });
 
       if (args[1]) {
@@ -32,7 +35,6 @@ $(function() {
         Terminal.push(function(c) {
           user = c;
           Terminal.pop();
-          Terminal.set_mask(true);
         }, {
           prompt: "Username: "
         });
