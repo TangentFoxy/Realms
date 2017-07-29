@@ -125,6 +125,8 @@ class extends lapis.Application
 
             output ..= "[[;lime;]#{#list}] users online"
 
+            return layout: false, output
+
 
         -- no else, because some commands can error out
         return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
