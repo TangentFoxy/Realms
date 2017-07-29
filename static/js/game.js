@@ -1,10 +1,12 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 17; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 18; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var timeOut = 30;
 
 var Terminal;
 var History;
 var Self = {}; // defined by first update() call
 var Characters = {};
+var Events = {};
 
 function update() {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
@@ -48,6 +50,14 @@ function update() {
               Terminal.echo("[[;white;]" + character + "] has left.");
             }
             delete Characters[character];
+          }
+        }
+      }
+
+      if (data.events) {
+        for (event in data.events) {
+          if (!Events[event]) {
+            Events[event] = event;
           }
         }
       }

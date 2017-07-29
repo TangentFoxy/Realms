@@ -1,4 +1,4 @@
-version = 17   -- alert user to update their client by refreshing
+version = 18   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
@@ -8,9 +8,11 @@ config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
 import split from require "utility.string"
+import now from require "utility.time"
 
 Users = require "models.Users"
 Characters = require "models.Characters"
+Events = require "models.Events"
 
 class extends lapis.Application
   @path: "/command"
@@ -137,7 +139,26 @@ class extends lapis.Application
               if character\get_user!.name == args[2]
                 return layout: false, "TODO"
                 -- punch them!
-                -- return
+                character\update { health: character.health - 1 }
+                local msg
+                if character.health <= 0
+                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{character\get_user!.name}], killing them!"
+                else
+                  msg = "[[;white;]#{@user.name}] punched [[;white;]#{character\get_user!.name}]!"
+                Events\create {
+                  source_id: @character.id
+                  target_id: character.id
+                  type: "punch"
+                  data: msg
+
+                  x: @character.x
+                  y: @character.y
+                  time: now!
+                }
+                if character.health <= 0
+                  return layout: false, "You punched [[;white;]#{character\get_user!.name}], killing them!"
+                else
+                  return layout: false, "You punched [[;white;]#{character\get_user!.name}]!"
 
             return layout: false, "[[;white;]#{args[2]}] isn't here, or doesn't exist."
 
@@ -170,9 +191,27 @@ class extends lapis.Application
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
-        characters[user.name] = { name: user.name, health: character.health }
+        -- characters[user.name] = { name: user.name, health: character.health }
+        characters[user.name] = { name: user.name }
 
-      return json: { :you, :characters }
+      rawEvents = Events\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
+      events = {}
+      for event in *rawEvents
+        events[event.time] = { msg: event.data, time: event.time }
+
+      return json: { :you, :characters, :events }
+
+      -- create_table "events", {
+      --   {"id", types.serial primary_key: true}
+      --   {"source_id", types.foreign_key null: true}
+      --   {"target_id", types.foreign_key null: true}
+      --   {"type", types.text}
+      --   {"data", types.text}
+      --
+      --   {"x", types.integer default: 0}
+      --   {"y", types.integer default: 0}
+      --   {"time", types.time default: "1970-01-01 00:00:00"}
+      -- }
 
     else
       return json: { } -- nothing, you are not logged in

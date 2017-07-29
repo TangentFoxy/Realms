@@ -37,4 +37,17 @@ Characters = require "models.Characters"
 
   [4]: =>
     add_column "characters", "souls", types.text null: true
+
+  [5]: =>
+    create_table "events", {
+      {"id", types.serial primary_key: true}
+      {"source_id", types.foreign_key null: true}
+      {"target_id", types.foreign_key null: true}
+      {"type", types.text}
+      {"data", types.text}
+
+      {"x", types.integer default: 0}
+      {"y", types.integer default: 0}
+      {"time", types.time default: "1970-01-01 00:00:00"}
+    }
 }
