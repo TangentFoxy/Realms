@@ -70,7 +70,7 @@ class extends lapis.Application
         elseif args[1] == "whoami"
           return layout: false, "#{@user.name} (#{@user.id}) #{@user.email}" -- temporary
 
-        return layout: false, "Invalid command. I should really make this appear as an error. Remind me to do that."
+        return layout: false, "[[;red;]Invalid command.]"
 
       else
         return layout: false, "You must log in first."

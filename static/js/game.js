@@ -65,7 +65,7 @@ $(function() {
           Terminal.echo(response).resume();
         });
       }, {
-        prompt: "Password: ",
+        prompt: "Passwords are not required, however, if you log out or the session cookie for ld39.guard13007.com is removed, you will not be able to log in again.\nPassword: ",
         onStart: function() {
           Terminal.set_mask(true);
           History.disable();
@@ -79,7 +79,7 @@ $(function() {
           email = c;
           Terminal.pop();
         }, {
-          prompt: "Email: ",
+          prompt: "Email addresses are not required, however, you will not be able to reset your password if you forget it.\n([[;red;]Note]: Password resets don't exist yet. Remind me to do that.)\nEmail: ",
           onStart: function() {
             Terminal.set_mask(false);
           }
