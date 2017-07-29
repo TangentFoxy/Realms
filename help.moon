@@ -50,5 +50,5 @@ Optional arguments are in brackets. OR indicates either version works for a comm
     for name in *{"user", "combat", "terminal"}
       output ..= @[name].."\n\n"
 
-    return output
+    return output\sub 1, #output - 2
 }
