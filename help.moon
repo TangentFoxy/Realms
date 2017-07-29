@@ -17,6 +17,12 @@ Optional arguments are in brackets. These arguments will be prompted for if you 
   [[;white;]whoami] - prints your username
 ]]
 
+combat = [[
+Combat:
+
+  [[;white;]punch] [user] - punch nothing, or a user in the same room as you
+]]
+
 terminal = [[
 Other Commands:
 
@@ -31,6 +37,7 @@ Optional arguments are in brackets. OR indicates either version works for a comm
 {
   admin: admin\sub 1, #admin - 1
   user: user\sub 1, #user - 1
+  combat: combat\sub 1, #combat - 1
   terminal: terminal\sub 1, #terminal - 1
 
   build: (is_admin) => -- self should be the correct thing?
@@ -40,7 +47,8 @@ Optional arguments are in brackets. OR indicates either version works for a comm
     else
       output = ""
 
-    output ..= @user.."\n\n"..@terminal
+    for name in *{"user", "combat", "terminal"}
+      output ..= @[name].."\n\n"
 
     return output
 }
