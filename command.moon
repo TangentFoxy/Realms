@@ -1,4 +1,4 @@
-version = 20   -- alert user to update their client by refreshing
+version = 21   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
