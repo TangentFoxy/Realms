@@ -200,7 +200,7 @@ class extends lapis.Application
                   if character.health <= 0
                     Items\create {
                       type: "soul"
-                      data: "#{user.name}'s soul"
+                      data: "#{user.name}"
 
                       x: @character.x
                       y: @character.y
