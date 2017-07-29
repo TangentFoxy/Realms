@@ -1,4 +1,4 @@
-version = 24   -- alert user to update their client by refreshing
+version = 25   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 db = require "lapis.db"
@@ -305,14 +305,16 @@ class extends lapis.Application
       for event in *rawEvents
         unless event.type == "report"
           unless event\get_source!.id == @character.id
-            if not event.target_id or (event.target_id and event.target_id == @character.id)
-              table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix event.time }
+            if event.target_id and event.target_id == @character.id
+              table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: true, type: event.type, time: db_time_to_unix event.time }
+            elseif not event.target_id
+              table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: false, type: event.type, time: db_time_to_unix event.time }
 
       if @user.admin
         rawEvents = Events\now!
         for event in *rawEvents
           if event.type == "report"
-            table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix: event.time }
+            table.insert events, { id: event.id, msg: event.data, type: event.type, time: db_time_to_unix: event.time }
 
       return json: { :you, :characters, :events }
 

@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 24; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 25; // internal version number indicating only changes on client-side requiring a user to refresh their page
 var timeOut = 30;
 
 var Terminal;
@@ -73,7 +73,14 @@ function update(first) {
       for (var e in Events) {
         var event = Events[e];
         if (!event.done) {
-          Terminal.echo(event.msg);
+          if (event.targeted && event.type == "punch") {
+            Terminal.echo("[[;white;]" + event.source + "] punched you!");
+            if (Self.health <= 0) {
+              Terminal.echo("[[;red;]You are dead.]");
+            }
+          } else {
+            Terminal.echo(event.msg);
+          }
           event.done = true;
         }
         if (event.time < (now - timeOut * 2)) {
