@@ -15,5 +15,8 @@ class extends lapis.Application
   @include "users"
   @include "command"
 
+  handle_error: (err, trace) =>
+    return layout: false, err.."\n\n"..trace
+
   [index: "/"]: =>
     render: true
