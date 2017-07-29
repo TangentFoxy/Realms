@@ -1,0 +1,25 @@
+Signal lost
+Parallel worlds
+Moving fortress
+      Running out of power
+You are alone
+Start with nothing
+Machines
+Running out of space
+On / Off
+Connections
+Protect it
+You are not the main character
+1 vs 100
+It spreads
+Different perspective
+1 HP
+
+
+guard, wall of sticky notes, faq book
+
+say, tell, ask, read, look, examine, exits, punch, attack, north, west, east, south
+
+
+Every command needs to access the server and return some info basically.
+There also needs to be a background process that sends stuff to the player.
