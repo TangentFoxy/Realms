@@ -210,6 +210,14 @@ class extends lapis.Application
             -- else
             --   return layout: false, "I FAILED"
 
+        elseif args[1] == "deluser"
+          if @user.admin
+            user = Users\find name: args[2]
+            if user\delete!
+              return layout: false, "[[;white;]#{user.name}] deleted."
+            else
+              return layout: false, "Failed to delete [[;white;]#{user.name}]."
+
 
         -- no else, because some commands can error out
         return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
