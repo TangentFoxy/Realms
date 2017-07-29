@@ -133,6 +133,6 @@ class extends lapis.Application
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
-        table.insert characters, user.name
+        characters[user.name] = true
 
       return json: { :characters }
