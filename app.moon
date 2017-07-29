@@ -21,7 +21,7 @@ class extends lapis.Application
     return layout: false, err.."\n\n"..trace
 
   [index: "/"]: =>
-    if @session.id
-      @user = Users\find id: @session.id
+    -- if @session.id
+    --   @user = Users\find id: @session.id
 
     render: true
