@@ -136,4 +136,4 @@ class extends lapis.Application
         table.insert characters, user.name
 
     else
-      return json: { :characters }
+      return json: { "what" }
