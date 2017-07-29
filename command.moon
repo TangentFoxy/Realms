@@ -1,5 +1,4 @@
 version = 25   -- alert user to update their client by refreshing
-timeOut = 30   -- how long before a player is considered to have left
 
 db = require "lapis.db"
 lapis = require "lapis"
@@ -10,10 +9,12 @@ config = require("lapis.config").get!
 import respond_to, json_params from require "lapis.application"
 import split from require "utility.string"
 import now, db_time_to_unix from require "utility.time"
+import timeOut from require "utility.time"
 
 Users = require "models.Users"
 Characters = require "models.Characters"
 Events = require "models.Events"
+Items = require "models.Items"
 
 class extends lapis.Application
   @path: "/command"
@@ -197,6 +198,14 @@ class extends lapis.Application
                   return layout: false, "You punched [[;white;]#{user.name}]'s dead body."
                 else
                   if character.health <= 0
+                    Items\create {
+                      type: "soul"
+                      data: "#{user.name}'s soul"
+
+                      x: @character.x
+                      y: @character.y
+                      realm: @character.realm
+                    }
                     return layout: false, "You punched [[;white;]#{user.name}], killing them!"
                   else
                     return layout: false, "You punched [[;white;]#{user.name}]!"

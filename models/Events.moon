@@ -1,5 +1,5 @@
 import Model from require "lapis.db.model"
-import timeOut from require "utility.numbers"
+import timeOut from require "utility.time"
 
 -- EVENT TYPES:
 -- msg      The result of someone using `say` or `tell`.

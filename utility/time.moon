@@ -19,4 +19,5 @@ db_time_to_unix = (time) ->
 {
   :now
   :db_time_to_unix
+  timeOut: 30   -- how many seconds before a user is considered offline
 }

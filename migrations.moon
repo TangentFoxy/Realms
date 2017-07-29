@@ -43,7 +43,7 @@ Characters = require "models.Characters"
       {"id", types.serial primary_key: true}
       {"source_id", types.foreign_key null: true}
       {"target_id", types.foreign_key null: true}
-      {"type", types.text}
+      {"type", types.text}   -- TODO if I refactor / care, convert this to a varchar
       {"data", types.text}
 
       {"x", types.integer default: 0}
@@ -60,4 +60,16 @@ Characters = require "models.Characters"
     db.update "events", {
       realm: "nullspace"
     }, "true"
+
+  [7]: =>
+    create_table "items", {
+      {"id", types.serial primary_key: true}
+      {"character_id", types.foreign_key null: true}
+      {"type", types.varchar}
+      {"data", types.text}
+
+      {"x", types.integer default: 0}
+      {"y", types.integer default: 0}
+      {"realm", types.varchar default: "inventory"}   -- inventory is a special realm that means a character has it
+    }
 }
