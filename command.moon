@@ -1,6 +1,7 @@
 version = 22   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
+db = require "lapis.db"
 lapis = require "lapis"
 bcrypt = require "bcrypt"
 help = require "help"
@@ -204,10 +205,10 @@ class extends lapis.Application
             if @user\update { digest: bcrypt.digest @params.password, config.digest_rounds }
               return layout: false, "Your password has been updated."
           else
-            if @user\update { digest: nil } -- dunno if this works
+            if @user\update { digest: db.NULL }
               return layout: false, "Your password has been removed."
-            else
-              return layout: false, "I FAILED"
+            -- else
+            --   return layout: false, "I FAILED"
 
 
         -- no else, because some commands can error out
