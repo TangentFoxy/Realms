@@ -1,4 +1,4 @@
-version = 22   -- alert user to update their client by refreshing
+version = 23   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 db = require "lapis.db"
@@ -138,7 +138,7 @@ class extends lapis.Application
 
         elseif args[1] == "punch"
           if args[2]
-            characters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
+            characters = Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
             for character in *characters
               user = character\get_user!
               if user.name == args[2]
@@ -157,6 +157,7 @@ class extends lapis.Application
 
                   x: @character.x
                   y: @character.y
+                  realm: @character.realm
                   time: now!
                 }
                 if character.health <= 0
@@ -178,6 +179,7 @@ class extends lapis.Application
 
             x: @character.x
             y: @character.y
+            realm: @character.realm
             time: now!
           }
           return layout: false, false
@@ -207,8 +209,6 @@ class extends lapis.Application
           else
             if @user\update { digest: db.NULL }
               return layout: false, "Your password has been removed."
-            -- else
-            --   return layout: false, "I FAILED"
 
         elseif args[1] == "deluser"
           if @user.admin
@@ -240,14 +240,15 @@ class extends lapis.Application
       you = { name: @user.name, health: @character.health }
 
       -- get everyone who was here within the timeOut
-      rawCharacters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
+      -- rawCharacters = Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
+      rawCharacters = @characters\here!
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
         -- characters[user.name] = { name: user.name, health: character.health }
         characters[user.name] = { name: user.name }
 
-      rawEvents = Events\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
+      rawEvents = Events\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
       events = {}
       for event in *rawEvents
         unless event\get_source!.id == @character.id

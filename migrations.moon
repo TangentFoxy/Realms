@@ -50,4 +50,14 @@ Characters = require "models.Characters"
       {"y", types.integer default: 0}
       {"time", types.time default: "1970-01-01 00:00:00"}
     }
+
+  [6]: =>
+    add_column "characters", "realm", types.varchar default: "nullspace"
+    add_column "events", "realm", types.varchar default: "nullspace"
+    db.update "characters", {
+      realm: "nullspace"
+    }, "true"
+    db.update "events", {
+      realm: "nullspace"
+    }, "true"
 }
