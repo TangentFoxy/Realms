@@ -6,13 +6,11 @@ Users = require "models.Users"
 class extends lapis.Application
   @path: "/command"
 
-  layout: false
-
   @before_filter =>
     if @session.id
       @user = Users\find id: @session.id
     else
-      return "You must log in."
+      return layout: false, "You must log in."
 
   [command: ""]: =>
-    return "FUCK YEA"
+    return layout: false, "FUCK YEA"
