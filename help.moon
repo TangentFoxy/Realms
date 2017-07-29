@@ -33,6 +33,6 @@ Optional arguments are in brackets.
   terminal: terminal\sub 2, #terminal - 1
 
   build: (is_admin) => -- self should be the correct thing?
-    output = @admin
+    output = @
     return output -- temporary testing!
 }
