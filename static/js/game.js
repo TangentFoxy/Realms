@@ -59,7 +59,11 @@ $(function() {
         Terminal.pop();
         History.enable();
 
-        return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
+        // return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
+        Terminal.pause();
+        $.post(commandUrl, {command: "create", name: user, email: email, password: password}).then(function(response) {
+          Terminal.echo(response).resume();
+        });
       }, {
         prompt: "Password: ",
         onStart: function() {

@@ -1,5 +1,6 @@
 lapis = require "lapis"
 bcrypt = require "bcrypt"
+config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
 
