@@ -197,7 +197,8 @@ class extends lapis.Application
       rawEvents = Events\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
       events = {}
       for event in *rawEvents
-        table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix event.time }
+        unless event\get_source!.id == @character.id
+          table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix event.time }
 
       return json: { :you, :characters, :events }
 
