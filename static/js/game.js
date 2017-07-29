@@ -15,7 +15,6 @@ $(function() {
       var user, password
 
       History.disable();
-      Terminal.set_mask(true);
       Terminal.push(function(c) {
         password = c;
         Terminal.pop();
@@ -33,6 +32,7 @@ $(function() {
         Terminal.push(function(c) {
           user = c;
           Terminal.pop();
+          Terminal.set_mask(true);
         }, {
           prompt: "Username: "
         });
