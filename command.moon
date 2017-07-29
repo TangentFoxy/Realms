@@ -79,7 +79,7 @@ class extends lapis.Application
 
             output = ""
             for user in *users
-              output ..= "[[;white;]#{user.name}] ([[;white;]#{user.id}]) [[;white;]#{user.email}]"
+              output ..= "[[;white;]#{user.name}] ([[;white;]#{user.id}]) [[;white;]#{user.email}]\n"
 
             output ..= "[[;lime;]#{Users\count!}] users."
 
