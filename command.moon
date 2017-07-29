@@ -13,4 +13,4 @@ class extends lapis.Application
       return "You must log in."
 
   [command: ""]: =>
-    return "FUCK YEA"
+    return layout: false, "FUCK YEA"
