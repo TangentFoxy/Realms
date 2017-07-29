@@ -21,10 +21,10 @@ class extends lapis.Application
           if user = Users\find id: @session.id
             return layout: false, "You are already logged in, #{user.name}."
 
-      --   if user = Users\find name: @params.name
-      --     if bcrypt.verify @params.password, user.digest
-      --       @session.id = user.id
-      --       return layout: false, "Welcome back, #{user.name}!"
+        if user = Users\find name: @params.name
+          if bcrypt.verify @params.password, user.digest
+            @session.id = user.id
+            return layout: false, "Welcome back, #{user.name}!"
 
       --   return layout: false, "Invalid username or password."
 
