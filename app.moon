@@ -1,6 +1,6 @@
 lapis = require "lapis"
 
-Users = require "Users"
+Users = require "models.Users"
 
 class extends lapis.Application
   @before_filter =>
@@ -21,7 +21,7 @@ class extends lapis.Application
     return layout: false, err.."\n\n"..trace
 
   [index: "/"]: =>
-    -- if @session.id
-    --   @user = Users\find id: @session.id
+    if @session.id
+      @user = Users\find id: @session.id
 
     render: true
