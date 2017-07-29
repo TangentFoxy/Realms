@@ -132,6 +132,7 @@ class extends lapis.Application
             characters = Characters\select "WHERE x = ? AND y = ? AND time >= ?", @character.x, @character.y, os.date "!%Y-%m-%d %X", os.time! - timeOut
             for character in *characters
               if character\get_user!.name == args[2]
+                return false, "TODO"
                 -- punch them!
                 -- return
 
