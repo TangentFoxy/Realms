@@ -162,6 +162,8 @@ class extends lapis.Application
             return layout: false, output
 
         elseif args[1] == "punch"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           if args[2]
             characters = @character\here!
             for character in *characters
@@ -205,6 +207,8 @@ class extends lapis.Application
             return layout: false, "You swing your fists wildly at nothing."
 
         elseif args[1] == "say"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           output = table.concat args, " "
           Events\create {
             source_id: @character.id
@@ -251,6 +255,20 @@ class extends lapis.Application
               return layout: false, "[[;white;]#{user.name}] deleted."
             else
               return layout: false, "Failed to delete [[;white;]#{user.name}]."
+
+        elseif args[1] == "revive"
+          if @character.health == 0
+            if @character\update {
+              health: 1
+              x: 0
+              y: 0
+              realm: "nullspace"
+            }
+              return layout: false, "[[;lime;]You have revived!]"
+            else
+              return layout: false, "[[;red;]Something went wrong, please ][[;white;[report][[;red;] this error! D:]"
+          else
+            return layout: false, "You are not dead!"
 
 
         -- no else, because some commands can error out

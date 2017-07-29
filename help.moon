@@ -19,7 +19,7 @@ Optional arguments are in brackets. These arguments will be prompted for if you 
   [[;white;]create] [user] [email] [password] - creates a user
   [[;white;]login] [user] [password] - logs in as an existing user
   [[;white;]logout] - logs out of a user
-  [[;white;]whoami] - prints your username
+  [[;white;]whoami] (OR 'who am i') - prints your username
   [[;white;]rename] name - rename yourself
   [[;white;]chmail] email - change your email address
   [[;white;]chpass] [password] - changes your password
@@ -36,6 +36,7 @@ combat = [[
 Combat:
 
   [[;white;]punch] [user] - punch nothing, or a user in the same room as you
+  [[;white;]revive] - after you are dead, you can revive at 0,0 in nullspace with 1 HP
 ]]
 
 terminal = [[
