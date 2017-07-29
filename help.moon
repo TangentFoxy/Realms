@@ -34,5 +34,5 @@ Optional arguments are in brackets.
 
   build: (is_admin) => -- self should be the correct thing?
     output = @
-    return output -- temporary testing!
+    return tostring(output) -- temporary testing!
 }
