@@ -8,4 +8,4 @@ class Characters extends Model
   }
 
   here: =>
-    Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
+    Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @x, @y, @realm, os.date "!%Y-%m-%d %X", os.time! - timeOut

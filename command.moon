@@ -241,7 +241,7 @@ class extends lapis.Application
 
       -- get everyone who was here within the timeOut
       -- rawCharacters = Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
-      rawCharacters = @characters\here!
+      rawCharacters = @character\here!
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
