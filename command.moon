@@ -19,16 +19,16 @@ class extends lapis.Application
       args = split @params.command
 
       if args[1] == "help"
-        if args[2]
-          if help[args[2]]
-            return layout: false, help[args[2]]
-          else
-            if @session.id
-              if user = Users\find id: @session.id
-                if user.admin
-                  return layout: false, help\build true
+        if args[2] and help[args[2]]
+          return layout: false, help[args[2]]
 
-            return layout: false, help\build!
+        else
+          if @session.id
+            if user = Users\find id: @session.id
+              if user.admin
+                return layout: false, help\build true
+
+        return layout: false, help\build!
 
       elseif args[1] == "login"
         if @session.id
