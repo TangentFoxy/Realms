@@ -5,6 +5,8 @@ var History;
 
 $(function() {
   $('#terminal').terminal(function(command, term) {
+    if (command == "") { return false; }
+
     var args = command.split(" ");
 
     if (args[0] == "exit") {
@@ -57,8 +59,7 @@ $(function() {
         Terminal.pop();
         History.enable();
 
-        // return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
-        return "User: " + user + " Email: " + email + " Password: " + password;
+        return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
       }, {
         prompt: "Password: ",
         onStart: function() {
