@@ -90,6 +90,29 @@ class extends lapis.Application
         else
           return layout: false, "[[;red;]#{errMsg}]"
 
+      elseif args[1] == "report"
+        output = table.concat args, " "
+        local source_id, x, y, realm
+        if @session.id
+          if user = Users\find id: @session.id
+            if character = user\get_character!
+              source_id = character.id
+              x = character.x
+              y = character.y
+              realm = character.realm
+        Events\create {
+          source_id: source_id
+          type: "report"
+          data: "[[;white;]#{@user.name}]: #{output\sub 8}"
+
+          x: x or 0
+          y: y or 0
+          realm: realm or "nullspace"
+          time: now!
+        }
+        return layout: false, "Your report has been submitted."
+
+
       elseif @session.id
         @user = Users\find id: @session.id
         @character = Characters\find user_id: @user.id
@@ -138,7 +161,7 @@ class extends lapis.Application
 
         elseif args[1] == "punch"
           if args[2]
-            characters = Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @character.x, @character.y, @character.realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
+            characters = @character\here!
             for character in *characters
               user = character\get_user!
               if user.name == args[2]
@@ -239,19 +262,26 @@ class extends lapis.Application
       @character\update { time: os.date "!%Y-%m-%d %X" } -- we are here now
       you = { name: @user.name, health: @character.health }
 
-      -- get everyone who was here within the timeOut
       rawCharacters = @character\here!
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
-        -- characters[user.name] = { name: user.name, health: character.health }
+        -- characters[user.name] = { name: user.name, health: character.health } -- decided you should not know others' health
         characters[user.name] = { name: user.name }
 
       rawEvents = Events\here @character
       events = {}
       for event in *rawEvents
-        unless event\get_source!.id == @character.id
-          table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix event.time }
+        unless event.type == "report"
+          unless event\get_source!.id == @character.id
+            if not event.target_id or (event.target_id and event.target_id == @character.id)
+              table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix event.time }
+
+      if @user.admin
+        rawEvents = Events\now!
+        for event in *rawEvents
+          if event.type == "report"
+            table.insert events, { id: event.id, msg: event.data, time: db_time_to_unix: event.time }
 
       return json: { :you, :characters, :events }
 
