@@ -15,7 +15,7 @@ config "production", ->
 
   digest_rounds 9
 
-config "production", ->
+config "development", ->
   session_name "devld39"
   secret session_secret
   postgres ->
