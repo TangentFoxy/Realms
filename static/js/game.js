@@ -24,23 +24,22 @@ function update() {
       if (data.characters) {
         for (character in data.characters) {
           if (character == undefined) { break; }
-          if (!Characters[character.name]) {
-            if (character.name != Self.name) {
-              console.log(character);
-              Terminal.echo("[[;white;]" + character.name + "] enters.");
+          if (!Characters[character]) {
+            if (character != Self.name) {
+              Terminal.echo("[[;white;]" + character + "] enters.");
             }
-            Characters[character.name] = character;
+            Characters[character] = character;
           }
         }
         for (character in Characters) {
           if (character == undefined) { break; }
-          if (!data.characters[character.name]) {
-            if (character.name == Self.name) {
+          if (!data.characters[character]) {
+            if (character == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
             } else {
-              Terminal.echo("[[;white;]" + character.name + "] has left.");
+              Terminal.echo("[[;white;]" + character + "] has left.");
             }
-            delete Characters[character.name];
+            delete Characters[character];
           }
         }
       }
