@@ -29,9 +29,9 @@ function update() {
           // if (character == undefined) { break; }
           if (!Characters[character]) {
             if (character != Self.name) {
-              Terminal.echo("[[;white;]" + character.name + "] enters.");
+              Terminal.echo("[[;white;]" + character + "] enters.");
             }
-            Characters[character] = character;
+            Characters[character] = data.characters[character];
           }
         }
         for (character in Characters) {
@@ -40,7 +40,7 @@ function update() {
             if (character == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
             } else {
-              Terminal.echo("[[;white;]" + character.name + "] has left.");
+              Terminal.echo("[[;white;]" + character + "] has left.");
             }
             delete Characters[character];
           }
