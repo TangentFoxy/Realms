@@ -1,15 +1,14 @@
 var commandUrl = "https://ld39.guard13007.com/command";
+var version = 1; // internal version number indicating only changes on client-side requiring a user to refresh their page
 
 var Terminal;
 var History;
 
 function update() {
-  $.post(commandUrl + "/update", {}, function(data, status) {
+  $.post(commandUrl + "/update", {version: version}, function(data, status) {
     if (status == "success") {
-      // data should be JSON (already parsed actually)
-      // it will say to do something or not
       if (data.run) {
-        Terminal.echo("data.run: " + data.run); // NOTE TEMPORARY FOR TESTING
+        //Terminal.echo("data.run: " + data.run); // NOTE TEMPORARY FOR TESTING
       }
     } else {
       Terminal.echo("[[;red;]Connection/Server error: " + status + "]");
@@ -27,7 +26,7 @@ $(function() {
 
     if (args[0] == "exit") {
       Terminal.pause();
-      $.post(commandUrl, {command: "logout"}).then(function(response) {
+      $.post(commandUrl, {command: "logout", version: version}).then(function(response) {
         Terminal.echo(response);
       });
       window.close(); // may or may not be permitted by the browser
@@ -39,14 +38,14 @@ $(function() {
         var data = History.data();
         data.pop();
         History.set(data);
-        return $.post(commandUrl, {command: "login", name: args[1], password: args[2]});
+        return $.post(commandUrl, {command: "login", name: args[1], password: args[2], version: version});
       } else {
         Terminal.push(function(c) {
           password = c;
           Terminal.pop();
           History.enable();
 
-          return $.post(commandUrl, {command: "login", name: user, password: password});
+          return $.post(commandUrl, {command: "login", name: user, password: password, version: version});
         }, {
           prompt: "Password: ",
           onStart: function() {
@@ -80,14 +79,14 @@ $(function() {
         var data = History.data();
         data.pop();
         History.set(data);
-        return $.post(commandUrl, {command: "create", name: args[1], email: args[2], password: args[3]});
+        return $.post(commandUrl, {command: "create", name: args[1], email: args[2], password: args[3], version: version});
       } else {
         Terminal.push(function(c) {
           password = c;
           Terminal.pop();
           History.enable();
 
-          return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
+          return $.post(commandUrl, {command: "create", name: user, email: email, password: password, version: version});
         }, {
           prompt: "Password: ",
           onStart: function() {
@@ -147,7 +146,7 @@ $(function() {
       return false;
 
     } else {
-      return $.post(commandUrl, {command: command});
+      return $.post(commandUrl, {command: command, version: version});
     }
   }, {
     prompt: "> ",
