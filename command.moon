@@ -16,17 +16,16 @@ class extends lapis.Application
       if @params.command == "help"
         return layout: false, "Help text would go here, if I was a better programmer."
 
-      elseif @params.command == "login"
-        if @session.id
-          if user = Users\find id: @session.id
-            return layout: false, "You are already logged in, #{user.name}."
-
-        if user = Users\find name: @params.name
-          if bcrypt.verify @params.password, user.digest
-            @session.id = user.id
-            return layout: false, "Welcome back, #{user.name}!"
-
-        return layout: false, "Invalid username or password."
+      -- elseif @params.command == "login"
+      --   if @session.id and user = Users\find id: @session.id
+      --     return layout: false, "You are already logged in, #{user.name}."
+      --
+      --   if user = Users\find name: @params.name
+      --     if bcrypt.verify @params.password, user.digest
+      --       @session.id = user.id
+      --       return layout: false, "Welcome back, #{user.name}!"
+      --
+      --   return layout: false, "Invalid username or password."
 
       elseif @session.id
         @user = Users\find id: @session.id
