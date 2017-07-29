@@ -28,9 +28,9 @@ Optional arguments are in brackets.
 ]]
 
 {
-  admin: admin\sub 2, #admin - 1
-  user: user\sub 2, #user - 1
-  terminal: terminal\sub 2, #terminal - 1
+  admin: admin\sub 1, #admin - 1
+  user: user\sub 1, #user - 1
+  terminal: terminal\sub 1, #terminal - 1
 
   build: (is_admin) => -- self should be the correct thing?
     local output
