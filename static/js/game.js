@@ -17,9 +17,12 @@ function update() {
         Terminal.echo(data.echo);
       }
 
+      var justEntered = false;
+
       if (data.you) {
         if (!Self.name) {
-          Terminal.echo("Welcome back, " + data.you.name + "!");
+          Terminal.echo("Welcome back, " + data.you.name + "!"); // NOTE will probably echo at login / create commands, instead of just on page load...
+          justEntered = true;
         }
         Self = data.you;
       }
@@ -28,7 +31,11 @@ function update() {
         for (character in data.characters) {
           if (!Characters[character]) {
             if (character != Self.name) {
-              Terminal.echo("[[;white;]" + character + "] enters.");
+              if (justEntered) {
+                Terminal.echo("[[;white;]" + character + "] is here.");
+              } else {
+                Terminal.echo("[[;white;]" + character + "] enters.");
+              }
             }
             Characters[character] = character;
           }
