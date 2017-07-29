@@ -9,6 +9,8 @@ var Characters = {};
 function update() {
   $.post(commandUrl + "/update", {version: version}, function(data, status) {
     if (status == "success") {
+      console.log(data);
+
       if (typeof(data) == "string") {
         Terminal.echo("[[b;pink;]SERVER ERROR]: [[;red;]" + data.slice(1, data.indexOf("\n") - 1) + "]");
       } else if (data.echo) {
