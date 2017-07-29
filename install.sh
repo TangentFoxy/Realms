@@ -10,12 +10,13 @@ sudo apt-get install wget curl lua5.1 liblua5.1-0-dev zip unzip libreadline-dev 
 wget https://dl.eff.org/certbot-auto
 chmod a+x ./certbot-auto
 mv ./certbot-auto /bin/certbot-auto
-certbot-auto certonly --standalone -m paul.liverman.iii@gmail.com -d $PROJECT
+certbot-auto certonly --standalone -m paul.liverman.iii@gmail.com -d $DOMAIN
 
 echo "RUN 'createdb ld39'"
 echo "THEN 'psql' and:"
 echo "  ALTER USER postgres WITH PASSWORD 'password';"
 echo "  \q"
+echo "AND FINALLY 'exit'"
 sudo -i -u postgres
 
 # OpenResty
@@ -39,6 +40,7 @@ make build
 sudo make install
 # some rocks
 sudo luarocks install lapis
+sudo luarocks install luacrypto    # weird error happened before I did this
 sudo luarocks install moonscript
 sudo luarocks install bcrypt
 
