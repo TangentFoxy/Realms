@@ -3,8 +3,9 @@ html = require "lapis.html"
 class extends html.Widget
   content: =>
     html_5 ->
-      head -> title @title or "CHANGEME"
+      head -> title @title or "Unnamed Ludum Dare 39 Game"
       body ->
+        script @build_url "static/js/jquery-3.2.1.min.js"
         if @info
           div -> @info
         div -> @content_for "inner"

@@ -2,4 +2,5 @@ import Widget from require "lapis.html"
 
 class extends Widget
   content: =>
-    h1 "CHANGEME"
+    script: @build_url "static/js/game.js"
+    div id: "terminal"
