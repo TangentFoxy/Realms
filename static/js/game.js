@@ -79,9 +79,10 @@ $(function() {
           email = c;
           Terminal.pop();
         }, {
-          prompt: "Email addresses are not required, however, you will not be able to reset your password if you forget it.\n([[;red;]Note]: Password resets don't exist yet. Remind me to do that.)\nEmail: ",
+          prompt: "Email: ",
           onStart: function() {
             Terminal.set_mask(false);
+            Terminal.echo("Email addresses are not required, however, you will not be able to reset your password if you forget it.\n([[;red;]Note]: Password resets don't exist yet. Remind me to do that.)", {keepWords: true});
           }
         });
       }
