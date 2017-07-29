@@ -8,7 +8,7 @@ config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
 import split from require "utility.string"
--- import now from require "utility.time"
+import now from require "utility.time"
 
 Users = require "models.Users"
 Characters = require "models.Characters"
@@ -153,7 +153,7 @@ class extends lapis.Application
 
                   x: @character.x
                   y: @character.y
-                  time: os.date "!%Y-%m-%d %X" -- now!
+                  time: now!
                 }
                 if character.health <= 0
                   return layout: false, "You punched [[;white;]#{user.name}], killing them!"
