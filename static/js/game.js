@@ -53,6 +53,9 @@ $(function() {
     } else if (args[0] == "create") {
       var user, email, password;
 
+      var calls = 0;    // stupid hack because onStart triggers twice for some reason
+      var calls2 = 0;   // same thing...
+
       Terminal.push(function(c) {
         password = c;
         Terminal.pop();
@@ -67,7 +70,11 @@ $(function() {
         prompt: "Password: ",
         onStart: function() {
           Terminal.set_mask(true);
-          Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
+          if (calls == 0) {
+            calls += 1;
+          } else {
+            Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
+          }
           History.disable();
         }
       });
@@ -82,7 +89,11 @@ $(function() {
           prompt: "Email: ",
           onStart: function() {
             Terminal.set_mask(false);
-            Terminal.echo("[[;lime;]Email addresses are not required, but you will not be able to reset your password.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
+            if (calls2 == 0) {
+              calls2 += 1;
+            } else {
+              Terminal.echo("[[;lime;]Email addresses are not required, but you will not be able to reset your password.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
+            }
           }
         });
 
