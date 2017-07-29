@@ -85,20 +85,20 @@ $(function() {
             Terminal.echo("[[;lime;]Email addresses are not required, but you will not be able to reset your password.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
           }
         });
-      }
 
-      if (args[1]) {
-        user = args[1];
-      } else {
-        Terminal.push(function(c) {
-          user = c;
-          Terminal.pop();
-        }, {
-          prompt: "Username: ",
-          onStart: function() {
-            Terminal.set_mask(false);
-          }
-        });
+        if (args[1]) {
+          user = args[1];
+        } else {
+          Terminal.push(function(c) {
+            user = c;
+            Terminal.pop();
+          }, {
+            prompt: "Username: ",
+            onStart: function() {
+              Terminal.set_mask(false);
+            }
+          });
+        }
       }
 
     } else if (args[0] == "history") {
