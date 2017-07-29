@@ -13,6 +13,7 @@ class extends lapis.Application
 
   @include "githook"
   @include "users"
+  @include "command"
 
   [index: "/"]: =>
     render: true
