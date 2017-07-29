@@ -206,6 +206,8 @@ class extends lapis.Application
           else
             if @user\update { digest: nil } -- dunno if this works
               return layout: false, "Your password has been removed."
+            else
+              return layout: false, "I FAILED"
 
 
         -- no else, because some commands can error out
