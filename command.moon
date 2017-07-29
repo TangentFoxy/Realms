@@ -1,3 +1,5 @@
+version = 2   -- alert user to update their client by refreshing
+
 lapis = require "lapis"
 bcrypt = require "bcrypt"
 help = require "help"
@@ -16,7 +18,7 @@ class extends lapis.Application
       return layout: false, status: 405, "Method not allowed."
 
     POST: json_params =>
-      if not @params.version
+      if not @params.version or @params.version < version
         return layout: false, "[[;red;]An update has been pushed. Please refresh the page and try again.]"
 
       args = split @params.command
@@ -114,7 +116,7 @@ class extends lapis.Application
   }
 
   [command_update: "/update"]: =>
-    if not @params.version
+    if not @params.version or @params.version < version
       return json: { echo: "[[;red;]An update has been pushed. Please refresh the page and try again.]" }
 
     else
