@@ -12,24 +12,31 @@ $(function() {
       return false
 
     } else if (args[0] == "login") {
-      var user, password
+      var user, password;
 
-      Terminal.push(function(c) {
-        password = c;
-        Terminal.pop();
-        History.enable();
+      if (args[2]) {
+        var data = History.data();
+        data.pop();
+        History.set(data);
+        return $.post(commandUrl, {command: "login", name: args[1], password: args[2]});
+      } else {
+        Terminal.push(function(c) {
+          password = c;
+          Terminal.pop();
+          History.enable();
 
-        return $.post(commandUrl, {command: "login", name: user, password: password});
-      }, {
-        prompt: "Password: ",
-        onStart: function() {
-          Terminal.set_mask(true);
-          History.disable();
-        }
-      });
+          return $.post(commandUrl, {command: "login", name: user, password: password});
+        }, {
+          prompt: "Password: ",
+          onStart: function() {
+            Terminal.set_mask(true);
+            History.disable();
+          }
+        });
+      }
 
       if (args[1]) {
-        user = args[1]
+        user = args[1];
       } else {
         Terminal.push(function(c) {
           user = c;
