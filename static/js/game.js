@@ -71,7 +71,7 @@ $(function() {
         email = c;
         Terminal.pop();
       }, {
-        prompt: "Email: "
+        prompt: "Email: ",
         onStart: function() {
           Terminal.set_mask(false);
         }
