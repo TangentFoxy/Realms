@@ -88,6 +88,8 @@ class extends lapis.Application
 
         if args[1] == "logout"
           @session.id = nil
+          character = @user\get_character!
+          character\update { time: os.date "!%Y-%m-%d %X", os.time! - 61 } -- time is set to just before a minute ago, we leave immediately
           return layout: false, "Goodbye, #{@user.name}..."
 
         elseif args[1] == "whoami"

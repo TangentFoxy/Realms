@@ -28,3 +28,7 @@ class Users extends Model
       if Users\find email: value
         return "That email address is already tied to an account."
   }
+
+  @relations: {
+    {"character", has_one: "Characters"}
+  }
