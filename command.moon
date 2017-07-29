@@ -1,4 +1,4 @@
-version = 9   -- alert user to update their client by refreshing
+version = 10   -- alert user to update their client by refreshing
 
 lapis = require "lapis"
 bcrypt = require "bcrypt"
