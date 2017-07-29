@@ -6,6 +6,8 @@ class extends html.Widget
       head -> title @title or "Unnamed Ludum Dare 39 Game"
       body ->
         script src: @build_url "static/js/jquery-3.2.1.min.js"
+
         if @info
           div -> @info
+
         div -> @content_for "inner"

@@ -12,7 +12,7 @@ class extends lapis.Application
 
     elseif @session.id
       @user = Users\find id: @session.id
-      return layout: false, "FUCK YEA"
+      return layout: false, "This is a work-in-progress. Nothing happens yet."
 
     else
-      return layout: false, "You must log in."
+      return layout: false, "You must log in first."

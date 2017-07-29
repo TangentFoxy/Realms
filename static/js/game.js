@@ -1,3 +1,5 @@
+var Terminal;
+
 $(function() {
   $('#terminal').terminal(function(command, term) {
     if (command.indexOf("exit ") == 0) {
@@ -12,6 +14,9 @@ $(function() {
     //   return false;
     // },
     exit: false,
-    historySize: false
+    historySize: false,
+    onInit: function(term) {
+      Terminal = term;
+    }
   });
 });
