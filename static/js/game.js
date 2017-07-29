@@ -26,6 +26,7 @@ function update() {
           if (character == undefined) { break; }
           if (!Characters[character.name]) {
             if (character.name != Self.name) {
+              console.log(character);
               Terminal.echo("[[;white;]" + character.name + "] enters.");
             }
             Characters[character.name] = character;
