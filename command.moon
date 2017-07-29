@@ -26,7 +26,7 @@ class extends lapis.Application
             @session.id = user.id
             return layout: false, "Welcome back, #{user.name}!"
 
-      --   return layout: false, "Invalid username or password."
+        return layout: false, "Invalid username or password."
 
       elseif @session.id
         @user = Users\find id: @session.id
