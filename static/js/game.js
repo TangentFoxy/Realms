@@ -49,6 +49,48 @@ $(function() {
         });
       }
 
+    } else if (args[0] == "create") {
+      var user, email, password;
+
+      Terminal.push(function(c) {
+        password = c;
+        Terminal.pop();
+        History.enable();
+
+        // return $.post(commandUrl, {command: "create", name: user, email: email, password: password});
+        return "User: " + user + " Email: " + email + " Password: " + password;
+      }, {
+        prompt: "Password: ",
+        onStart: function() {
+          Terminal.set_mask(true);
+          History.disable();
+        }
+      });
+
+      Terminal.push(function(c) {
+        email = c;
+        Terminal.pop();
+      }, {
+        prompt: "Email: "
+        onStart: function() {
+          Terminal.set_mask(false);
+        }
+      });
+
+      if (args[1]) {
+        user = args[1];
+      } else {
+        Terminal.push(function(c) {
+          user = c;
+          Terminal.pop();
+        }, {
+          prompt: "Username: ",
+          onStart: function() {
+            Terminal.set_mask(false);
+          }
+        });
+      }
+
     } else if (args[0] == "history") {
       if (args[1] == "-c" || args[1] == "clear") {
         History.clear();
