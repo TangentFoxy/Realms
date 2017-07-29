@@ -4,7 +4,7 @@ import trim from require "lapis.util"
 class Users extends Model
   @constraints: {
     name: (value) =>
-      if not value
+      if not value or value\len! < 1
         return "You must enter a username."
 
       value = trim value
@@ -25,7 +25,7 @@ class Users extends Model
 
       -- TODO figure out how to check for valid email address
 
-      if Users\find email: value
+      if value\len! > 0 and Users\find email: value
         return "That email address is already tied to an account."
   }
 
