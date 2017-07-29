@@ -18,6 +18,9 @@ function update() {
       }
 
       if (data.you) {
+        if (!Self.name) {
+          Terminal.echo("[[;green;]Welcome back, " + data.you.name + "!]");
+        }
         Self = data.you;
       }
 
