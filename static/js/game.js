@@ -20,11 +20,12 @@ $(function() {
         Terminal.pop();
         Terminal.set_mask(false);
         Terminal.echo("Name: " + user + " Password: " + password);
-        return $.post(commandUrl, {command: "login", name: user, password: password});
         History.enable();
+
+        return $.post(commandUrl, {command: "login", name: user, password: password});
       }, {
         prompt: "Password: ",
-        onInit: function() {
+        onStart: function() {
           Terminal.set_mask(true);
         }
       });
