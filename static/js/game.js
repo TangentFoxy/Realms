@@ -76,7 +76,7 @@ function update() {
     }
   })
 
-  setTimeout(update, 1000);
+  // setTimeout(update, 1000);
 }
 
 $(function() {
