@@ -36,9 +36,11 @@ function update(first) {
           if (!Characters[character]) {
             if (character != Self.name) {
               if (justEntered) {
-                // if data.characters[character]
-                console.log(character); // temporary
-                Terminal.echo("[[;white;]" + character + "] is here.");
+                if (data.characters[character].health == 0) {
+                  Terminal.echo("[[;white;]" + character + "]'s corpse is here.");
+                } else {
+                  Terminal.echo("[[;white;]" + character + "] is here.");
+                }
               } else {
                 Terminal.echo("[[;white;]" + character + "] enters.");
               }
