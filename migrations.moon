@@ -33,4 +33,7 @@ Characters = require "models.Characters"
     db.update "characters", {
       health: 1 -- what to do
     }, "true" -- WHERE true
+
+  [4]: =>
+    add_column "characters", "souls", types.text null: true
 }

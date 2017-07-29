@@ -1,4 +1,4 @@
-version = 11   -- alert user to update their client by refreshing
+version = 12   -- alert user to update their client by refreshing
 timeOut = 30   -- how long before a player is considered to have left
 
 lapis = require "lapis"
@@ -152,7 +152,7 @@ class extends lapis.Application
       characters = {}
       for character in *rawCharacters
         user = character\get_user!
-        characters[user.name] = true
+        characters[user.name] = { name: user.name, health: character.health }
 
       return json: { :characters }
 

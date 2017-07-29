@@ -1,9 +1,9 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 11; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 12; // internal version number indicating only changes on client-side requiring a user to refresh their page
 
 var Terminal;
 var History;
-var Self; // defined by injected script via Lapis
+var Self = {}; // defined by injected script via Lapis
 var Characters = {};
 
 function update() {
@@ -17,21 +17,21 @@ function update() {
 
       if (data.characters) {
         for (character in data.characters) {
-          if (!Characters[character]) {
-            if (character != Self) {
-              Terminal.echo("[[;white;]" + character + "] enters.");
+          if (!Characters[character.name]) {
+            if (character.name != Self.name) {
+              Terminal.echo("[[;white;]" + character.name + "] enters.");
             }
-            Characters[character] = true;
+            Characters[character.name] = character;
           }
         }
         for (character in Characters) {
-          if (!data.characters[character]) {
-            if (character == Self) {
+          if (!data.characters[character.name]) {
+            if (character.name == Self.name) {
               Terminal.echo("[[;red;]Somehow you have left. Please refresh the page.]");
             } else {
               Terminal.echo("[[;white;]" + character + "] has left.");
             }
-            delete Characters[character];
+            delete Characters[character.name];
           }
         }
       }

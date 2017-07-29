@@ -23,5 +23,6 @@ class extends lapis.Application
   [index: "/"]: =>
     if @session.id
       @user = Users\find id: @session.id
+      @character = @user\get_character!
 
     render: true

@@ -9,6 +9,6 @@ class extends Widget
     link rel: "stylesheet", href: @build_url "static/css/game.css"
 
     if @user
-      script -> raw "var Self = '#{@user.name}';"
+      script -> raw "var Self = { name: '#{@user.name}', health: #{@character.health} };"
 
     div id: "terminal"
