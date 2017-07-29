@@ -67,7 +67,7 @@ $(function() {
         prompt: "Password: ",
         onStart: function() {
           Terminal.set_mask(true);
-          Terminal.echo("[[;lime;]Passwords are not required, however, if you log out or the session cookie for ld39.guard13007.com is removed, you will not be able to log in again.]", {keepWords: true});
+          Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
           History.disable();
         }
       });
@@ -82,7 +82,7 @@ $(function() {
           prompt: "Email: ",
           onStart: function() {
             Terminal.set_mask(false);
-            Terminal.echo("[[;lime;]Email addresses are not required, however, you will not be able to reset your password if you forget it.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
+            Terminal.echo("[[;lime;]Email addresses are not required, but you will not be able to reset your password.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
           }
         });
       }
@@ -121,7 +121,7 @@ $(function() {
     }
   }, {
     prompt: "> ",
-    greetings: "Welcome. Please type 'help' if you need help.",
+    greetings: "[[;lime;]Welcome. Please type 'help' if you need help.]",
     // onBlur: function() {
     //   return false;
     // },
