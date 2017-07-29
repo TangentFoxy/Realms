@@ -9,6 +9,7 @@ import respond_to, json_params from require "lapis.application"
 import split from require "utility.string"
 
 Users = require "models.Users"
+Characters = require "models.Characters"
 
 class extends lapis.Application
   @path: "/command"
