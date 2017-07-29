@@ -65,7 +65,8 @@ function update() {
 
       for (event in Events) {
         if (!event.done) {
-          Terminal.echo(event.msg);
+          // Terminal.echo(event.msg);
+          console.log(event.msg); // what
           event.done = true;
         }
         // TODO remove old Events
@@ -76,7 +77,7 @@ function update() {
     }
   })
 
-  // setTimeout(update, 1000);
+  setTimeout(update, 1000);
 }
 
 $(function() {
