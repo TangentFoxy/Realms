@@ -135,5 +135,4 @@ class extends lapis.Application
         user = character\get_user!
         table.insert characters, user.name
 
-    else
       return json: { :characters }
