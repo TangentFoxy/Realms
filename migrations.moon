@@ -135,4 +135,10 @@ Items = require "models.Items"
     add_column "items", "special", types.text null: true
     book = Items\find name: "book"
     book\update { special: "faq_book" }  -- special is a key that goes to a list of special functions specific to particular items
+
+  [10]: =>
+    Realms\create {
+      name: "inventory"
+      description: "A strange place with items haphazardly placed in dark rooms."
+    }
 }

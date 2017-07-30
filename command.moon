@@ -574,6 +574,26 @@ class extends lapis.Application
 
             return layout: false, "There is no [[;white;]#{ITEM}] here."
 
+        elseif args[1] == "power"
+          if args[2]
+            if realm = Realms\find name: args[2]
+              if args[3]
+                return layout: false, "WIP"
+              else
+                realm = Realms\find name: @character.realm
+                count = realm\count_characters!
+                return layout: false, "[[;lime;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
+            else
+              return layout: false, "[[;lime;]#{args[2]}] does not exist."
+          else
+            realm = Realms\find name: @character.realm
+            count = @character\count_in_realm!
+            test = Realms\select "WHERE true"
+            return layout: false, "[[;lime;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
+            -- here: (character) =>
+            --   @find name: character.realm
+            -- find all characters online, and in a specific realm
+
 
         else
           result = help.skill args
