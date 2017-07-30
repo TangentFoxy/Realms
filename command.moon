@@ -7,7 +7,6 @@ help = require "help"
 config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
-import trim from require "lapis.util"
 import split from require "utility.string"
 import now, db_time_to_unix from require "utility.time"
 import timeOut from require "utility.time"
@@ -386,8 +385,6 @@ class extends lapis.Application
             return layout: false, "[[;red;]Invalid command syntax.]"
           ITEM = table.concat args, " "
           ITEM = ITEM\sub ITEM\find(" ") + 1
-          if true
-            return layout: false, "-#{ITEM}-"
           -- [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('get' also works)
           rawItems = Items\here @character
           if ITEM == "soul"
@@ -477,8 +474,9 @@ class extends lapis.Application
               if ITEM == item.name
                 if item.special
                   return layout: false, special\handle command: "take", user: @user, character: @character, item: item
-                if item.type == "scenery"
+                elseif item.type == "scenery"
                   return layout: false, "You can't take that."
+                -- else -- TODO continue with items that can actually be taken
 
             return layout: false, "There is no [[;white;]#{ITEM}] here."
             -- for item in *rawItems
