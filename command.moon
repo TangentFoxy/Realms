@@ -580,7 +580,6 @@ class extends lapis.Application
               if args[3]
                 return layout: false, "WIP"
               else
-                realm = Realms\find name: @character.realm
                 count = realm\count_characters!
                 return layout: false, "[[;lime;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
             else
