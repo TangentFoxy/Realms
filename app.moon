@@ -7,6 +7,7 @@ class extends lapis.Application
     u = @req.parsed_url
     if u.path != "/users/login"
       @session.redirect = "#{u.scheme}://#{u.host}#{u.path}"
+      @info = @session.redirect
     if @session.info
       @info = @session.info
       @session.info = nil
