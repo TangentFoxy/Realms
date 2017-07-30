@@ -130,4 +130,9 @@ Items = require "models.Items"
       name: "nullspace"
       description: "The void from whence we came, and return to."
     }
+
+  [9]: =>
+    add_column "items", "special", types.text null: true
+    book = Items\find name: "book"
+    book\update { special: "faq_book" }  -- special is a key that goes to a list of special functions specific to particular items
 }

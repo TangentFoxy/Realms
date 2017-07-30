@@ -7,6 +7,7 @@ help = require "help"
 config = require("lapis.config").get!
 
 import respond_to, json_params from require "lapis.application"
+import trim from require "lapis.util"
 import split from require "utility.string"
 import now, db_time_to_unix from require "utility.time"
 import timeOut from require "utility.time"
@@ -383,9 +384,13 @@ class extends lapis.Application
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           unless args[2]
             return layout: false, "[[;red;]Invalid command syntax.]"
+          ITEM = table.concat args, " "
+          ITEM = ITEM\sub ITEM\find(" ") + 1
+          if true
+            return layout: false, "-#{ITEM}-"
           -- [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('get' also works)
           rawItems = Items\here @character
-          if args[2] == "soul"
+          if ITEM == "soul"
             soul = false
             for item in *rawItems
               if item.type == "soul"
@@ -412,7 +417,7 @@ class extends lapis.Application
             else
               return layout: false, "There are no souls to consume."
 
-          elseif args[2] == "souls"
+          elseif ITEM == "souls"
             soulCount = 0
             souls = {}
             for item in *rawItems
@@ -469,11 +474,13 @@ class extends lapis.Application
 
           else
             for item in *rawItems
-              if args[2] == item.name
+              if ITEM == item.name
+                if item.special
+                  return layout: false, special\handle command: "take", user: @user, character: @character, item: item
                 if item.type == "scenery"
                   return layout: false, "You can't take that."
 
-            return layout: false, "There is no [[;white;]#{args[2]} here.]"
+            return layout: false, "There is no [[;white;]#{ITEM}] here."
             -- for item in *rawItems
             --   if item.type != "scenery"
             --     table.insert items, item
