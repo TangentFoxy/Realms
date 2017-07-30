@@ -608,6 +608,12 @@ class extends lapis.Application
         elseif args[1] == "power"
           unless @character.health > 0
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
+
+          -- shitty hack to allow powering local realm with a number
+          if #args == 2 and tonumber args[2]
+            args[2] = @character.realm
+            args[3] = args[2]
+
           if args[2]
             if realm = Realms\find name: args[2]
               if args[3]
