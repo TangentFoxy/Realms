@@ -8,7 +8,7 @@ class extends html.Widget
         script src: @build_url "static/js/jquery-3.2.1.min.js"
 
         if @info
-          div -> @info
+          div -> text @info
 
         noscript "This game requies JavaScript."
 
