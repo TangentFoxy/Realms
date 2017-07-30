@@ -424,7 +424,8 @@ class extends lapis.Application
                 table.insert souls, item
             if soulCount > 1
               rawCharacters = @character\here!   -- can probably optimize by making some sort of count here function
-              numSouls = math.min 2, math.floor soulCount / #rawCharacters
+              numSouls = math.max 2, math.floor soulCount / #rawCharacters
+              counter = 0
               local names
               for soul in *souls
                 if names
@@ -432,6 +433,9 @@ class extends lapis.Application
                 else
                   names = soul.data
                 soul\delete!
+                counter += 1
+                if counter == numSouls -- only consume the correct number of souls
+                  continue
               if @character.souls
                 @character\update { health: @character.health + numSouls, souls: @character.souls .. " #{names}" } -- again, duplications possible
               else

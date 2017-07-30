@@ -42,6 +42,11 @@ Interaction:
   [[;white;]report] - send a message to administrators (reporting a bug, player, an idea - whatever!)
   [[;white;]look] (OR 'looks') - see who and what is in the room with you
   [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('get' also works)
+  [[;white;]north] (OR 'n') - go north, if there is a room to the north
+  [[;white;]west] (OR 'w') - go west, if there is a room to the west
+  [[;white;]south] (OR 's') - go south, if there is a room to the south
+  [[;white;]east] (OR 'e') - go east, if there is a room to the east
+  [[;white;]exits] - print which directions you can go from here
 ]]
 
 combat = [[
