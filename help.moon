@@ -12,13 +12,13 @@ Admin Commands:
 basics = [[
 Basics:
 
-First, you can access [[;white;]help] at any time. You can also try [[;white;]help topics] to see a list of available sections.
+First, you can access [[;lime;]help] at any time. You can also try [[;lime;]help topics] to see a list of available sections. (Commands are highlighted in [[;lime;]green] on this page, and listed in [[;white;]white] on other pages.)
 
-Most commands require you to be logged in. You can use [[;white;]create] to make an account, and [[;white;]login] to log into an existing one.
+Most commands require you to be logged in. You can use [[;lime;]create] to make an account, and [[;lime;]login] to log into an existing one.
 
-Once you're with us, you can [[;white;]look] around, view the [[;white;]power] status of the [[;white;]realms], [[;white;]get] items you find, and travel [[;white;]north], [[;white;]west], [[;white;]south], and [[;white;]east] when there is a room in that direction. [[;red;]Note: This commands aren't implemented yet, but will be very soon(TM).]
+Once you're with us, you can [[;lime;]look] around, view the [[;lime;]power] status of the [[;lime;]realms], [[;lime;]get] items you find, and travel [[;lime;]north], [[;lime;]west], [[;lime;]south], and [[;lime;]east] when there is a room in that direction. [[;red;]Note: This commands aren't implemented yet, but will be very soon(TM).]
 
-Remember, you can talk to others with [[;white;]say], and [[;white;]punch] them to defend yourself...or to take their souls. ;)
+Remember, you can talk to others with [[;lime;]say], and [[;lime;]punch] them to defend yourself...or to take their souls. ;)
 ]]
 
 user = [[

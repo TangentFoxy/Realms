@@ -1,4 +1,4 @@
-version = 25   -- alert user to update their client by refreshing
+version = 26   -- alert user to update their client by refreshing
 
 db = require "lapis.db"
 lapis = require "lapis"

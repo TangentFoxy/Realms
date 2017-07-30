@@ -270,7 +270,10 @@ $(function() {
       return false;
 
     } else {
-      return $.post(commandUrl, {command: command, version: version});
+      Terminal.pause();
+      $.post(commandUrl, {command: command, version: version}).then(function(response) {
+        Terminal.echo(response, {keepWords: true}).resume();
+      });
     }
   }, {
     prompt: "> ",
