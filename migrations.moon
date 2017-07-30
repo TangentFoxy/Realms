@@ -204,4 +204,10 @@ Items = require "models.Items"
       description: "You stand in a black void. It is difficult to see your own feet. However, you can clearly see a large [[;yellow;]corkboard] in front of you, and on a [[;yellow;]table] next to it lies a green [[;yellow;]book]. Off to the side, there is a wooden [[;yellow;]dummy]."
     }
 
+  [15]: =>
+    characters = Characters\select "WHERE true"
+    for character in *characters
+      if not character\get_user!
+        character\delete!
+
 }

@@ -286,10 +286,11 @@ class extends lapis.Application
         elseif args[1] == "deluser"
           if @user.admin
             user = Users\find name: args[2]
-            if user\delete!
-              return layout: false, "[[;white;]#{user.name}] deleted."
-            else
-              return layout: false, "Failed to delete [[;white;]#{user.name}]."
+            character = user\get_character!
+            if character\delete!
+              if user\delete!
+                return layout: false, "[[;white;]#{user.name}] deleted."
+            return layout: false, "Failed to delete [[;white;]#{user.name}]."
 
         elseif args[1] == "revive"
           if @character.health <= 0
@@ -517,9 +518,6 @@ class extends lapis.Application
                   return layout: false, "You take the [[;yellow;]#{item.name}]."
 
             return layout: false, "There is no [[;white;]#{ITEM}] here."
-            -- for item in *rawItems
-            --   if item.type != "scenery"
-            --     table.insert items, item
 
         elseif args[1] == "health" or args[1] == "hp"
           unless @character.health > 0
