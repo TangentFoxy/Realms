@@ -335,9 +335,19 @@ class extends lapis.Application
 
           if #characters == 1
             output ..= "\n[[;white;]#{characters[1]}] is here."
+          elseif #characters == 2
+            output ..= "\n[[;white;]#{characters[1]}] and [[;white;]#{characters[2]}] are here."
+          elseif #characters > 2
+            output ..= "\n"
+            for i = 1, #characters
+              if i == #characters
+                output ..= "and [[;white;]#{characters[i]}] are here."
+              else
+                output ..= "[[;white;]#{characters[i]}], "
 
           if #deadCharacters == 1
             output ..= "\n[[;white;]#{characters[1]}]'s body is here."
+          --elseif #characters > 1
 
           output ..= "\n\nExits: "
           if room.exits\len! > 0
