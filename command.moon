@@ -508,7 +508,7 @@ class extends lapis.Application
                     source_id: @character.id
                     type: "msg"
                     data: "[[;white;]#{@user.name}] picked up a [[;yellow;]#{item.name}]."
-    
+
                     x: @character.x
                     y: @character.y
                     realm: @character.realm
