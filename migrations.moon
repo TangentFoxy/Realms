@@ -141,4 +141,38 @@ Items = require "models.Items"
       name: "inventory"
       description: "A strange place with items haphazardly placed in dark rooms."
     }
+
+  [11]: =>
+    Realms\create {
+      name: "userland"
+      description: "The chaotic stream of consciousness fromed by the denizens who enter."
+    }
+    Realms\create {
+      name: "eventstack"
+      description: "Echoes, forgotten notes, an ongoing din of whitenoise."
+    }
+    Rooms\create {
+      description: "The room is blindingly white. A [[;yellow;]projector] is aimed at the north wall. It flickers between \"Welcome to [[;pink;]userland]!\" and \"Enjoy [[;white;]make]-ing your creations. Don't forget to [[;white;]report] ideas.\""
+      realm: "userland"
+    }
+    Items\create {
+      name: "projector"
+      type: "scenery"
+      data: "It is white and smooth, with the word \"Blusmart\" written on it. There is a picture of a remote drawn on it in black marker."
+      realm: "userland"
+    }
+    Items\create {
+      name: "sticky notes"
+      type: "item" -- do I have a generic item type yet?
+      data: "A small pad of yellow sticky notes with attached pencil."
+      realm: "userland"
+      special: "sticky_notes"
+    }
+    room = Rooms\find x: 0, y: 0, realm: "nullspace"
+    room\update {
+      description: "You stand in a black void. It is difficult to see your own feet. However, you can clearly see a large [[;yellow;]corkboard] in front of you, and on a [[;yellow;]table] next to it lies a green [[;yellow;]book]."
+    }
+    -- eventstack doesn't have room
+    -- inventory doesn't have room either
+
 }

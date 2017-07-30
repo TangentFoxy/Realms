@@ -48,6 +48,8 @@ Interaction:
   [[;white;]south] (OR 's') - go south, if there is a room to the south
   [[;white;]east] (OR 'e') - go east, if there is a room to the east
   [[;white;]exits] - print which directions you can go from here
+
+For help on travel between realms, use '[[;white;]help realms]'.
 ]]
 
 combat = [[
@@ -70,6 +72,10 @@ realms = [[
 Realms:
 
 Everyone starts in [[;lime;]nullspace]. It is the only realm that does not require power for people to exist within it. Players must use their health (see [[;white;]help souls]) to [[;white;]power] additional [[;white;]realms], before they can be [[;white;]enter]ed. You can view information about realms with the [[;white;]realms] command.
+
+  [[;white;]power] [realm] [#] - view the power status of a realm or charge it
+  [[;white;]realms] - view a list of all realms and their power status
+  [[;white;]enter] realm - enter the specified realm, if it has enough power
 ]]
 
 colors = nil -- TODO write this (also note if something doesn't conform to these rules, please report it so I can fix it)

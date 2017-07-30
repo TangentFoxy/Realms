@@ -575,6 +575,8 @@ class extends lapis.Application
             return layout: false, "There is no [[;white;]#{ITEM}] here."
 
         elseif args[1] == "power"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           if args[2]
             if realm = Realms\find name: args[2]
               if args[3]
@@ -585,41 +587,55 @@ class extends lapis.Application
                     Events\create {
                       source_id: @character.id
                       type: "msg"
-                      data: "[[;white;]#{@user.name}] has charged [[;lightblue;]#{realm.name}] by [[;white;]#{count}]!"
+                      data: "[[;white;]#{@user.name}] has charged [[;white;]#{realm.name}] by [[;lime;]#{count}]!"
 
                       x: @character.x
                       y: @character.y
                       realm: @character.realm
                       time: now!
                     }
-                    return layout: false, "You have charged [[;lightblue;]#{realm.name}] by [[;white;]#{count}]!"
+                    return layout: false, "You have charged [[;white;]#{realm.name}] by [[;lime;]#{count}]!"
                   else
-                    return layout: false, "You do not have enough health to power up [[;lightblue;]#{realm.name}] by [[;white;]#{count}]. Collect more [[;yellow;]souls]."
+                    return layout: false, "You do not have enough health to power up [[;white;]#{realm.name}] by [[;white;]#{count}]. Collect more [[;yellow;]souls]."
                 else
                   return layout: false, "[[;red;]Invalid command syntax.]"
               else
                 count = realm\count_characters!
-                return layout: false, "[[;lightblue;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
+                if realm.power >= 50
+                  return layout: false, "[[;white;]#{realm.name}] has [[;lime;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
+                else
+                  return layout: false, "[[;white;]#{realm.name}] has [[;red;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
             else
-              return layout: false, "[[;lightblue;]#{args[2]}] does not exist."
+              return layout: false, "[[;white;]#{args[2]}] does not exist."
           else
             realm = Realms\find name: @character.realm
             count = @character\count_in_realm!
-            -- test = Realms\select "WHERE true"
-            return layout: false, "[[;lightblue;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
-            -- here: (character) =>
-            --   @find name: character.realm
-            -- find all characters online, and in a specific realm
+            if realm.power >= 50
+              return layout: false, "[[;white;]#{realm.name}] has [[;lime;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
+            else
+              return layout: false, "[[;white;]#{realm.name}] has [[;red;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
 
         elseif args[1] == "realms"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           output = ""
           realms = Realms\select "WHERE true"
           for realm in *realms
-            if realm.power > 50
-              output ..= " [[;lightblue;]#{realm.name}] ([[;lime;]#{realm.power}]): #{realm.description}\n"
+            if realm.power >= 50
+              output ..= " [[;white;]#{realm.name}] ([[;lime;]#{realm.power}]): #{realm.description}\n"
             else
-              output ..= " [[;lightblue;]#{realm.name}] ([[;red;]#{realm.power}]): #{realm.description}\n"
+              output ..= " [[;white;]#{realm.name}] ([[;red;]#{realm.power}]): #{realm.description}\n"
           return layout: false, output\sub 1, -1
+
+        elseif args[1] == "enter"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
+          unless args[2]
+            return layout: false, "[[;red;]Invalid command syntax.]"
+          if realm = Realms\find name: args[2]
+            if realm.power > 0
+              @character\update { x: 0, y: 0, realm: realm.name }
+              return layout: false, "The world around you blinks in and out of existence. You are now in [[;lime;]#{realm.name}]."
 
 
         else
