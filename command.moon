@@ -346,7 +346,7 @@ class extends lapis.Application
                 output ..= "[[;white;]#{characters[i]}], "
 
           if #deadCharacters == 1
-            output ..= "\n[[;white;]#{characters[1]}]'s body is here."
+            output ..= "\n[[;white;]#{deadCharacters[1]}]'s body is here."
           --elseif #characters > 1
 
           output ..= "\n\nExits: "
