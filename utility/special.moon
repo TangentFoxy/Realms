@@ -3,6 +3,7 @@ db = require "lapis.db"
 Items = require "models.Items"
 
 import deepcopy from require "utility.table"
+import random_number from require "utility.numbers"
 
 local special
 
@@ -13,9 +14,9 @@ special = {
     character = o.character
     item = o.item
 
+    action = special[item.special]
     -- needs to return a string to return to the user, otherwise it needs to do things itself, like setting Events
     if command == "take"
-      action = special[item.special]
       if action.duplicate
         data = deepcopy item
         for key, value in pairs action.duplicate
@@ -28,6 +29,23 @@ special = {
         Items\create data
         return "You take the [[;yellow;]#{item.name}], and a few seconds later, another one reappears in its place!"
 
+      elseif action.sticky_notes
+        return "OH GOD I HAVE NOT IMPLEMENTED THIS YET"
+
+    elseif command == "punch"
+      if action.drop_soul
+        characters = Characters\select "WHERE true"
+        r = random_number! % #characters + 1
+        Items\create {
+          type: "soul"
+          data: "#{characters[r]\get_user!.name}"
+
+          x: character.x
+          y: character.y
+          realm: character.realm
+        }
+        return "You punch the [[;yellow;]#{item.name}], and a [[;yellow;]soul] appears in front of you."
+
     return "[[;red;]This is a bug, please use the '][[;white;]report][[;red;]' command (preferrably with a screenshot, or report it on GitHub!) to tell me about this error.]"
 
   faq_book: {
@@ -38,6 +56,12 @@ special = {
       realm: "inventory"
     }
   }
+  soul_dummy: {
+    drop_soul: true
+  }
+  sticky_notes: {
+    sticky_notes: true
+    }
 }
 
 return special

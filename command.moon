@@ -222,6 +222,8 @@ class extends lapis.Application
             items = Items\here @character
             for item in *items
               if item.name == TARGET
+                if item.special
+                  return layout: false, special\handle command: "punch", user: @user, character: @character, item: item
                 Events\create {
                   source_id: @character.id
                   type: "msg"
@@ -499,7 +501,20 @@ class extends lapis.Application
                   return layout: false, special\handle command: "take", user: @user, character: @character, item: item
                 elseif item.type == "scenery"
                   return layout: false, "You can't take the [[;white;]#{ITEM}]."
-                -- else -- TODO continue with items that can actually be taken
+
+                elseif item.type == "item"
+                  item\update { character_id: @character.id }
+                  Events\create {
+                    source_id: @character.id
+                    type: "msg"
+                    data: "[[;white;]#{@user.name}] picked up a [[;yellow;]#{item.name}]."
+    
+                    x: @character.x
+                    y: @character.y
+                    realm: @character.realm
+                    time: now!
+                  }
+                  return layout: false, "You take the [[;yellow;]#{item.name}]."
 
             return layout: false, "There is no [[;white;]#{ITEM}] here."
             -- for item in *rawItems
@@ -697,7 +712,7 @@ class extends lapis.Application
       rawEvents = Events\here @character
       events = {}
       for event in *rawEvents
-        unless event.type == "report"
+        unless event.type == "report" or event.type == "report-done"
           unless event\get_source!.id == @character.id
             if event.target_id and event.target_id == @character.id
               table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: true, type: event.type, time: db_time_to_unix event.time }

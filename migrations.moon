@@ -196,4 +196,12 @@ Items = require "models.Items"
       realm: "nullspace"
     }
 
+  [14]: =>
+    item = Items\find name: "dummy"
+    item\update { special: "soul_dummy" }
+    room = Rooms\find x: 0, y: 0, realm: "nullspace"
+    room\update {
+      description: "You stand in a black void. It is difficult to see your own feet. However, you can clearly see a large [[;yellow;]corkboard] in front of you, and on a [[;yellow;]table] next to it lies a green [[;yellow;]book]. Off to the side, there is a wooden [[;yellow;]dummy]."
+    }
+
 }
