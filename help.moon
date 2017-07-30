@@ -109,7 +109,8 @@ skills = {
   skill: (args) ->
     if "table" == type args
       args = args[1]
-    return "You don't know how to [[;white;]#{args}].."
+    if skills[args]
+      return "You don't know how to [[;white;]#{args}].."
 
   topics: ->
     output = ""
