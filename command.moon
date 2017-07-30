@@ -318,7 +318,10 @@ class extends lapis.Application
             output = output\sub(1, -2).."."
 
           if soulCount > 0
-            output ..= "\nThere are #{soulCount} souls here."
+            if soulCount == 1
+              output ..= "\nThere is a soul here."
+            else
+              output ..= "\nThere are #{soulCount} souls here."
 
           output ..= "\n\nExits: "
           if room.exits\len! > 0
