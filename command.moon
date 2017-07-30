@@ -494,6 +494,8 @@ class extends lapis.Application
           return layout: false, "You have [[;white;]#{@character.health}] HP."
 
         elseif args[1] == "exits"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           output = "Exits: "
           if room.exits\len! > 0
@@ -511,6 +513,8 @@ class extends lapis.Application
           return layout: false, output
 
         elseif args[1] == "north" or args[1] == "n"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "n"
             @character.update { y: @character.y - 1 }
@@ -519,6 +523,8 @@ class extends lapis.Application
             return layout: false, "You can't go [[;white;]north]."
 
         elseif args[1] == "west" or args[1] == "w"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "w"
             @character.update { x: @character.x - 1 }
@@ -527,6 +533,8 @@ class extends lapis.Application
             return layout: false, "You can't go [[;white;]west]."
 
         elseif args[1] == "south" or args[1] == "s"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "s"
             @character.update { y: @character.y + 1 }
@@ -535,12 +543,36 @@ class extends lapis.Application
             return layout: false, "You can't go [[;white;]south]."
 
         elseif args[1] == "east" or args[1] == "e"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "e"
             @character.update { x: @character.x + 1 }
             return layout: false, false
           else
             return layout: false, "You can't go [[;white;]east]."
+
+        elseif args[1] == "examine" or args[1] == "x"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
+          unless args[2]
+            return layout: false, "[[;red;]Invalid command syntax.]"
+          ITEM = table.concat args, " "
+          ITEM = ITEM\sub ITEM\find(" ") + 1
+          rawItems = Items\here @character
+          if ITEM == "soul"
+            -- TODO find first soul and say whose it is
+            return layout: false, "I will do this after Ludum Dare or if I get the time."
+          elseif ITEM == "souls"
+            -- TODO list all soul owners and how many their are
+            return layout: false, "I will do this after Ludum Dare or if I get the time."
+          else
+            for item in *rawItems
+              if ITEM == item.name
+                if item.type == "scenery" -- or item.type == "item" -- ?maybe?
+                  return layout: false, item.data
+
+            return layout: false, "There is no [[;white;]#{ITEM}] here."
 
 
         else
