@@ -410,6 +410,8 @@ class extends lapis.Application
           unless event\get_source!.id == @character.id
             if event.target_id and event.target_id == @character.id
               table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: true, type: event.type, time: db_time_to_unix event.time }
+            elseif event.type == "punch"
+              table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: false, type: event.type, time: db_time_to_unix event.time }
             elseif not event.target_id
               table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: false, type: event.type, time: db_time_to_unix event.time }
 
