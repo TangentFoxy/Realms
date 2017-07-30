@@ -55,14 +55,15 @@ Combat:
 souls = [[
 HP & Souls:
 
-Your health always starts at 1 HP. [[;yellow;]Souls] are needed to increase your health, so you can use it to [[;white;]power] realms (or survive attacks). You can only get [[;yellow;]souls] by killing other players, and players always only drop 1 soul, no matter how much health they had before being killed.
+Your health always starts at 1 HP. [[;yellow;]Souls] are needed to increase your health, so you can use it to [[;white;]power] realms (or survive attacks). You can only get [[;yellow;]souls] by killing other players, and players always only drop 1 [[;yellow;]soul], no matter how much health they had before being killed.
 ]]
 health = souls   -- a user can get the same help this way, but it is not listed as a topic
+hp = souls       -- same thing
 
 realms = [[
 Realms:
 
-Everyone starts in [[;lime;]nullspace]. It is the only realm that does not require power for people to exist within it. Players must use their health (see [[;white;]help souls]) to power additional realms, before they can be [[;white;]enter]ed. You can view information about realms with the [[;white;]realms] command.
+Everyone starts in [[;lime;]nullspace]. It is the only realm that does not require power for people to exist within it. Players must use their health (see [[;white;]help souls]) to power additional [[;white;]realms], before they can be [[;white;]enter]ed. You can view information about realms with the [[;white;]realms] command.
 ]]
 
 colors = nil -- TODO write this (also note if something doesn't conform to these rules, please report it so I can fix it)
@@ -93,6 +94,7 @@ skills = {
   combat: combat\sub 1, #combat - 1
   souls: souls\sub 1, #souls - 1
   health: health\sub 1, #health - 1
+  hp: hp\sub 1, #hp - 1
   realms: realms\sub 1, #realms - 1
   terminal: terminal\sub 1, #terminal - 1
 

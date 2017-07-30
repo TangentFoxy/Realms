@@ -409,13 +409,74 @@ class extends lapis.Application
                 time: now!
               }
               return layout: false, "You have consumed [[;white;]#{name}]'s soul. Your HP is now [[;white;]#{@character.health}]."
+            else
+              return layout: false, "There are no souls to consume."
+
           elseif args[2] == "souls"
-            return layout: false, "Calm down, only one at a time for now."
+            soulCount = 0
+            souls = {}
+            for item in *rawItems
+              if item.type == "soul"
+                soulCount += 1
+                table.insert souls, item
+            if soulCount > 1
+              rawCharacters = @character\here!   -- can probably optimize by making some sort of count here function
+              numSouls = math.min 2, math.floor soulCount / #rawCharacters
+              local names
+              for soul in *souls
+                if names
+                  names ..= " #{soul.data}"
+                else
+                  names = soul.data
+                soul\delete!
+              if @character.souls
+                @character\update { health: @character.health + numSouls, souls: @character.souls .. " #{names}" } -- again, duplications possible
+              else
+                @character\update { health: @character.health + numSouls, souls: names}
+              Events\create {
+                source_id: @character.id
+                type: "msg"
+                data: "[[;white;]#{@user.name}] has consumed #{numSouls} souls!"
+
+                x: @character.x
+                y: @character.y
+                realm: @character.realm
+                time: now!
+              }
+              return layout: false, "You have consumed [[;white;]#{numSouls}] souls. Your HP is now [[;white;]#{@character.health}]."
+            elseif soulCount == 1
+              soul = souls[1]
+              -- ugly with the copy-pasting :D
+              name = soul.data
+              if @character.souls
+                @character\update { health: @character.health + 1, souls: @character.souls .. " #{name}" } -- can duplicate, not cool
+              else
+                @character\update { health: @character.health + 1, souls: name }
+              soul\delete!
+              Events\create {
+                source_id: @character.id
+                type: "msg"
+                data: "[[;white;]#{@user.name}] has consumed a soul!"
+
+                x: @character.x
+                y: @character.y
+                realm: @character.realm
+                time: now!
+              }
+              return layout: false, "You have consumed [[;white;]#{name}]'s soul. Your HP is now [[;white;]#{@character.health}]."
+            else
+              return layout: false, "There are no souls to consume."
+
           else
-            return layout: false, "Not quite done programming this command, try taking some souls first."
-          -- for item in *rawItems
-          --   if item.type != "scenery"
-          --     table.insert items, item
+            for item in *rawItems
+              if args[2] == item.name
+                if item.type == "scenery"
+                  return layout: false, "You can't take that."
+
+            return layout: false, "There is no [[;white;]#{args[2]} here.]"
+            -- for item in *rawItems
+            --   if item.type != "scenery"
+            --     table.insert items, item
 
         elseif args[1] == "health" or args[1] == "hp"
           unless @character.health > 0
