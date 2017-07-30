@@ -300,6 +300,8 @@ class extends lapis.Application
           rawCharacters = @character\here!
           characters, deadCharacters = {}, {}
           for character in *rawCharacters
+            if character.id == @character.id
+              break
             user = character\get_user!
             if character.health > 0
               table.insert characters, user.name
