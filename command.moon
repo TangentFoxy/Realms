@@ -297,7 +297,15 @@ class extends lapis.Application
           room = Rooms\here @character
           rawItems = Items\here @character
           items = {}
-          -- print room.description, then all names of items that have them and aren't scenery, then the exits
+          rawCharacters = @character\here!
+          characters, deadCharacters = {}, {}
+          for character in *rawCharacters
+            user = character\get_user!
+            if character.health > 0
+              table.insert characters, user.name
+            else
+              table.insert deadCharacters, user.name
+          -- print room.description, then all names of items that have them and aren't scenery (and the soul count), then users in the room, finally the exits
           output = room.description
           soulCount = 0
           for item in *rawItems
@@ -322,6 +330,12 @@ class extends lapis.Application
               output ..= "\nThere is a soul here."
             else
               output ..= "\nThere are #{soulCount} souls here."
+
+          if #characters == 1
+            output ..= "\n[[;white;]#{characters[1]}] is here."
+
+          if #deadCharacters == 1
+            output ..= "\n[[;white;]#{characters[1]}]'s body is here."
 
           output ..= "\n\nExits: "
           if room.exits\len! > 0

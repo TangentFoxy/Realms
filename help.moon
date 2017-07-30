@@ -16,7 +16,7 @@ First, you can access [[;lime;]help] at any time. You can also try [[;lime;]help
 
 Most commands require you to be logged in. You can use [[;lime;]create] to make an account, and [[;lime;]login] to log into an existing one.
 
-Once you're with us, you can [[;lime;]look] around, view the [[;lime;]power] status of the [[;lime;]realms], [[;lime;]get] items you find, and travel [[;lime;]north], [[;lime;]west], [[;lime;]south], and [[;lime;]east] when there is a room in that direction. [[;red;]Note: This commands aren't implemented yet, but will be very soon(TM).]
+Once you're with us, you can [[;lime;]look] around, view the [[;lime;]power] status of the [[;lime;]realms], [[;lime;]take] items you find, and travel [[;lime;]north], [[;lime;]west], [[;lime;]south], and [[;lime;]east] when there is a room in that direction. [[;red;]Note: This commands aren't implemented yet, but will be very soon(TM).]
 
 Remember, you can talk to others with [[;lime;]say], and [[;lime;]punch] them to defend yourself...or to take their souls. ;)
 ]]
@@ -40,6 +40,8 @@ Interaction:
 
   [[;white;]say] - say something to everyone in the room you are in
   [[;white;]report] - send a message to administrators (reporting a bug, player, an idea - whatever!)
+  [[;white;]look] (OR 'looks') - see who and what is in the room with you
+  [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('get' also works)
 ]]
 
 combat = [[
@@ -57,7 +59,7 @@ Optional arguments are in brackets. OR indicates either version works for a comm
   [[;white;]clear] - clears the terminal screen
   [[;white;]help] [page] - prints all help pages or a named page
   [[;white;]history] [-c OR clear] - prints your command history or clears it
-  [[;exit;]exit] - logs out of a user, and if your system permits it, closes the page
+  [[;white;]exit] - logs out of a user, and if your system permits it, closes the page
 ]]
 
 {
