@@ -15,6 +15,8 @@ Users = require "models.Users"
 Characters = require "models.Characters"
 Events = require "models.Events"
 Items = require "models.Items"
+Rooms = require "models.Rooms"
+Realms = require "models.Realms"
 
 class extends lapis.Application
   @path: "/command"
