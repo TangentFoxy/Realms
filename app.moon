@@ -24,7 +24,7 @@ class extends lapis.Application
   [index: "/"]: => render: true
 
   [cron: "/update_realms"]: =>
-    if @req.host == "127.0.0.1"
+    if @req.parsed_url.host == "127.0.0.1"
       realms = Realms\select "WHERE true"
       for realm in *realms
         count = realm\count_characters!
