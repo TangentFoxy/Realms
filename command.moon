@@ -387,8 +387,11 @@ class extends lapis.Application
                 soul = item
                 break
             if soul
-              @character\update { health: @character.health + 1, souls: @character.souls .. " #{soul.data}" } -- extra space in front, and can duplicate, not cool
               name = soul.data
+              if @character.souls
+                @character\update { health: @character.health + 1, souls: @character.souls .. " #{name}" } -- can duplicate, not cool
+              else
+                @character\update { health: @character.health + 1, souls: name }
               soul\delete!
               Events\create {
                 source_id: @character.id
