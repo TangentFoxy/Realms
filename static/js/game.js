@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 26; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 27; // internal version number indicating only changes on client-side requiring a user to refresh their page
 var timeOut = 30;
 
 var Terminal;
@@ -14,9 +14,9 @@ function update(first) {
       console.log(data);
 
       if (typeof(data) == "string") {
-        Terminal.echo("[[b;pink;]SERVER ERROR]: [[;red;]" + data.slice(1, data.indexOf("\n") - 1) + "]");
+        Terminal.echo("[[b;pink;]SERVER ERROR]: [[;red;]" + data.slice(1, data.indexOf("\n") - 1) + "]", {keepWords: true});
       } else if (data.echo) {
-        Terminal.echo(data.echo);
+        Terminal.echo(data.echo, {keepWords: true});
       }
 
       var justEntered = false;
@@ -24,7 +24,7 @@ function update(first) {
       if (data.you) {
         if (!Self.name) {
           if (first) {
-            Terminal.echo("Welcome back, " + data.you.name + "!");
+            Terminal.echo("Welcome back, " + data.you.name + "!", {keepWords: true});
           }
           justEntered = true;
         }
@@ -37,12 +37,12 @@ function update(first) {
             if (character != Self.name) {
               if (justEntered) {
                 if (data.characters[character].health == 0) {
-                  Terminal.echo("[[;white;]" + character + "]'s corpse is here.");
+                  Terminal.echo("[[;white;]" + character + "]'s corpse is here.", {keepWords: true});
                 } else {
-                  Terminal.echo("[[;white;]" + character + "] is here.");
+                  Terminal.echo("[[;white;]" + character + "] is here.", {keepWords: true});
                 }
               } else {
-                Terminal.echo("[[;white;]" + character + "] enters.");
+                Terminal.echo("[[;white;]" + character + "] enters.", {keepWords: true});
               }
             }
             Characters[character] = character;
@@ -51,9 +51,9 @@ function update(first) {
         for (var character in Characters) {
           if (!data.characters[character]) {
             if (character == Self.name) {
-              Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]");
+              Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]", {keepWords: true});
             } else {
-              Terminal.echo("[[;white;]" + character + "] has left.");
+              Terminal.echo("[[;white;]" + character + "] has left.", {keepWords: true});
             }
             delete Characters[character];
           }
@@ -74,12 +74,14 @@ function update(first) {
         var event = Events[e];
         if (!event.done) {
           if (event.targeted && event.type == "punch") {
-            Terminal.echo("[[;white;]" + event.source + "] punched you!");
+            Terminal.echo("[[;white;]" + event.source + "] punched you!", {keepWords: true});
             if (Self.health <= 0) {
-              Terminal.echo("[[;red;]You are dead.]");
+              Terminal.echo("[[;red;]You are dead.]", {keepWords: true});
             }
+          } else if (event.type == "report") {
+            Terminal.echo("[[;white;]" + event.id + "]: " + event.msg, {keepWords: true});
           } else {
-            Terminal.echo(event.msg);
+            Terminal.echo(event.msg, {keepWords: true});
           }
           event.done = true;
         }
@@ -89,7 +91,7 @@ function update(first) {
       }
 
     } else {
-      Terminal.echo("[[b;pink;]Connection/Server error]: " + status);
+      Terminal.echo("[[b;pink;]Connection/Server error]: " + status, {keepWords: true});
     }
   })
 
@@ -105,7 +107,7 @@ $(function() {
     if (args[0] == "exit") {
       Terminal.pause();
       $.post(commandUrl, {command: "logout", version: version}).then(function(response) {
-        Terminal.echo(response);
+        Terminal.echo(response, {keepWords: true});
       });
       window.close(); // may or may not be permitted by the browser
 
@@ -121,7 +123,7 @@ $(function() {
           if (response.indexOf("Welcome back, ") == 0) {
             Self = args[1];
           }
-          Terminal.echo(response).resume();
+          Terminal.echo(response, {keepWords: true}).resume();
         });
       } else {
         Terminal.push(function(c) {
@@ -134,7 +136,7 @@ $(function() {
             if (response.indexOf("Welcome back, ") == 0) {
               Self = user;
             }
-            Terminal.echo(response).resume();
+            Terminal.echo(response, {keepWords: true}).resume();
           });
         }, {
           prompt: "Password: ",
@@ -174,7 +176,7 @@ $(function() {
           if (response.indexOf("Welcome, ") == 0) {
             Self = args[1];
           }
-          Terminal.echo(response).resume();
+          Terminal.echo(response, {keepWords: true}).resume();
         });
 
       } else {
@@ -188,7 +190,7 @@ $(function() {
             if (response.indexOf("Welcome, ") == 0) {
               Self = user;
             }
-            Terminal.echo(response).resume();
+            Terminal.echo(response, {keepWords: true}).resume();
           });
         }, {
           prompt: "Password: ",
@@ -264,7 +266,7 @@ $(function() {
       } else {
         var data = History.data();
         for (var i = 0; i < data.length; i++) {
-          Terminal.echo(data[i]);
+          Terminal.echo(data[i], {keepWords: true});
         }
       }
       return false;
