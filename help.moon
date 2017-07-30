@@ -62,6 +62,7 @@ Optional arguments are in brackets. OR indicates either version works for a comm
 
 {
   admin: admin\sub 1, #admin - 1
+  basics: basics\sub 1, #basics - 1
   user: user\sub 1, #user - 1
   interact: interact\sub 1, #interact - 1
   combat: combat\sub 1, #combat - 1
