@@ -632,6 +632,8 @@ class extends lapis.Application
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           unless args[2]
             return layout: false, "[[;red;]Invalid command syntax.]"
+          if args[2] == "inventory"
+            return layout: false, "You cannot enter [[;lime;]inventory]."
           if realm = Realms\find name: args[2]
             if realm.power > 0
               @character\update { x: 0, y: 0, realm: realm.name }

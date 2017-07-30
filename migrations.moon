@@ -175,4 +175,17 @@ Items = require "models.Items"
     -- eventstack doesn't have room
     -- inventory doesn't have room either
 
+  [12]: =>
+    Rooms\create {
+      description: "An empty room that looks like it once belonged to a hospital. There is a [[;yellow;]filing cabinet] in the center."
+      realm: "eventstack"
+    }
+    Items\create {
+      name: "filing cabinet"
+      type: "scenery"
+      data: "A dull gray color. You can't seem to get any drawers open."
+      realm: "eventstack"
+    }
+    -- inventory still doesn't have a room, and won't, they are generated on the fly (and aren't actually rooms)
+
 }
