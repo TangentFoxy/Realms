@@ -1,6 +1,7 @@
 db = require "lapis.db"
 
 Items = require "models.Items"
+Characters = require "models.Characters"
 
 import deepcopy from require "utility.table"
 import random_number from require "utility.numbers"
