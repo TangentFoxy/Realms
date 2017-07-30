@@ -614,6 +614,7 @@ class extends lapis.Application
                 if count = tonumber(args[3])
                   if @character.health - count > 1
                     realm\update { power: realm.power + count }
+                    @character\update { health: @character.health - count }
                     -- Event msg, source me, no target
                     Events\create {
                       source_id: @character.id
