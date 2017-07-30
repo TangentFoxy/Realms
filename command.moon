@@ -169,10 +169,12 @@ class extends lapis.Application
           unless @character.health > 0
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           if args[2]
+            TARGET = table.concat args, " "
+            TARGET = TARGET\sub TARGET\find(" ") + 1
             characters = @character\here!
             for character in *characters
               user = character\get_user!
-              if user.name == args[2]
+              if user.name == TARGET
                 -- special message if you're hitting yourself
                 if character.id == @character.id
                   return layout: false, "Stop hitting yourself."
@@ -215,6 +217,22 @@ class extends lapis.Application
                     return layout: false, "You punched [[;white;]#{user.name}], killing them!"
                   else
                     return layout: false, "You punched [[;white;]#{user.name}]!"
+
+            -- get items, maybe punch them
+            items = Items\here @character
+            for item in *items
+              if item.name == TARGET
+                Events\create {
+                  source_id: @character.id
+                  type: "msg"
+                  data: "[[;white;]#{@user.name}] punches the [[;yellow;]#{item.name}], with no effect."
+
+                  x: @character.x
+                  y: @character.y
+                  realm: @character.realm
+                  time: now!
+                }
+                return layout: false, "You punch the [[;yellow;]#{item.name}]. There is no effect."
 
             return layout: false, "[[;white;]#{args[2]}] isn't here, or doesn't exist."
 
