@@ -578,8 +578,25 @@ class extends lapis.Application
           if args[2]
             if realm = Realms\find name: args[2]
               if args[3]
-                if @character.health - tonumber(args[3]) > 1
-                  return layout: false, "Should work!"
+                if count = tonumber(args[3])
+                  if @character.health - count > 1
+                    realm\update { power: realm.power + count }
+                    -- Event msg, source me, no target
+                    Events\create {
+                      source_id: @character.id
+                      type: "msg"
+                      data: "[[;white;]#{@user.name}] has powered up [[;lime;]#{realm.name}] by [[;white;]#{count}]!"
+
+                      x: @character.x
+                      y: @character.y
+                      realm: @character.realm
+                      time: now!
+                    }
+                    return layout: false, "You have powered up [[;lime;]#{realm.name}] by [[;white;]#{count}]!"
+                  else
+                    return layout: false, "You do not have enough health to power up [[;lime;]#{realm.name}] by [[;white;]#{count}]. Collect more [[;yellow;]souls]."
+                else
+                  return layout: false, "[[;red;]Invalid command syntax.]"
               else
                 count = realm\count_characters!
                 return layout: false, "[[;lime;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
