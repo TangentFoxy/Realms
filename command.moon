@@ -3,8 +3,9 @@ version = 26   -- alert user to update their client by refreshing
 db = require "lapis.db"
 lapis = require "lapis"
 bcrypt = require "bcrypt"
-help = require "help"
 config = require("lapis.config").get!
+help = require "help"
+special = require "utility.special"
 
 import respond_to, json_params from require "lapis.application"
 import split from require "utility.string"
