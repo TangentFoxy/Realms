@@ -476,7 +476,7 @@ class extends lapis.Application
                 if item.special
                   return layout: false, special\handle command: "take", user: @user, character: @character, item: item
                 elseif item.type == "scenery"
-                  return layout: false, "You can't take that."
+                  return layout: false, "You can't take the [[;white;]#{ITEM}]."
                 -- else -- TODO continue with items that can actually be taken
 
             return layout: false, "There is no [[;white;]#{ITEM}] here."
@@ -488,6 +488,23 @@ class extends lapis.Application
           unless @character.health > 0
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           return layout: false, "You have [[;white;]#{@character.health}] HP."
+
+        elseif args[1] == "exits"
+          room = Rooms\here @character
+          output = "Exits: "
+          if room.exits\len! > 0
+            if room.exits\find "n"
+              output ..= "north, "
+            if room.exits\find "w"
+              output ..= "west, "
+            if room.exits\find "s"
+              output ..= "south, "
+            if room.exits\find "e"
+              output ..= "east, "
+            output = output\sub(1, -2).."."
+          else
+            output ..= "none."
+          return layout: false, output
 
 
         else
