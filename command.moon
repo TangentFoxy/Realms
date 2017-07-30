@@ -172,6 +172,9 @@ class extends lapis.Application
             for character in *characters
               user = character\get_user!
               if user.name == args[2]
+                -- special message if you're hitting yourself
+                if character.id == @character.id
+                  return layout: false, "Stop hitting yourself."
                 -- punch them!
                 local msg
                 deadBody = false
@@ -376,6 +379,8 @@ class extends lapis.Application
           return layout: false, output
 
         elseif args[1] == "take" or args[1] == "get"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           unless args[2]
             return layout: false, "[[;red;]Invalid command syntax.]"
           -- [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('get' also works)
@@ -411,6 +416,11 @@ class extends lapis.Application
           -- for item in *rawItems
           --   if item.type != "scenery"
           --     table.insert items, item
+
+        elseif args[1] == "health" or args[1] == "hp"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
+          return layout: false, "You have [[;white;]#{@character.health}] HP."
 
 
         else

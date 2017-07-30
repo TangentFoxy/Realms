@@ -1,4 +1,4 @@
-topics = {"basics", "accounts", "interaction", "combat", "terminal"}
+topics = {"basics", "accounts", "interaction", "combat", "souls", "realms", "terminal"}
 
 admin = [[
 Admin Commands:
@@ -47,9 +47,25 @@ Interaction:
 combat = [[
 Combat:
 
+  [[;white;]health] (OR 'hp') - view your current HP
   [[;white;]punch] [user] - punch nothing, or a user in the same room as you
   [[;white;]revive] - after you are dead, you can revive at 0,0 in nullspace with 1 HP
 ]]
+
+souls = [[
+HP & Souls:
+
+Your health always starts at 1 HP. [[;yellow;]Souls] are needed to increase your health, so you can use it to [[;white;]power] realms (or survive attacks). You can only get [[;yellow;]souls] by killing other players, and players always only drop 1 soul, no matter how much health they had before being killed.
+]]
+health = souls   -- a user can get the same help this way, but it is not listed as a topic
+
+realms = [[
+Realms:
+
+Everyone starts in [[;lime;]nullspace]. It is the only realm that does not require power for people to exist within it. Players must use their health (see [[;white;]help souls]) to power additional realms, before they can be [[;white;]enter]ed. You can view information about realms with the [[;white;]realms] command.
+]]
+
+colors = nil -- TODO write this (also note if something doesn't conform to these rules, please report it so I can fix it)
 
 terminal = [[
 Other Commands:
@@ -75,6 +91,9 @@ skills = {
   accounts: accounts\sub 1, #accounts - 1
   interaction: interaction\sub 1, #interaction - 1
   combat: combat\sub 1, #combat - 1
+  souls: souls\sub 1, #souls - 1
+  health: health\sub 1, #health - 1
+  realms: realms\sub 1, #realms - 1
   terminal: terminal\sub 1, #terminal - 1
 
   --TODO topics and build should have a chance of returning an extra line about a skill
