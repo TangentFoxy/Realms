@@ -635,9 +635,11 @@ class extends lapis.Application
           if args[2] == "inventory"
             return layout: false, "You cannot enter [[;lime;]inventory]."
           if realm = Realms\find name: args[2]
-            if realm.power > 0
+            if realm.power > 0 or realm.name == "nullspace"
               @character\update { x: 0, y: 0, realm: realm.name }
               return layout: false, "The world around you blinks in and out of existence. You are now in [[;lime;]#{realm.name}]."
+            else
+              return layout: false, "The world around you blinks once and stays. Seems [[;lime;]#{realm.name}] doesn't have enough [[;white;]power] for you to enter."
 
 
         else
