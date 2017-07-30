@@ -3,6 +3,9 @@ db = require "lapis.db"
 import create_table, types, add_column from require "lapis.db.schema"
 
 Characters = require "models.Characters"
+Rooms = require "models.Rooms"
+Realms = require "models.Realms"
+Items = require "models.Items"
 
 {
   [1]: =>
@@ -71,5 +74,60 @@ Characters = require "models.Characters"
       {"x", types.integer default: 0}
       {"y", types.integer default: 0}
       {"realm", types.varchar default: "inventory"}   -- inventory is a special realm that means a character has it
+    }
+
+  [8]: =>
+    create_table "rooms", {
+      {"id", types.serial primary_key: true}
+      {"description", types.text default: "There is nothing remarkable about this room. :("}
+      {"exits", types.varchar default: ""}
+
+      {"x", types.integer default: 0}
+      {"y", types.integer default: 0}
+      {"realm", types.varchar default: "nullspace"}
+    }
+
+    create_table "realms", {
+      {"id", types.serial primary_key: true}
+      {"name", types.varchar}
+      {"description", types.text}
+
+      {"power", types.integer default: 100}
+    }
+
+    add_column "items", "name", types.varchar null: true
+
+    -- this one basically exists
+    Rooms\create {
+      description: "There is a large [[;yellow;]corkboard] in front of you. On a [[;yellow;]table] next to it lies a green [[;yellow;]book]."
+      x: 0
+      y: 0
+      realm: "nullspace"
+    }
+
+    Items\create {
+      name: "corkboard"
+      type: "scenery"
+      data: "It is completely empty."
+      realm: "nullspace"
+    }
+
+    Items\create {
+      name: "table"
+      type: "scenery"
+      data: "An unremarkable wooden endtable."
+      realm: "nullspace"
+    }
+
+    Items\create {
+      name: "book"
+      type: "scenery"
+      data: "It says F.A.Q. on it."
+      realm: "nullspace"
+    }
+
+    Realms\create {
+      name: "nullspace"
+      description: "The void from whence we came, and return to."
     }
 }

@@ -1,4 +1,4 @@
-topics = {"user", "interact", "combat", "terminal"}
+topics = {"basics", "user", "interact", "combat", "terminal"}
 
 admin = [[
 Admin Commands:
@@ -9,9 +9,19 @@ Admin Commands:
   [[;white;]deluser] - deletes a user, WARNING: DOES NOT CONFIRM BEFORE DELETING
 ]]
 
-user = [[
-(Most commands require you to be logged in.)
+basics = [[
+Basics:
 
+First, you can access [[;white;]help] at any time. You can also try [[;white;]help topics] to see a list of available sections.
+
+Most commands require you to be logged in. You can use [[;white;]create] to make an account, and [[;white;]login] to log into an existing one.
+
+Once you're with us, you can [[;white;]look] around, view the [[;white;]power] status of the [[;white;]realms], [[;white;]get] items you find, and travel [[;white;]north], [[;white;]west], [[;white;]south], and [[;white;]east] when there is a room in that direction. [[;red;]Note: This commands aren't implemented yet, but will be very soon(TM).]
+
+Remember, you can talk to others with [[;white;]say], and [[;white;]punch] them to defend yourself...or to take their souls. ;)
+]]
+
+user = [[
 User Management:
 
 Optional arguments are in brackets. These arguments will be prompted for if you do not specify them.

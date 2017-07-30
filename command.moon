@@ -291,6 +291,12 @@ class extends lapis.Application
           else
             return layout: false, "You are not dead!"
 
+        elseif args[1] == "look"
+          room = Rooms\here @character
+          items = Items\here @character
+          -- print room.description, then all names of items that have them and aren't scenery, then the exits
+          return layout: false, "This feature will be implemented soon(TM)."
+
 
         -- no else, because some commands can error out
         return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"

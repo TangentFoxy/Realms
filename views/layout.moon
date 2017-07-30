@@ -10,4 +10,6 @@ class extends html.Widget
         if @info
           div -> @info
 
+        noscript "This game requies JavaScript."
+
         div -> @content_for "inner"

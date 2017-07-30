@@ -274,7 +274,7 @@ $(function() {
     }
   }, {
     prompt: "> ",
-    greetings: "[[;lime;]Welcome. Please type 'help' if you need help.]",
+    greetings: "[[;lime;]Welcome. Type 'help basics' and hit enter if you're new.]",
     // onBlur: function() {
     //   return false;
     // },
