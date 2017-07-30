@@ -47,6 +47,16 @@ special = {
           y: character.y
           realm: character.realm
         }
+        Events\create {
+          source_id: character.id
+          type: "msg"
+          data: "[[;white;]#{user.name}] punched the [[;yellow;]#{item.name}], and a [[;yellow;]soul] appeared!"
+
+          x: character.x
+          y: character.y
+          realm: character.realm
+          time: now!
+        }
         return "You punch the [[;yellow;]#{item.name}], and a [[;yellow;]soul] appears in front of you."
 
     return "[[;red;]This is a bug, please use the '][[;white;]report][[;red;]' command (preferrably with a screenshot, or report it on GitHub!) to tell me about this error.]"
