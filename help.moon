@@ -1,4 +1,4 @@
-topics = {"basics", "user", "interact", "combat", "terminal"}
+topics = {"basics", "accounts", "interaction", "combat", "terminal"}
 
 admin = [[
 Admin Commands:
@@ -6,7 +6,7 @@ Admin Commands:
   [[;white;]list] - lists all users, along with their user IDs and email addresses
   [[;white;]online] - lists all users online, along with their coordinates
   [[;white;]whoami] - lists your username, user ID, and email address
-  [[;white;]deluser] - deletes a user, WARNING: DOES NOT CONFIRM BEFORE DELETING
+  [[;white;]deluser] - deletes a user, [[;red;]WARNING: DOES NOT CONFIRM BEFORE DELETING]
 ]]
 
 basics = [[
@@ -21,7 +21,7 @@ Once you're with us, you can [[;lime;]look] around, view the [[;lime;]power] sta
 Remember, you can talk to others with [[;lime;]say], and [[;lime;]punch] them to defend yourself...or to take their souls. ;)
 ]]
 
-user = [[
+accounts = [[
 User Management:
 
 Optional arguments are in brackets. These arguments will be prompted for if you do not specify them.
@@ -35,7 +35,7 @@ Optional arguments are in brackets. These arguments will be prompted for if you 
   [[;white;]chpass] [password] - changes your password
 ]]
 
-interact = [[
+interaction = [[
 Interaction:
 
   [[;white;]say] - say something to everyone in the room you are in
@@ -63,8 +63,8 @@ Optional arguments are in brackets. OR indicates either version works for a comm
 {
   admin: admin\sub 1, #admin - 1
   basics: basics\sub 1, #basics - 1
-  user: user\sub 1, #user - 1
-  interact: interact\sub 1, #interact - 1
+  accounts: accounts\sub 1, #accounts - 1
+  interaction: interaction\sub 1, #interaction - 1
   combat: combat\sub 1, #combat - 1
   terminal: terminal\sub 1, #terminal - 1
 
