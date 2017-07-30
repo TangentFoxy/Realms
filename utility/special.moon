@@ -1,10 +1,11 @@
 db = require "lapis.db"
-random = require "resty.random"
+-- random = require "resty.random"
 
 Items = require "models.Items"
 Characters = require "models.Characters"
 
 import deepcopy from require "utility.table"
+import random_number from require "utility.numbers"
 
 local special
 
@@ -36,8 +37,8 @@ special = {
     elseif command == "punch"
       if action.drop_soul
         characters = Characters\select "WHERE true"
-        -- r = random_number! % #characters + 1
-        r = random.number 1, #characters
+        r = random_number! % #characters + 1
+        -- r = random.number 1, #characters
         Items\create {
           type: "soul"
           data: "#{characters[r]\get_user!.name}"
