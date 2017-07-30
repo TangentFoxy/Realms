@@ -21,6 +21,7 @@ special = {
         for key, value in pairs action.duplicate
           data[key] = value
 
+        data.id = nil  -- definitly can't have two with the same id! D:
         data.special = db.NULL
         data.character_id = character.id
 
