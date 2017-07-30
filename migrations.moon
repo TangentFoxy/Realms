@@ -188,4 +188,12 @@ Items = require "models.Items"
     }
     -- inventory still doesn't have a room, and won't, they are generated on the fly (and aren't actually rooms)
 
+  [13]: =>
+    Items\create {
+      name: "dummy"
+      type: "scenery"
+      data: "A wooden dummy, designed for practising combat techniques."
+      realm: "nullspace"
+    }
+
 }
