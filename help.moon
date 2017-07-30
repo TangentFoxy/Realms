@@ -44,7 +44,8 @@ Interaction:
   [[;white;]report] - send a message to administrators (reporting a bug, player, an idea - whatever!)
   [[;white;]look] (OR 'looks') - see who and what is in the room with you
   [[;white;]examine] (OR 'x') - look at an [[;yellow;]item] in the room, or in your inventory
-  [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('get' also works)
+  [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('[[;white;]get]' also works)
+  [[;white;]inventory] - view the items you are holding ('[[;white;]inv]' or '[[;white;]i]' also works)
   [[;white;]north] (OR 'n') - go north, if there is a room to the north
   [[;white;]west] (OR 'w') - go west, if there is a room to the west
   [[;white;]south] (OR 's') - go south, if there is a room to the south

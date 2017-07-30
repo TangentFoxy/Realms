@@ -708,6 +708,17 @@ class extends lapis.Application
             else
               return layout: false, "[[;red;]You must specify a report ID.]"
 
+        elseif args[1] == "i" or args[1] == "inv" or args[1] == "inventory"
+          output = "You are holding "
+          inventory = Items\find character_id: @character.id
+          if inventory and #inventory > 0
+            for item in *inventory
+              output ..= "[[;yellow;]#{item.name}], "
+            output = output\sub(1, -2).."."
+          else
+            output ..= "nothing."
+          return layout: false, output
+
 
         else
           result = help.skill args
