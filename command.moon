@@ -294,6 +294,8 @@ class extends lapis.Application
             return layout: false, "You are not dead!"
 
         elseif args[1] == "look" or args[1] == "looks"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           rawItems = Items\here @character
           items = {}
@@ -329,9 +331,9 @@ class extends lapis.Application
 
           if soulCount > 0
             if soulCount == 1
-              output ..= "\nThere is a soul here."
+              output ..= "\nThere is a [[;yellow;]soul] here."
             else
-              output ..= "\nThere are #{soulCount} souls here."
+              output ..= "\nThere are [[;white;]#{soulCount}] [[;yellow;]souls] here."
 
           if #characters == 1
             output ..= "\n[[;white;]#{characters[1]}] is here."
@@ -373,8 +375,47 @@ class extends lapis.Application
 
           return layout: false, output
 
+        elseif args[1] == "take" or args[1] == "get"
+          unless args[2]
+            return layout: false, "[[;red;]Invalid command syntax.]"
+          -- [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('get' also works)
+          rawItems = Items\here @character
+          if args[2] == "soul"
+            soul = false
+            for item in *rawItems
+              if item.type == "soul"
+                soul = item
+                break
+            if soul
+              @character\update { health: @character.health + 1, souls: @character.souls .. " #{soul.data}" } -- extra space in front, and can duplicate, not cool
+              name = soul.data
+              soul\delete!
+              Events\create {
+                source_id: @character.id
+                type: "msg"
+                data: "[[;white;]#{@user.name}] has consumed a soul!"
 
-        -- no else, because some commands can error out
+                x: @character.x
+                y: @character.y
+                realm: @character.realm
+                time: now!
+              }
+              return layout: false, "You have consumed [[;white;]#{name}]'s soul. Your HP is now [[;white;]#{@character.health}]."
+          elseif args[2] == "souls"
+            return layout: false, "Calm down, only one at a time for now."
+          else
+            return layout: false, "Not quite done programming this command, try taking some souls first."
+          -- for item in *rawItems
+          --   if item.type != "scenery"
+          --     table.insert items, item
+
+
+        else
+          result = help.skill args
+          if result
+            return layout: false, result
+
+        -- no else, because some commands can error out (also I used it above)
         return layout: false, "[[;red;]Invalid command ']#{args[1]}[[;red;]' or invalid command syntax.]\n(See '[[;white;]help]' command.)"
 
       else

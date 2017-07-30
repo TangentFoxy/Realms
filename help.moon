@@ -62,6 +62,13 @@ Optional arguments are in brackets. OR indicates either version works for a comm
   [[;white;]exit] - logs out of a user, and if your system permits it, closes the page
 ]]
 
+skills = {
+  juggle: "[[;white;]juggle] - juggle balls for fun and profit"
+  knit: "[[;white;]knit] - make a nice sweater for your grandchildren..if you live long enough"
+  squaredance: "[[;white;]squaredance] - the best kind of dancing! :D"
+  sew: "[[;white;]sew] - fix those old clothes you're wearing"
+}
+
 {
   admin: admin\sub 1, #admin - 1
   basics: basics\sub 1, #basics - 1
@@ -69,6 +76,13 @@ Optional arguments are in brackets. OR indicates either version works for a comm
   interaction: interaction\sub 1, #interaction - 1
   combat: combat\sub 1, #combat - 1
   terminal: terminal\sub 1, #terminal - 1
+
+  --TODO topics and build should have a chance of returning an extra line about a skill
+  -- handles either the args table, or just the first arg, in case I'm stupid and pass the wrong thing
+  skill: (args) ->
+    if "table" == type args
+      args = args[1]
+    return "You don't know how to [[;white;]#{args}].."
 
   topics: ->
     output = ""
