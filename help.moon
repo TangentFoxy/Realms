@@ -3,6 +3,8 @@ topics = {"basics", "accounts", "interaction", "combat", "souls", "realms", "ter
 admin = [[
 Admin Commands:
 
+  [[;white;]view-report] [id] - views a new report, or a specified report
+  [[;white;]done] id - marks specified report done
   [[;white;]list] - lists all users, along with their user IDs and email addresses
   [[;white;]online] - lists all users online, along with their coordinates
   [[;white;]whoami] - lists your username, user ID, and email address

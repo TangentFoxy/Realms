@@ -679,6 +679,35 @@ class extends lapis.Application
             else
               return layout: false, "The world around you blinks once and stays. Seems [[;lime;]#{realm.name}] doesn't have enough [[;white;]power] for you to enter."
 
+        elseif args[1] == "view-report"
+          if @user.admin
+            if tonumber args[2]
+              if report = Events\find id: tonumber args[2]
+                if report.type == "report"
+                  return layout: false, "[[;orange;]#{report.id}]: #{report.data}"
+                elseif report.type == "report-done"
+                  return layout: false, "[[;lime;]DONE]: #{report.data}"
+              else
+                return layout: false, "Report [[;white;]#{args[2]}] doesn't exist or isn't a report event."
+            elseif report = Events\find type: "report"
+              return layout: false, "[[;orange;]#{report.id}]: #{report.data}"
+            else
+              return layout: false, "No new reports."
+
+        elseif args[1] == "done"
+          if @user.admin
+            if args[2]
+              if report = Events\find id: tonumber args[2]
+                if report.type == "report"
+                  report\update { type: "report-done" }
+                  return layout: false, "Report [[;white;]#{report.id}] marked done."
+                else
+                  return layout: false, "Event [[;white;]#{report.id}] is not a report, it is a [[;white;]#{report.type}]."
+              else
+                return layout: false, "Event [[;white;]#{args[2]}] doesn't exist."
+            else
+              return layout: false, "[[;red;]You must specify a report ID.]"
+
 
         else
           result = help.skill args
