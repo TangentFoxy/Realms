@@ -8,7 +8,6 @@ class extends lapis.Application
     u = @req.parsed_url
     if u.path != "/users/login"
       @session.redirect = "#{u.scheme}://#{u.host}#{u.path}"
-      @info = @session.redirect
     if @session.info
       @info = @session.info
       @session.info = nil
@@ -22,12 +21,7 @@ class extends lapis.Application
   handle_error: (err, trace) =>
     return layout: false, err.."\n\n"..trace
 
-  [index: "/"]: =>
-    -- if @session.id
-    --   @user = Users\find id: @session.id
-    --   @character = @user\get_character!
-
-    render: true
+  [index: "/"]: => render: true
 
   [cron: "/update_realms"]: =>
     if @req.host == "127.0.0.1"
