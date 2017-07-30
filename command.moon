@@ -435,7 +435,7 @@ class extends lapis.Application
                 soul\delete!
                 counter += 1
                 if counter == numSouls -- only consume the correct number of souls
-                  continue
+                  break
               if @character.souls
                 @character\update { health: @character.health + numSouls, souls: @character.souls .. " #{names}" } -- again, duplications possible
               else
