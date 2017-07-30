@@ -506,6 +506,38 @@ class extends lapis.Application
             output ..= "none."
           return layout: false, output
 
+        elseif args[1] == "north" or args[1] == "n"
+          room = Rooms\here @character
+          if room.exits\find "n"
+            @character.update { y: @character.y - 1 }
+            return layout: false, false
+          else
+            return layout: false, "You can't go [[;white;]north]."
+
+        elseif args[1] == "west" or args[1] == "w"
+          room = Rooms\here @character
+          if room.exits\find "w"
+            @character.update { x: @character.x - 1 }
+            return layout: false, false
+          else
+            return layout: false, "You can't go [[;white;]west]."
+
+        elseif args[1] == "south" or args[1] == "s"
+          room = Rooms\here @character
+          if room.exits\find "s"
+            @character.update { y: @character.y + 1 }
+            return layout: false, false
+          else
+            return layout: false, "You can't go [[;white;]south]."
+
+        elseif args[1] == "east" or args[1] == "e"
+          room = Rooms\here @character
+          if room.exits\find "e"
+            @character.update { x: @character.x + 1 }
+            return layout: false, false
+          else
+            return layout: false, "You can't go [[;white;]east]."
+
 
         else
           result = help.skill args
