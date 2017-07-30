@@ -611,6 +611,16 @@ class extends lapis.Application
             --   @find name: character.realm
             -- find all characters online, and in a specific realm
 
+        elseif args[1] == "realms"
+          output = ""
+          realms = Realms\select "WHERE true"
+          for realm in *realms
+            if realm.power > 50
+              output ..= " [[;lightblue;]#{realm.name}] ([[;lime;]#{realm.power}]): #{realm.description}\n"
+            else
+              output ..= " [[;lightblue;]#{realm.name}] ([[;red;]#{realm.power}]): #{realm.description}\n"
+          return layout: false, output\sub 1, -1
+
 
         else
           result = help.skill args
