@@ -293,11 +293,48 @@ class extends lapis.Application
           else
             return layout: false, "You are not dead!"
 
-        elseif args[1] == "look"
+        elseif args[1] == "look" or args[1] == "looks"
           room = Rooms\here @character
-          items = Items\here @character
+          rawItems = Items\here @character
+          items = {}
           -- print room.description, then all names of items that have them and aren't scenery, then the exits
-          return layout: false, "This feature will be implemented soon(TM)."
+          output = room.description
+          soulCount = 0
+          for item in *rawItems
+            if item.type == "soul"
+              soulCount += 1
+            elseif item.type != "scenery"
+              table.insert items, item
+
+          if #items == 1
+            output ..= "\n\n".."There is a [[;yellow;]#{items[1].name}] here."
+          elseif #items >= 1
+            if #items < 5
+              output ..= "\n\n".."There are a few items here: "
+            else
+              output ..= "\n\n".."There are several items here: "
+            for item in *items
+              output ..= "[[;yellow;]#{item.name}], "
+            output = output\sub(1, -2).."."
+
+          if soulCount > 0
+            output ..= "\nThere are #{soulCount} souls here."
+
+          output ..= "\n\nExits: "
+          if room.exits\len! > 0
+            if room.exits\find "n"
+              output ..= "north, "
+            if room.exits\find "w"
+              output ..= "west, "
+            if room.exits\find "s"
+              output ..= "south, "
+            if room.exits\find "e"
+              output ..= "east, "
+            output = output\sub(1, -2).."."
+          else
+            output ..= "none."
+
+          return layout: false, output
 
 
         -- no else, because some commands can error out
