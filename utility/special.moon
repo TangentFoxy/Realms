@@ -1,5 +1,7 @@
 db = require "lapis.db"
 
+Items = require "models.Items"
+
 import deepcopy from require "utility.table"
 
 local special
