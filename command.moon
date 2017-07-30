@@ -153,12 +153,12 @@ class extends lapis.Application
             characters = Characters\select "WHERE time >= ?", os.date "!%Y-%m-%d %X", os.time! - timeOut
             list = {}
             for character in *characters
-              table.insert list, {character\get_user!.name, character.x, character.y}
+              table.insert list, {character\get_user!.name, character.x, character.y, character.realm}
 
             table.sort list, (a, b) -> return a[1] > b[1]
             output = ""
             for user in *list
-              output ..= "[[;white;]#{user[1]}] at [[;white;]#{user[2]}],[[;white;]#{user[3]}]\n"
+              output ..= "[[;white;]#{user[1]}] in [[;white;]#{user[4]}] at ([[;white;]#{user[2]}],[[;white;]#{user[3]}])\n"
 
             output ..= "[[;lime;]#{#list}] users online"
 
