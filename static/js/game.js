@@ -79,7 +79,7 @@ function update(first) {
               Terminal.echo("[[;red;]You are dead.]", {keepWords: true});
             }
           } else if (event.type == "report") {
-            Terminal.echo("[[;white;]" + event.id + "]: " + event.msg, {keepWords: true});
+            Terminal.echo("[[;pink;]" + event.id + "]: " + event.msg, {keepWords: true});
           } else {
             Terminal.echo(event.msg, {keepWords: true});
           }
