@@ -277,7 +277,7 @@ $(function() {
     }
   }, {
     prompt: "> ",
-    greetings: "[[;lime;]Welcome. Type 'help basics' and hit enter if you're new.]\n([[;red;]Note]: Sometimes when you [[;white;]login] or [[;white;]logout], you will immediately be logged out or logged back in, just repeat the action, and sorry for the inconvience. Also, [[;white;]create] always spits out a server error, but don't worry about that.)",
+    greetings: "[[;lime;]Welcome. Type 'help basics' and hit enter if you're new.]",
     // onBlur: function() {
     //   return false;
     // },
@@ -286,6 +286,7 @@ $(function() {
     onInit: function(term) {
       Terminal = term;
       History = term.history();
+      Terminal.echo("([[;red;]Note]: Sometimes when you [[;white;]login] or [[;white;]logout], you will immediately be logged out or logged back in, just repeat the action, and sorry for the inconvience. Also, [[;white;]create] always spits out a server error, but don't worry about that.)", {keepWords: true});
     }
   });
 });
