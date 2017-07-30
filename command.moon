@@ -585,28 +585,28 @@ class extends lapis.Application
                     Events\create {
                       source_id: @character.id
                       type: "msg"
-                      data: "[[;white;]#{@user.name}] has powered up [[;lime;]#{realm.name}] by [[;white;]#{count}]!"
+                      data: "[[;white;]#{@user.name}] has charged [[;lightblue;]#{realm.name}] by [[;white;]#{count}]!"
 
                       x: @character.x
                       y: @character.y
                       realm: @character.realm
                       time: now!
                     }
-                    return layout: false, "You have powered up [[;lime;]#{realm.name}] by [[;white;]#{count}]!"
+                    return layout: false, "You have charged [[;lightblue;]#{realm.name}] by [[;white;]#{count}]!"
                   else
-                    return layout: false, "You do not have enough health to power up [[;lime;]#{realm.name}] by [[;white;]#{count}]. Collect more [[;yellow;]souls]."
+                    return layout: false, "You do not have enough health to power up [[;lightblue;]#{realm.name}] by [[;white;]#{count}]. Collect more [[;yellow;]souls]."
                 else
                   return layout: false, "[[;red;]Invalid command syntax.]"
               else
                 count = realm\count_characters!
-                return layout: false, "[[;lime;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
+                return layout: false, "[[;lightblue;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
             else
-              return layout: false, "[[;lime;]#{args[2]}] does not exist."
+              return layout: false, "[[;lightblue;]#{args[2]}] does not exist."
           else
             realm = Realms\find name: @character.realm
             count = @character\count_in_realm!
             -- test = Realms\select "WHERE true"
-            return layout: false, "[[;lime;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
+            return layout: false, "[[;lightblue;]#{realm.name}] has [[;white;]#{realm.power}] power, and is decreasing by [[;red;]#{count}] per minute."
             -- here: (character) =>
             --   @find name: character.realm
             -- find all characters online, and in a specific realm
