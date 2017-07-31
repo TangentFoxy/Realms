@@ -289,7 +289,7 @@ $(function() {
       Terminal = term;
       History = term.history();
       Terminal.echo("(Sometimes when you [[;white;]login] or [[;white;]logout], you will immediately be logged out or logged back in, just repeat the action, and sorry for the inconvience. Also, [[;white;]create] always spits out a server error, but don't worry about that.)", {keepWords: true});
-      Terminal.echo("[[;lime;]Unfortunately, I was not able to complete as much of this concept as I wanted to during the compo time limit. The biggest problem currently is that inventories don't work. I will try to resolve this as soon as possible, but it is likely to not be fixed within voting period.]");
+      Terminal.echo("[[;lime;]Unfortunately, I was not able to complete as much of this concept as I wanted to during the compo time limit. The biggest problem currently is that inventories\ndon't work. I will try to resolve this as soon as possible, but it is likely to not be fixed within voting period.]");
     }
   });
 });
