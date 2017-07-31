@@ -504,7 +504,7 @@ class extends lapis.Application
                   return layout: false, "You can't take the [[;white;]#{ITEM}]."
 
                 elseif item.type == "item"
-                  item\update { character_id: @character.id }
+                  item\update { character_id: @character.id, realm: "inventory" }
                   Events\create {
                     source_id: @character.id
                     type: "msg"
@@ -709,6 +709,8 @@ class extends lapis.Application
               return layout: false, "[[;red;]You must specify a report ID.]"
 
         elseif args[1] == "i" or args[1] == "inv" or args[1] == "inventory"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           output = "You are holding "
           inventory = Items\find character_id: @character.id
           if inventory and #inventory > 0
@@ -718,6 +720,22 @@ class extends lapis.Application
           else
             output ..= "nothing."
           return layout: false, output
+
+        elseif args[1] == "use"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
+          unless args[2]
+            return layout: false, "[[;red;]Invalid command syntax.]"
+          ITEM = table.concat args, " "
+          ITEM = ITEM\sub ITEM\find(" ") + 1
+          items = Items\find character_id: @character.id
+          for item in *items
+            if ITEM == item.name
+              if item.special
+                return layout: false, special\handle command: "use", user: @user, character: @character, item: item
+              else
+                return layout: false, "You can't use your [[;white;]#{ITEM}]."
+          return layout: false, "You don't have a [[;white;]#{ITEM}]."
 
 
         else

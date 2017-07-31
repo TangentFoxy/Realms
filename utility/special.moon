@@ -31,10 +31,31 @@ special = {
         data.character_id = character.id
 
         Items\create data
+        Events\create {
+          source_id: character.id
+          type: "msg"
+          data: "[[;white;]#{user.name}] picked up the [[;yellow;]#{item.name}]..and another one appeared in its place!"
+
+          x: character.x
+          y: character.y
+          realm: character.realm
+          time: now!
+        }
         return "You take the [[;yellow;]#{item.name}], and a few seconds later, another one reappears in its place!"
 
       elseif action.sticky_notes
-        return "OH GOD I HAVE NOT IMPLEMENTED THIS YET"
+        item\update { character_id: character.id, realm: "inventory" }
+        Events\create {
+          source_id: character.id
+          type: "msg"
+          data: "[[;white;]#{user.name}] picked up the [[;yellow;]#{item.name}]."
+
+          x: character.x
+          y: character.y
+          realm: character.realm
+          time: now!
+        }
+      return "You take the [[;yellow;]#{item.name}]."
 
     elseif command == "punch"
       if action.drop_soul
@@ -61,6 +82,10 @@ special = {
         }
         return "You punch the [[;yellow;]#{item.name}], and a [[;yellow;]soul] appears in front of you."
 
+    elseif command == "use"
+      if action.sticky_notes
+        return "not implemented"
+
     return "[[;red;]This is a bug, please use the '][[;white;]report][[;red;]' command (preferrably with a screenshot, or report it on GitHub!) to tell me about this error.]"
 
   faq_book: {
@@ -76,7 +101,7 @@ special = {
   }
   sticky_notes: {
     sticky_notes: true
-    }
+  }
 }
 
 return special
