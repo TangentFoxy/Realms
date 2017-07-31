@@ -352,7 +352,7 @@ class extends lapis.Application
               output ..= "\n\n".."There are several items here: "
             for item in *items
               output ..= "[[;yellow;]#{item.name}], "
-            output = output\sub(1, -2).."."
+            output = output\sub(1, -3).."."
 
           if soulCount > 0
             if soulCount == 1
