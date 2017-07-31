@@ -22,4 +22,4 @@ class Events extends Model
     @select "WHERE target_id = ? AND time >= ?", character, os.date "!%Y-%m-%d %X", os.time! - timeOut
 
   targeted_not_here: (character) =>
-    @select "WHERE NOT x = ? AND NOT y = ? AND target_id = ? AND time >= ?", character.x, character.y, character, recently!
+    @select "WHERE NOT x = ? AND NOT y = ? AND target_id = ? AND time >= ?", character.x, character.y, character.id, recently!
