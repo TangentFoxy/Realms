@@ -6,3 +6,6 @@ Characters = require "models.Characters"
 class Realms extends Model
   count_characters: =>
     Characters\count "realm = ? AND time >= ?", @name, recently!
+
+  get_characters: =>
+    Characters\select "WHERE realm = ?", @name

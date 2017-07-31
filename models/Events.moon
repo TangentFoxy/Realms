@@ -1,5 +1,5 @@
 import Model from require "lapis.db.model"
-import timeOut from require "utility.time"
+import timeOut, recently from require "utility.time"
 
 -- EVENT TYPES:
 -- msg      The result of someone using `say` or `tell`.
@@ -17,3 +17,9 @@ class Events extends Model
 
   now: =>
     @select "WHERE time >= ?", os.date "!%Y-%m-%d %X", os.time! - timeOut
+
+  targeted: (character) =>
+    @select "WHERE target_id = ? AND time >= ?", character, os.date "!%Y-%m-%d %X", os.time! - timeOut
+
+  targeted_not_here: (character) =>
+    @select "WHERE NOT x = ? AND NOT y = ? AND target_id = ? AND time >= ?", character.x, character.y, character, recently!

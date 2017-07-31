@@ -784,6 +784,10 @@ class extends lapis.Application
             elseif not event.target_id
               table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: false, type: event.type, time: db_time_to_unix event.time }
 
+      rawEvents = Events\targeted_not_here @character
+      for event in *rawEvents
+        table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: true, type: event.type, time: db_time_to_unix event.time }
+
       if @user.admin
         rawEvents = Events\now!
         for event in *rawEvents
