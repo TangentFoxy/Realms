@@ -335,7 +335,7 @@ class extends lapis.Application
             else
               table.insert deadCharacters, user.name
           -- print room.description, then all names of items that have them and aren't scenery (and the soul count), then users in the room, finally the exits
-          output = room.description
+          output = "In [[;lime;]#{room.realm}]:\n"..room.description
           soulCount = 0
           for item in *rawItems
             if item.type == "soul"
