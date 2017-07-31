@@ -1,5 +1,5 @@
 var commandUrl = "https://ld39.guard13007.com/command";
-var version = 27; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 28; // internal version number indicating only changes on client-side requiring a user to refresh their page
 var timeOut = 30;
 
 var Terminal;
@@ -288,7 +288,8 @@ $(function() {
     onInit: function(term) {
       Terminal = term;
       History = term.history();
-      Terminal.echo("([[;red;]Note]: Sometimes when you [[;white;]login] or [[;white;]logout], you will immediately be logged out or logged back in, just repeat the action, and sorry for the inconvience. Also, [[;white;]create] always spits out a server error, but don't worry about that.)", {keepWords: true});
+      Terminal.echo("(Sometimes when you [[;white;]login] or [[;white;]logout], you will immediately be logged out or logged back in, just repeat the action, and sorry for the inconvience. Also, [[;white;]create] always spits out a server error, but don't worry about that.)", {keepWords: true});
+      Terminal.echo("[[;lime;]Unfortunately, I was not able to complete as much of this concept as I wanted to during the compo time limit. The biggest problem currently is that inventories don't work. I will try to resolve this as soon as possible, but it is likely to not be fixed within voting period.]");
     }
   });
 });
