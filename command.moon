@@ -733,8 +733,8 @@ class extends lapis.Application
             return layout: false, "[[;red;]Invalid command syntax.]"
           ITEM = table.concat args, " "
           ITEM = ITEM\sub ITEM\find(" ") + 1
-          items = Items\find character_id: @character.id
-          for item in *items
+          inventory = Items\find character_id: @character.id
+          for item in *inventory
             if ITEM == item.name
               if item.special
                 return layout: false, special\handle command: "use", user: @user, character: @character, item: item
@@ -768,7 +768,7 @@ class extends lapis.Application
         elseif args[1] == "suicide" -- TEMPORARY COMMAND
           unless @character.health > 0
             return layout: false, "[[;red;]You are already dead.]"
-          @character.health = 0
+          @character\update { health: 0 }
           Events\create {
             source_id: @character.id
             type: "msg"
