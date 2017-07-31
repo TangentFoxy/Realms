@@ -781,6 +781,9 @@ class extends lapis.Application
           }
           return layout: false, "You smehow kill yourself through sheer willpower."
 
+        elseif args[1] == "test" -- testing nesting colors
+          return layout: false, "[[;white;]This is [[;red;]a test] of [[;lime;]nesting [[;orange;]colors].]]"
+
 
         else
           result = help.skill args
