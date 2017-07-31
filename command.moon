@@ -600,10 +600,15 @@ class extends lapis.Application
           else
             for item in *rawItems
               if ITEM == item.name
-                if item.type == "scenery" -- or item.type == "item" -- ?maybe?
+                if item.type == "scenery" or item.type == "item"
                   return layout: false, item.data
 
-            return layout: false, "There is no [[;white;]#{ITEM}] here."
+          inventory = Items\find character_id: @character.id
+          for item in *inventory
+            if ITEM == item.name
+              return layout: false, item.data
+
+          return layout: false, "There is no [[;white;]#{ITEM}] here."
 
         elseif args[1] == "power"
           unless @character.health > 0
