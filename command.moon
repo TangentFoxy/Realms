@@ -765,6 +765,22 @@ class extends lapis.Application
               }
               return layout: false, "You dropped your [[;yellow;]#{item.name}]."
 
+        elseif args[1] == "suicide" -- TEMPORARY COMMAND
+          unless @character.health > 0
+            return layout: false, "[[;red;]You are already dead.]"
+          @character.health = 0
+          Events\create {
+            source_id: @character.id
+            type: "msg"
+            data: "[[;white;]#{@user.name}] mysteriously falls over dead."
+
+            x: @character.x
+            y: @character.y
+            realm: @character.realm
+            time: now!
+          }
+          return layout: false, "You smehow kill yourself through sheer willpower."
+
 
         else
           result = help.skill args

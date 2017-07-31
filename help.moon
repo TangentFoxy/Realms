@@ -60,6 +60,7 @@ Combat:
 
   [[;white;]health] (OR 'hp') - view your current HP
   [[;white;]punch] [user] - punch nothing, or a user in the same room as you
+  [[;white;]suicide] - if you get stuck, the only way out may be to die
   [[;white;]revive] - after you are dead, you can revive at 0,0 in nullspace with 1 HP
 ]]
 

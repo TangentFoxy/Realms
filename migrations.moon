@@ -210,4 +210,30 @@ Items = require "models.Items"
       if not character\get_user!
         character\delete!
 
+  [16]: =>
+    room = Rooms\find x: 0, y: 0, realm: "nullspace"
+    room\update { exits: "s" }
+    Rooms\create {
+      description: "A rocky room with no visible exits."
+      x: 0
+      y: 1
+      realm: "nullspace"
+    }
+    Items\create {
+      name: "hammer"
+      type: "item"
+      data: "A ballpeen hammer."
+      x: 0
+      y: 1
+      realm: "nullspace"
+    }
+    Items\create {
+      name: "broken pencil"
+      type: "item"
+      data: "A pencil that has been thoroughly chewed and broken partially in the middle. The graphite is missing."
+      x: 0
+      y: 1
+      realm: "nullspace"
+    }
+
 }
