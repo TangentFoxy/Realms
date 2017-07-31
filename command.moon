@@ -742,6 +742,29 @@ class extends lapis.Application
                 return layout: false, "You can't use your [[;white;]#{ITEM}]."
           return layout: false, "You don't have a [[;white;]#{ITEM}]."
 
+        elseif args[1] == "drop" or args[1] == "place"
+          unless @character.health > 0
+            return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
+          unless args[2]
+            return layout: false, "[[;red;]Invalid command syntax.]"
+          ITEM = table.concat args, " "
+          ITEM = ITEM\sub ITEM\find(" ") + 1
+          inventory = Items\find character_id: @character.id
+          for item in *inventory
+            if ITEM == item.name
+              item\update { x: @character.x, y: @character.y, realm: @character.realm }
+              Events\create {
+                source_id: @character.id
+                type: "msg"
+                data: "[[;white;]#{@user.name}] dropped their [[;yellow;]#{item.name}]."
+
+                x: @character.x
+                y: @character.y
+                realm: @character.realm
+                time: now!
+              }
+              return layout: false, "You dropped your [[;yellow;]#{item.name}]."
+
 
         else
           result = help.skill args
