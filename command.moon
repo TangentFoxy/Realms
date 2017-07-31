@@ -394,7 +394,7 @@ class extends lapis.Application
               output ..= "south, "
             if room.exits\find "e"
               output ..= "east, "
-            output = output\sub(1, -2).."."
+            output = output\sub(1, -3).."."
           else
             output ..= "none."
 
@@ -548,7 +548,7 @@ class extends lapis.Application
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "n"
-            @character.update { y: @character.y - 1 }
+            @character\update { y: @character.y - 1 }
             return layout: false, false
           else
             return layout: false, "You can't go [[;white;]north]."
@@ -558,7 +558,7 @@ class extends lapis.Application
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "w"
-            @character.update { x: @character.x - 1 }
+            @character\update { x: @character.x - 1 }
             return layout: false, false
           else
             return layout: false, "You can't go [[;white;]west]."
@@ -568,7 +568,7 @@ class extends lapis.Application
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "s"
-            @character.update { y: @character.y + 1 }
+            @character\update { y: @character.y + 1 }
             return layout: false, false
           else
             return layout: false, "You can't go [[;white;]south]."
@@ -578,7 +578,7 @@ class extends lapis.Application
             return layout: false, "You are dead. Perhaps you should [[;white;]revive] yourself?"
           room = Rooms\here @character
           if room.exits\find "e"
-            @character.update { x: @character.x + 1 }
+            @character\update { x: @character.x + 1 }
             return layout: false, false
           else
             return layout: false, "You can't go [[;white;]east]."
