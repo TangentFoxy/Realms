@@ -16,6 +16,7 @@ function update() {
       console.log(data);
 
       if (typeof(data) == "string") {
+        console.log("ret str");
         Terminal.echo(data + "\n[[b;pink;]You have been disconnected from the update loop to prevent this error message from repeating. Please try reloading the page later.]");
         return false;
       }
