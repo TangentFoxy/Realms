@@ -119,7 +119,7 @@ $(function() {
         data.pop();
         History.set(data);
         Terminal.pause();
-        $.post(commandUrl, {command: "login", name: args[1], password: args[2], version: version}).then(function(response) {
+        $.post(commandUrl, {command: "login " + args[1] + " " + args[2], version: version}).then(function(response) {
           if (response.indexOf("Welcome back, ") == 0) {
             Self = args[1];
           }
@@ -132,7 +132,7 @@ $(function() {
           History.enable();
 
           Terminal.pause();
-          $.post(commandUrl, {command: "login", name: user, password: password, version: version}).then(function(response) {
+          $.post(commandUrl, {command: "login " + user + " " + password, version: version}).then(function(response) {
             if (response.indexOf("Welcome back, ") == 0) {
               Self = user;
             }
@@ -172,7 +172,7 @@ $(function() {
         data.pop();
         History.set(data);
         Terminal.pause();
-        $.post(commandUrl, {command: "create", name: args[1], email: args[2], password: args[3], version: version}).then(function(response) {
+        $.post(commandUrl, {command: "create " + args[1] + " " + args[2] + " " + args[3], version: version}).then(function(response) {
           if (response.indexOf("Welcome, ") == 0) {
             Self = args[1];
           }
@@ -186,7 +186,7 @@ $(function() {
           History.enable();
 
           Terminal.pause();
-          $.post(commandUrl, {command: "create", name: user, email: email, password: password, version: version}).then(function(response) {
+          $.post(commandUrl, {command: "create" + name + " " + email + " " + password, version: version}).then(function(response) {
             if (response.indexOf("Welcome, ") == 0) {
               Self = user;
             }
@@ -244,12 +244,12 @@ $(function() {
         var data = History.data();
         data.pop();
         History.set(data);
-        return $.post(commandUrl, {command: "chpass", password: args[1], version: version});
+        return $.post(commandUrl, {command: "chpass " + args[1], version: version});
       } else {
         Terminal.push(function(c) {
           Terminal.pop();
           History.enable();
-          return $.post(commandUrl, {command: "chpass", password: c, version: version});
+          return $.post(commandUrl, {command: "chpass " + c, version: version});
         }, {
           prompt: "Password: ",
           onStart: function() {
@@ -289,7 +289,7 @@ $(function() {
       Terminal = term;
       History = term.history();
       Terminal.echo("(Sometimes when you [[;white;]login] or [[;white;]logout], you will immediately be logged out or logged back in, just repeat the action, and sorry for the inconvience. Also, [[;white;]create] always spits out a server error, but don't worry about that.)", {keepWords: true});
-      Terminal.echo("[[;lime;]Unfortunately, I was not able to complete as much of this concept as I wanted to during the compo time limit. The biggest problem currently is that inventories\ndon't work. I will try to resolve this as soon as possible, but it is likely to not be fixed within voting period.]");
+      Terminal.echo("[[;lime;]This is non-Ludum Dare version. DO NOT BASE YOUR RATING ON THIS VERSION.]");
     }
   });
 });
