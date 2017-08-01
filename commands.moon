@@ -824,7 +824,7 @@ parseCommand = (input) =>
         return report_error(@, "invalid command in parseTable", commandName)
 
   else
-    return format_error "Invalid command. #{input}, #{input[1]}"
+    return format_error "Invalid command."
 
 {
   :parseCommand
