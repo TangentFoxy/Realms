@@ -23,7 +23,7 @@ class extends lapis.Application
   [execute_commands: "/command"]: respond_to {
     POST: json_params =>
       if not @params.version or tonumber(@params.version) < version
-        return layout: false, version
+        return json: version
 
       if @session.id
         @user = Users\find id: @session.id
