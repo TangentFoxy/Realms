@@ -20,7 +20,7 @@ function update() {
         return false; // NOTE may not actually disconnect you
       }
 
-      if ($.isEmptyObject(data)) { return false; } // should stop (which we don't want)
+      if ($.isEmptyObject(data)) { return false; } // should stop (which we don't want)... yet it doesn't, again, wtf JS
 
       if (version == 0) {
         version = data.version;
