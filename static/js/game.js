@@ -80,20 +80,20 @@ function update() {
       for (var ev in Events) {
         var e = Events[ev];
         if (!e.done) {
-          if (event.targeted && event.type == "punch") {
-            Terminal.echo("[[;white;]" + event.source + "] punched you!", {keepWords: true});
+          if (e.targeted && e.type == "punch") {
+            Terminal.echo("[[;white;]" + e.source + "] punched you!", {keepWords: true});
             if (Self.health <= 0) {
               Terminal.echo("[[;red;]You are dead.]", {keepWords: true});
             }
-          } else if (event.type == "report") {
-            Terminal.echo("[[;orange;]" + event.id + "]: " + event.msg, {keepWords: true}); // NOTE might not be needed? (as in, the adding of the ID)
+          } else if (e.type == "report") {
+            Terminal.echo("[[;orange;]" + e.id + "]: " + e.msg, {keepWords: true}); // NOTE might not be needed? (as in, the adding of the ID)
           } else {
-            Terminal.echo(event.msg, {keepWords: true});
+            Terminal.echo(e.msg, {keepWords: true});
           }
           e.done = true;
         }
 
-        if (event.time < (now - timeOut * 2)) {
+        if (e.time < (now - timeOut * 2)) {
           delete Events[ev];
         }
       }
