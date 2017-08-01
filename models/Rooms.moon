@@ -23,13 +23,14 @@ class Rooms extends Model
   get_characters: =>
     unless Characters
       Characters = require "models.Characters"
-    Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time = ?" @x, @y, @realm, recently!
+    Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time = ?", @x, @y, @realm, recently!
 
   -- instance method
   get_character_count: =>
     unless Characters
       Characters = require "models.Characters"
     Characters\count "x = ? AND y = ? AND realm = ? AND time = ?", @x, @y, @realm, recently!
+
 
 
   --NOTE OLD
