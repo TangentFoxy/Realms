@@ -9,9 +9,9 @@ class Rooms extends Model
     unless Items
       Items = require "models.Items"
     if opts.type
-      return Items\select "WHERE x = ? AND y = ? AND realm = ? AND type = ?" @x, @y, @realm, opts.type
+      return Items\select "WHERE x = ? AND y = ? AND realm = ? AND type = ?", @x, @y, @realm, opts.type
     else
-      return Items\select "WHERE x = ? AND y = ? AND realm = ? AND NOT type = ?" @x, @y, @realm, "soul"
+      return Items\select "WHERE x = ? AND y = ? AND realm = ? AND NOT type = ?", @x, @y, @realm, "soul"
 
   -- instance method
   get_soul_count: =>
