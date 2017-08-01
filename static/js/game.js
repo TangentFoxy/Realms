@@ -21,6 +21,7 @@ function update() {
       }
 
       if (version == 0) {
+        console.log("double update");
         version = data.version;
         return update();
       }
