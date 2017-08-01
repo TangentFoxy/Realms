@@ -16,7 +16,6 @@ function update() {
       console.log(data);
 
       if (typeof(data) == "string") {
-        console.log("ret str");
         Terminal.echo(data + "\n[[b;pink;]You have been disconnected from the update loop to prevent this error message from repeating. Please try reloading the page later.]");
         return false;
       }
@@ -38,44 +37,39 @@ function update() {
         }
       }
 
-      if (data.characters) {
-        console.log("data.characters exists"); // temp debug to see if an empty table is passed or not
-        for (var character in data.characters) {
-          if (!Characters[character]) {
-            if (character != Self.name) {
-              Characters[character] = character;
+      for (var character in data.characters) {
+        if (!Characters[character]) {
+          if (character != Self.name) {
+            Characters[character] = character;
 
-              if (justEntered) {
-                if (data.characters[character].alive) {
-                  Terminal.echo("[[;white;]" + character + "] is here.", {keepWords: true});
-                } else {
-                  Terminal.echo("[[;white;]" + character + "]'s corpse is here.", {keepWords: true});
-                }
+            if (justEntered) {
+              if (data.characters[character].alive) {
+                Terminal.echo("[[;white;]" + character + "] is here.", {keepWords: true});
               } else {
-                Terminal.echo("[[;white;]" + character + "] enters.", {keepWords: true});
+                Terminal.echo("[[;white;]" + character + "]'s corpse is here.", {keepWords: true});
               }
-            }
-          }
-        }
-
-        for (var character in Characters) {
-          if (!data.characters[character]) {
-            if (character == Self.name) {
-              Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]", {keepWords: true});
             } else {
-              delete Characters[character];
-              Terminal.echo("[[;white;]" + character + "] has left.", {keepWords: true});
+              Terminal.echo("[[;white;]" + character + "] enters.", {keepWords: true});
             }
           }
         }
       }
 
-      if (data.events) {
-        for (var i = 0; i < data.events.length; i++) {
-          var e = data.events[i];
-          if (!Events[e.id]) {
-            Events[e.id] = e;
+      for (var character in Characters) {
+        if (!data.characters[character]) {
+          if (character == Self.name) {
+            Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]", {keepWords: true});
+          } else {
+            delete Characters[character];
+            Terminal.echo("[[;white;]" + character + "] has left.", {keepWords: true});
           }
+        }
+      }
+
+      for (var i = 0; i < data.events.length; i++) {
+        var e = data.events[i];
+        if (!Events[e.id]) {
+          Events[e.id] = e;
         }
       }
 
