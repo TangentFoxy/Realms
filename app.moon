@@ -9,6 +9,7 @@ Users = require "models.Users"
 import respond_to, json_params from require "lapis.application"
 import report_error from require "utility.string"
 import now from require "utility.time"
+import parseCommand from require "commands"
 
 class extends lapis.Application
   layout: "layout"
