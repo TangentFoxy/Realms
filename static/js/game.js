@@ -113,7 +113,7 @@ $(function() {
       window.close(); // may or may not be permitted by the browser
 
     } else if (args[0] == "login") {
-      var user, password;
+      var name, password;
 
       if (args[2]) {
         var data = History.data();
@@ -133,9 +133,9 @@ $(function() {
           History.enable();
 
           Terminal.pause();
-          $.post(commandUrl, {command: {1:"login", 2:user, 3:password}, version: version}).then(function(response) {
+          $.post(commandUrl, {command: {1:"login", 2:name, 3:password}, version: version}).then(function(response) {
             if (response.indexOf("Welcome back, ") == 0) {
-              Self = user;
+              Self = name;
             }
             Terminal.echo(response, {keepWords: true}).resume();
           });
@@ -163,7 +163,7 @@ $(function() {
       }
 
     } else if (args[0] == "create") {
-      var user, email, password;
+      var name, email, password;
 
       var calls = 0;    // stupid hack because onStart triggers twice for some reason
       var calls2 = 0;   // same thing...
@@ -189,7 +189,7 @@ $(function() {
           Terminal.pause();
           $.post(commandUrl, {command: {1:"create", 2:name, 3:email, 4:password}, version: version}).then(function(response) {
             if (response.indexOf("Welcome, ") == 0) {
-              Self = user;
+              Self = name;
             }
             Terminal.echo(response, {keepWords: true}).resume();
           });
