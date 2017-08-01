@@ -1,102 +1,107 @@
 var commandUrl = "https://realms.guard13007.com/command";
-var version = 29; // internal version number indicating only changes on client-side requiring a user to refresh their page
-// TODO replace it with the first update call getting the correct version
-var timeOut = 30;
+var version = 0;    // the first update() call gets the current version
+var timeOut = 30;   // the first update() call overwrites this value from the server
+var updateTimer;    // used by/for setTimeout on update loop
 
 var Terminal;
 var History;
-var Self = {}; // defined by first update() call
+
+var Self;         // defined by update() when logged in
 var Characters = {};
 var Events = {};
 
-function update(first) {
-  $.post(commandUrl + "/update", {version: version}, function(data, status) {
+function update() {
+  $.post(commandUrl, {command: "update", version: version}, function(data, status) {
     if (status == "success") {
       console.log(data);
 
       if (typeof(data) == "string") {
-        Terminal.echo("[[b;pink;]SERVER ERROR]: [[;red;]" + data.slice(1, data.indexOf("\n") - 1) + "]", {keepWords: true});
-      } else if (data.echo) {
-        Terminal.echo(data.echo, {keepWords: true});
+        Terminal.echo(data + "\n[[b;pink;]You have been disconnected from the update loop to prevent this error message from repeating. Please try reloading the page later.]");
+        return false;
+      }
+
+      if (data.echo) {
+        Terminal.echo(data.echo {keepWords: true}); // TODO document the echo feature for personal use in like a server-wide announcement or whatever. Or don't. I want a global event to be possible anyhow.
       }
 
       var justEntered = false;
-
       if (data.you) {
-        if (!Self.name) {
-          if (first) {
-            Terminal.echo("Welcome back, " + data.you.name + "!", {keepWords: true});
-          }
+        Self = data.you;
+        if (!Self) {
           justEntered = true;
         }
-        Self = data.you;
       }
 
       if (data.characters) {
+        console.log("data.characters exists"); // temp debug to see if an empty table is passed or not
         for (var character in data.characters) {
           if (!Characters[character]) {
             if (character != Self.name) {
+              Characters[character] = character;
+
               if (justEntered) {
-                if (data.characters[character].health == 0) {
-                  Terminal.echo("[[;white;]" + character + "]'s corpse is here.", {keepWords: true});
-                } else {
+                if (data.characters[character].alive) {
                   Terminal.echo("[[;white;]" + character + "] is here.", {keepWords: true});
+                } else {
+                  Terminal.echo("[[;white;]" + character + "]'s corpse is here.", {keepWords: true});
                 }
               } else {
                 Terminal.echo("[[;white;]" + character + "] enters.", {keepWords: true});
               }
             }
-            Characters[character] = character;
           }
         }
+
         for (var character in Characters) {
           if (!data.characters[character]) {
             if (character == Self.name) {
               Terminal.echo("[[;red;]Somehow, you have left. Please refresh the page.]", {keepWords: true});
             } else {
+              delete Characters[character];
               Terminal.echo("[[;white;]" + character + "] has left.", {keepWords: true});
             }
-            delete Characters[character];
           }
         }
       }
 
       if (data.events) {
         for (var i = 0; i < data.events.length; i++) {
-          var event = data.events[i];
-          if (!Events[event.id]) {
-            Events[event.id] = event;
+          var e = data.events[i];
+          if (!Events[e.id]) {
+            Events[e.id] = e;
           }
         }
       }
 
       var now = Math.floor(Date.now() / 1000);
-      for (var e in Events) {
-        var event = Events[e];
-        if (!event.done) {
+      for (var ev in Events) {
+        var e = Events[ev];
+        if (!e.done) {
           if (event.targeted && event.type == "punch") {
             Terminal.echo("[[;white;]" + event.source + "] punched you!", {keepWords: true});
             if (Self.health <= 0) {
               Terminal.echo("[[;red;]You are dead.]", {keepWords: true});
             }
           } else if (event.type == "report") {
-            Terminal.echo("[[;orange;]" + event.id + "]: " + event.msg, {keepWords: true});
+            Terminal.echo("[[;orange;]" + event.id + "]: " + event.msg, {keepWords: true}); // NOTE might not be needed? (as in, the adding of the ID)
           } else {
             Terminal.echo(event.msg, {keepWords: true});
           }
-          event.done = true;
+          e.done = true;
         }
+
         if (event.time < (now - timeOut * 2)) {
-          delete Events[e];
+          delete Events[ev];
         }
       }
-
     } else {
-      Terminal.echo("[[b;pink;]Connection/Server error]: " + status, {keepWords: true});
+      Terminal.echo("[[;red;]Connection/Server error]: " + status + "\n[[b;pink;]You have been disconnected from the update loop to prevent this error message from repeating. Please try reloading the page later.]", {keepWords: true});
     }
-  })
+  });
 
-  setTimeout(update, 1000);
+  if (Self) { // currently doesn't handle logouts does it?
+    updateTimer = setTimeout(update, 1000);
+  }
 }
 
 $(function() {
@@ -119,25 +124,17 @@ $(function() {
         var data = History.data();
         data.pop();
         History.set(data);
-        Terminal.pause();
+        Terminal.clear();
         $.post(commandUrl, {command: "login " + args[1] + " " + args[2], version: version}).then(function(response) {
-          if (response.indexOf("Welcome back, ") == 0) {
-            Self = args[1];
-          }
-          Terminal.echo(response, {keepWords: true}).resume();
+          Terminal.echo(response, {keepWords: true});
         });
       } else {
         Terminal.push(function(c) {
           password = c;
           Terminal.pop();
           History.enable();
-
-          Terminal.pause();
           $.post(commandUrl, {command: "login " + name + " " + password, version: version}).then(function(response) {
-            if (response.indexOf("Welcome back, ") == 0) {
-              Self = name;
-            }
-            Terminal.echo(response, {keepWords: true}).resume();
+            Terminal.echo(response, {keepWords: true});
           });
         }, {
           prompt: "Password: ",
@@ -162,22 +159,19 @@ $(function() {
         });
       }
 
-    } else if (args[0] == "create") {
+    } else if (args[0] == "create") { // TODO document to use 'none' for no email address
       var name, email, password;
 
-      var calls = 0;    // stupid hack because onStart triggers twice for some reason
-      var calls2 = 0;   // same thing...
+      var passwordAlert = false;    // stupid hack because onStart triggers twice for some reason
+      var emailAlert = false;   // same thing...
 
       if (args[3]) {
         var data = History.data();
         data.pop();
         History.set(data);
-        Terminal.pause();
+        Terminal.clear();
         $.post(commandUrl, {command: "create " + args[1] + " " + args[2] + " " + args[3], version: version}).then(function(response) {
-          if (response.indexOf("Welcome, ") == 0) {
-            Self = args[1];
-          }
-          Terminal.echo(response, {keepWords: true}).resume();
+          Terminal.echo(response, {keepWords: true});
         });
 
       } else {
@@ -185,20 +179,15 @@ $(function() {
           password = c;
           Terminal.pop();
           History.enable();
-
-          Terminal.pause();
           $.post(commandUrl, {command: "create " + name + " " + email + " " + password, version: version}).then(function(response) {
-            if (response.indexOf("Welcome, ") == 0) {
-              Self = name;
-            }
-            Terminal.echo(response, {keepWords: true}).resume();
+            Terminal.echo(response, {keepWords: true});
           });
         }, {
           prompt: "Password: ",
           onStart: function() {
             Terminal.set_mask(true);
-            if (calls == 0) {
-              calls += 1;
+            if (passwordAlert == false) {
+              passwordAlert = true;
             } else {
               Terminal.echo("[[;lime;]Passwords are not required, but you will not be able to log back in.]", {keepWords: true});
             }
@@ -214,15 +203,15 @@ $(function() {
           if (c.length > 0) {
             email = c;
           } else {
-            email = "none";
+            email = "none"; // dirty hack because of issues with json_params
           }
           Terminal.pop();
         }, {
           prompt: "Email: ",
           onStart: function() {
             Terminal.set_mask(false);
-            if (calls2 == 0) {
-              calls2 += 1;
+            if (emailAlert == false) {
+              emailAlert = true;
             } else {
               Terminal.echo("[[;lime;]Email addresses are not required, but you will not be able to reset your password.]\n[[;red;](Note: Password resets don't exist yet. Remind me to do that.)]", {keepWords: true});
             }
@@ -249,12 +238,17 @@ $(function() {
         var data = History.data();
         data.pop();
         History.set(data);
-        return $.post(commandUrl, {command: "chpass " + args[1], version: version});
+        Terminal.clear();
+        $.post(commandUrl, {command: "chpass " + args[1], version: version}).then(function(response) {
+          Terminal.echo(response, {keepWords: true});
+        });
       } else {
         Terminal.push(function(c) {
           Terminal.pop();
           History.enable();
-          return $.post(commandUrl, {command: "chpass " + c, version: version});
+          $.post(commandUrl, {command: "chpass " + c, version: version}).then(function(response) {
+            Terminal.echo(response, {keepWords: true});
+          });
         }, {
           prompt: "Password: ",
           onStart: function() {
@@ -277,28 +271,23 @@ $(function() {
       return false;
 
     } else {
-      Terminal.pause();
       $.post(commandUrl, {command: command, version: version}).then(function(response) {
-        Terminal.echo(response, {keepWords: true}).resume();
+        Terminal.echo(response, {keepWords: true});
       });
     }
   }, {
     prompt: "> ",
     greetings: "[[;lime;]Welcome. Type 'help basics' and hit enter if you're new.]",
-    // onBlur: function() {
-    //   return false;
-    // },
     exit: false,
     historySize: false,
     onInit: function(term) {
       Terminal = term;
       History = term.history();
-      Terminal.echo("(Sometimes when you [[;white;]login] or [[;white;]logout], you will immediately be logged out or logged back in, just repeat the action, and sorry for the inconvience. Also, [[;white;]create] always spits out a server error, but don't worry about that.)", {keepWords: true});
-      Terminal.echo("[[;lime;]This is non-Ludum Dare version. DO NOT BASE YOUR RATING ON THIS VERSION.]");
+      Terminal.echo("[[;lime;]This is a post-Ludum Dare version. DO NOT BASE YOUR RATING ON THIS VERSION!!]");
     }
   });
 });
 
 $(document).ready(function() {
-  update(true); // first call gets 'true'
+  update();
 });

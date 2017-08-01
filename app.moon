@@ -31,8 +31,6 @@ class extends lapis.Application
         unless @user
           @session.id = nil -- invalid session (may be a user that was deleted)
         @character = Characters\find user_id: @user.id
-        unless @character
-          @character = Characters\create { user_id: @user.id }
 
       result = parseCommand(@, @params.command)
       if result == nil
@@ -43,22 +41,6 @@ class extends lapis.Application
     GET: =>
       return layout: false, status: 405, "Method not allowed."
   }
-
-  -- "/test": json_params =>
-  --
-  --   local recursive_print
-  --   recursive_print = (tab, depth=0) ->
-  --     output = ""
-  --     for key, value in pairs tab
-  --       output ..= "#{string.rep " ", depth}#{key}=#{value}\n"
-  --       if "table" == type value
-  --         output ..= recursive_print value, depth+1
-  --     return output
-  --   output = recursive_print @params
-  --   return layout: false, output
-
-  "/command/update": =>
-    return json: { nope: "nothing" } -- squelch errors client-side as well as server-side for now
 
   [update_realms: "/update_realms"]: =>
     if @req.parsed_url.host == "127.0.0.1"

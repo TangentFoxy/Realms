@@ -1,7 +1,7 @@
 import Model from require "lapis.db.model"
 import timeOut, recently from require "utility.time"
 
-local Characters, Items, Rooms
+local Characters, Events, Items, Rooms
 
 class Characters extends Model
   @relations: {
@@ -20,6 +20,18 @@ class Characters extends Model
     unless Items
       Items = require "models.Items"
     Items\select "WHERE character_id = ?", @id
+
+  -- instance method
+  get_events: =>
+    unless Events
+      Events = require "models.Events"
+    Events\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ? AND NOT type = ? AND NOT type = ? AND NOT source_id = ?", @x, @y, @realm, recently!, "report", "report-done", @id
+
+  -- instance method
+  get_targeted_events: =>
+    unless Events
+      Events = require "models.Events"
+    Events\select "WHERE NOT x = ? AND NOT y = ? AND target_id = ? AND time >= ?", @x, @y, @id, recently!
 
 
 

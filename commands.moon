@@ -11,7 +11,7 @@ Realms = require "models.Realms"
 Users = require "models.Users"
 
 import split, alphabetical, remove_duplicates, format_error, report_error from require "utility.string"
-import now, recently, timeOut from require "utility.time"
+import now, recently, timeOut, db_time_to_unix from require "utility.time"
 
 local commands, adminCommands
 
@@ -140,6 +140,9 @@ commands = {
         digest: digest
       }
       if user
+        character, err2 = Characters\create { user_id: user.id }
+        unless character
+          return report_error(@, "error creating a character", err2)
         @session.id = user.id
         unless Users\find admin: true
           user\update { admin: true }
@@ -511,6 +514,43 @@ commands = {
     else
       return "There is no [[;yellow;]#{targetName}] here."
 
+  update: =>
+    unless @user and @character
+      return json: { } -- return nothing while not logged in (note: this is after the very first call which just returns the version number)
+
+    you = { name: @user.name, health: @character.health } -- TODO make health a local command since you should have it from the server
+
+    room = @character\get_room!
+    rawCharacters = room\get_characters!
+    characters = {}
+    for character in *rawCharacters
+      user = character\get_user!
+      if character.health > 0
+        characters[user.name] = { name: user.name, alive: true }
+      else
+        characters[user.name] = { name: user.name, alive: false }
+
+    @character\update { time: now! }
+    rawEvents = @character\get_events!
+    events = {}
+    for event in *rawEvents
+      if event.target_id and event.target_id == @character.id
+        table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: true, type: event.type, time: db_time_to_unix event.time }
+      elseif event.type == "punch"
+        table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: false, type: event.type, time: db_time_to_unix event.time }
+      elseif not event.target_id
+        table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: false, type: event.type, time: db_time_to_unix event.time }
+
+    rawEvents = @character\get_targeted_events!
+    for event in *rawEvents
+      table.insert events, { id: event.id, msg: event.data, source: event\get_source!\get_user!.name, targeted: true, type: event.type, time: db_time_to_unix event.time }
+
+    if @user.admin
+      for event in *Events\get_reports!
+        table.insert events, { id: event.id, msg: event.data, type: event.type, time: db_time_to_unix event.time }
+
+    return { :you, :characters, :events }
+
   use: (itemName) =>
     inventory = @character\get_inventory!
     for item in *inventory
@@ -585,9 +625,7 @@ parseTable = {
     }
   }
 
-  east: {
-    args: {}
-  }
+  east: {}
 
   enter: {
     args: { name: "realm", type: "string" }
@@ -599,13 +637,9 @@ parseTable = {
 
   -- exit: {}
 
-  exits: {
-    args: {}
-  }
+  exits: {}
 
-  health: {
-    args: {}
-  }
+  health: {}
 
   help: {
     args: {
@@ -617,12 +651,9 @@ parseTable = {
 
   -- history: {}
 
-  inventory: {
-    args: {}
-  }
+  inventory: {}
 
   list: {
-    args: {}
     admin: true
   }
 
@@ -635,13 +666,10 @@ parseTable = {
   }
 
   logout: {
-    args: {}
     alive: false
   }
 
-  look: {
-    args: {}
-  }
+  look: {}
 
   mkadmin: {
     args: {
@@ -650,12 +678,9 @@ parseTable = {
     admin: true
   }
 
-  north: {
-    args: {}
-  }
+  north: {}
 
   online: {
-    args: {}
     alive: false
   }
 
@@ -665,13 +690,9 @@ parseTable = {
     }
   }
 
-  south: {
-    args: {}
-  }
+  south: {}
 
-  suicide: {
-    args: {}
-  }
+  suicide: {}
 
   power: {
     args: {
@@ -686,9 +707,7 @@ parseTable = {
     }
   }
 
-  realms: {
-    args: {}
-  }
+  realms: {}
 
   rename: {
     args: {
@@ -706,7 +725,6 @@ parseTable = {
   }
 
   revive: {
-    args: {}
     alive: false
   }
 
@@ -723,24 +741,28 @@ parseTable = {
     admin: true
   }
 
+  update: {
+    user: false
+    alive: false
+  }
+
   use: {
     args: {
       { name: "item", type: "long string" }
     }
   }
 
-  west: {
-    args: {}
-  }
+  west: {}
 
   whoami: {
-    args: {}
     alive: false
   }
 }
 
 -- setting defaults
 for _, command in pairs parseTable
+  unless command.args
+    command.args = {}
   for arg in *command.args
     if arg.required == nil
       arg.required = true
@@ -788,7 +810,7 @@ parseCommand = (input) =>
           table.insert arguments, str
           break -- we are done parsing arguments at the first long string
         elseif arg.required
-          return "[[;white;]#{commandName}][[;red;] requires ][[;white;]#{arg.name}][[;red;].]"
+          return "[[;white;]#{commandName}][[;red;] requires a ][[;white;]#{arg.name}][[;red;].]"
         else
           table.insert arguments, false
 
@@ -797,7 +819,7 @@ parseCommand = (input) =>
           table.insert arguments, input[1]
           table.remove input, 1
         elseif arg.required
-          return "[[;white;]#{commandName}][[;red;] requires ][[;white;]#{arg.name}][[;red;].]"
+          return "[[;white;]#{commandName}][[;red;] requires a ][[;white;]#{arg.name}][[;red;].]"
         else
           table.insert arguments, false
 
@@ -807,7 +829,7 @@ parseCommand = (input) =>
           table.insert arguments, value
           table.remove input, 1
         elseif arg.required
-          return "[[;white;]#{commandName}][[;red;] requires ][[;white;]#{arg.name}][[;red;].]"
+          return "[[;white;]#{commandName}][[;red;] requires a ][[;white;]#{arg.name}][[;red;] (a number).]"
         else
           table.insert arguments, false
 

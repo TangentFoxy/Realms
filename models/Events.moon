@@ -14,6 +14,11 @@ class Events extends Model
     {"target", belongs_to: "Characters", key: "target_id"}
   }
 
+  -- class method
+  get_reports: =>
+    @select "WHERE type = ? AND time >= ?", "report", recently!
+
+
 
 
   -- NOTE BELOW HERE ARE OLD DEFINITIONS --
