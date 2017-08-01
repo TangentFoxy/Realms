@@ -41,6 +41,9 @@ class extends lapis.Application
       return layout: false, status: 405, "Method not allowed."
   }
 
+  "/command/update": =>
+    return layout: false, "" -- temporary squelching errors
+
 
 
   -- TODO rewrite this shit
