@@ -1,5 +1,6 @@
 var commandUrl = "https://realms.guard13007.com/command";
-var version = 28; // internal version number indicating only changes on client-side requiring a user to refresh their page
+var version = 29; // internal version number indicating only changes on client-side requiring a user to refresh their page
+// TODO replace it with the first update call getting the correct version
 var timeOut = 30;
 
 var Terminal;
@@ -119,7 +120,7 @@ $(function() {
         data.pop();
         History.set(data);
         Terminal.pause();
-        $.post(commandUrl, {command: "login " + args[1] + " " + args[2], version: version}).then(function(response) {
+        $.post(commandUrl, {command: ["login", args[1], args[2]], version: version}).then(function(response) {
           if (response.indexOf("Welcome back, ") == 0) {
             Self = args[1];
           }
@@ -132,7 +133,7 @@ $(function() {
           History.enable();
 
           Terminal.pause();
-          $.post(commandUrl, {command: "login " + user + " " + password, version: version}).then(function(response) {
+          $.post(commandUrl, {command: ["login", user, password], version: version}).then(function(response) {
             if (response.indexOf("Welcome back, ") == 0) {
               Self = user;
             }
@@ -172,7 +173,7 @@ $(function() {
         data.pop();
         History.set(data);
         Terminal.pause();
-        $.post(commandUrl, {command: "create " + args[1] + " " + args[2] + " " + args[3], version: version}).then(function(response) {
+        $.post(commandUrl, {command: ["create", args[1], args[2], args[3]], version: version}).then(function(response) {
           if (response.indexOf("Welcome, ") == 0) {
             Self = args[1];
           }
@@ -186,7 +187,7 @@ $(function() {
           History.enable();
 
           Terminal.pause();
-          $.post(commandUrl, {command: "create" + name + " " + email + " " + password, version: version}).then(function(response) {
+          $.post(commandUrl, {command: ["create", name, email, password], version: version}).then(function(response) {
             if (response.indexOf("Welcome, ") == 0) {
               Self = user;
             }
@@ -244,12 +245,12 @@ $(function() {
         var data = History.data();
         data.pop();
         History.set(data);
-        return $.post(commandUrl, {command: "chpass " + args[1], version: version});
+        return $.post(commandUrl, {command: ["chpass", args[1]], version: version});
       } else {
         Terminal.push(function(c) {
           Terminal.pop();
           History.enable();
-          return $.post(commandUrl, {command: "chpass " + c, version: version});
+          return $.post(commandUrl, {command: ["chpass", c], version: version});
         }, {
           prompt: "Password: ",
           onStart: function() {

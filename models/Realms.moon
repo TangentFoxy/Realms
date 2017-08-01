@@ -5,15 +5,13 @@ local Characters
 
 class Realms extends Model
   -- instance method
+  get_characters: =>
+    unless Characters
+      Characters = require "models.Characters"
+    Characters\select "WHERE realm = ? AND time >= ?", @name, recently!
+
+  -- instance method
   get_character_count: =>
     unless Characters
       Characters = require "models.Characters"
-    Characters\count "realm = ? AND time = ?", @name, recently!
-
-
-  -- NOTE old
-  count_characters: =>
     Characters\count "realm = ? AND time >= ?", @name, recently!
-
-  get_characters: =>
-    Characters\select "WHERE realm = ?", @name

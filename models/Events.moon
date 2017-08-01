@@ -14,10 +14,9 @@ class Events extends Model
     {"target", belongs_to: "Characters", key: "target_id"}
   }
 
-  -- NOTE BELOW HERE ARE OLD DEFINITIONS --
-  here: (character) =>
-    @select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", character.x, character.y, character.realm, recently!
 
+
+  -- NOTE BELOW HERE ARE OLD DEFINITIONS --
   now: =>
     @select "WHERE time >= ?", recently!
 

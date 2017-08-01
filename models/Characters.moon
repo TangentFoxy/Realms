@@ -22,10 +22,9 @@ class Characters extends Model
     Items\select "WHERE character_id = ?", @character.id
 
 
-  -- NOTE these are old
-  here: =>
-    Characters\select "WHERE x = ? AND y = ? AND realm = ? AND time >= ?", @x, @y, @realm, os.date "!%Y-%m-%d %X", os.time! - timeOut
 
+
+  -- NOTE these are old
   count_in_realm: =>
     Characters\count "realm = ? AND time >= ?", @realm, recently!
 

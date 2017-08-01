@@ -1,15 +1,15 @@
 timeOut = 30   -- how many seconds before a user is considered offline
 
 -- this instant, formatted for DB insertion
--- yes, this is duplicating a Lapis feature, can't be bothered to figure out what it was called
 now = ->
   os.date "!%Y-%m-%d %X"
+  -- db.format_date! -- the same feature is part of Lapis you dumbass
 
--- recent enough to be considered "happening now" BUT NOT THIS INSTANT
+-- within the timeOut period, formatted for DB queries
 recently = ->
   os.date "!%Y-%m-%d %X", os.time! - timeOut
 
--- converts from something like "2017-07-29 12:38:18" to Unix time
+-- converts from DB format (ex: "2017-07-29 12:38:18") to Unix time
 db_time_to_unix = (time) ->
   tab = {
     year: tonumber time\sub 1, 4

@@ -12,8 +12,3 @@ class Items extends Model
     for key, value in pairs @
       str ..= "#{key} = #{value}\n"
     return str\sub 1, -2
-
-
-  -- NOTE OLD
-  here: (character) =>
-    @select "WHERE x = ? AND y = ? AND realm = ?", character.x, character.y, character.realm,

@@ -1,3 +1,5 @@
+-- NOTE old and to be replaced
+
 db = require "lapis.db"
 -- random = require "resty.random"
 

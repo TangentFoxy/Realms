@@ -26,6 +26,8 @@ adminCommands = {
   deluser: (name) =>
     user = Users\find name: name
     character = user\get_character!
+    if character.id == @character.id
+      return format_error "You cannot delete yourself."
     if character\delete!
       if user\delete!
         return "[[;white;]#{user.name}] deleted."
@@ -54,6 +56,8 @@ adminCommands = {
 
   mkadmin: (name) =>
     if user = Users\find name: name
+      if user.admin
+        return format_error "#{user.name} is already an administrator."
       if user\update { admin: true }
         return "[[;white;]#{user.name}] is now an administrator."
       else
@@ -167,8 +171,8 @@ commands = {
       return "You can't go [[;white;]east]."
 
   enter: (realm) =>
-    if realm == "inventory" and not @user.admin
-      return "You cannot enter [[;lime;]inventory]."
+    if (not @user.admin) and ((realm == "inventory") or (realm == "testworld"))
+      return "You cannot enter [[;lime;]#{realm}]."
     else
       if realm = Realms\find name: realm
         if realm.power > 0 or realm.name == "nullspace"
@@ -179,8 +183,8 @@ commands = {
       else
         return format_error "That realm does not exist."
 
-  examine: (target) =>
-    t = commands.get_target(@, target)
+  examine: (targetName) => -- TODO make characters examineable
+    target = commands.get_target(@, targetName)
     return nil
 
   -- exit: () =>
@@ -257,7 +261,7 @@ commands = {
       return "[[;red;]You are already logged in as ][[;white;]#{@user.name}][[;red;].]"
     else
       if user = Users\find name: name
-        if bcrypt.verify password, user.digest
+        if bcrypt.verify password, user.digest -- might throw error for non-existance passoword
           @session.id = user.id
           return "Welcome back, [[;white;]#{user.name}]!"
       return format_error "Invalid username or password."
@@ -358,10 +362,10 @@ commands = {
     else
       return format_error "That realm does not exist."
 
-  punch: (target) =>
-    if target == "soul" or target == "souls"
+  punch: (targetName) =>
+    if targetName == "soul" or targetName == "souls"
       return format_error "You cannot punch the incorporeal."
-    t = commands.get_target(@, target)
+    target = commands.get_target(@, targetName)
     return nil
 
   realms: =>
@@ -423,17 +427,17 @@ commands = {
     else
       return "You are not dead!"
 
-  take: (target) =>
-    t = commands.get_target(@, target)
+  take: (targetName) =>
+    target = commands.get_target(@, targetName)
 
-    if target == "soul"
-      if t and t[1]
-        name = t[1].name
+    if targetName == "soul"
+      if target and target[1]
+        name = target[1].name
         if @character.souls
           @character\update { health: @character.health + 1, souls: alphabetize remove_duplicates "#{@character.souls} #{name}" }
         else
           @character\update { health: @character.health + 1, souls: name }
-        t[1]\delete!
+        target[1]\delete!
         Events\create {
           source_id: @character.id
           type: "msg"
@@ -447,14 +451,14 @@ commands = {
       else
         return "There are no souls here."
 
-    elseif target == "souls"
-      if t and #t > 1
+    elseif targetName == "souls"
+      if target and #target > 1
         room = @character\get_room!
         characters = room\get_character_count!
-        soulCount = math.max 2, math.floor #t, characters
+        soulCount = math.max 2, math.floor #target, characters
         i = 0
         local names
-        for soul in *t
+        for soul in *target
           if names
             names ..= " #{soul.data}"
           else
@@ -480,29 +484,29 @@ commands = {
       else
         return commands.take(@, "soul")
 
-    elseif t -- item or character
-      if t.health -- is a character
+    elseif target -- item or character
+      if target.health -- is a character
         return "You can't take a person."
-      elseif t.special -- item with special case
-        return special\handle(@, command: "take", item: t) -- TODO
-      elseif t.type == "scenery"
-        return "You can't take the [[;white;]#{t.name}]."
-      elseif t.type == "item"
+      elseif target.special -- item with special case
+        return special\handle(@, command: "take", item: target) -- TODO
+      elseif target.type == "scenery"
+        return "You can't take the [[;white;]#{target.name}]."
+      elseif target.type == "item"
         t\update { character_id: @character.id, realm: "inventory" }
         Events\create {
           source_id: @character.id
           type: "msg"
-          data: "[[;white;]#{@user.name}] picked up a [[;yellow;]#{t.name}]."
+          data: "[[;white;]#{@user.name}] picked up a [[;yellow;]#{target.name}]."
           x: @character.x
           y: @character.y
           realm: @character.realm
           time: now!
         }
-        return "You take the [[;yellow;]#{t.name}]."
+        return "You take the [[;yellow;]#{target.name}]."
       else
-        return report_error(@, "invalid t.type '#{t.type}'", "#{t\tostring!}")
+        return report_error(@, "invalid target.type '#{target.type}'", "#{target\tostring!}")
     else
-      return "There is no [[;yellow;]#{target}] here."
+      return "There is no [[;yellow;]#{targetName}] here."
 
   use: (itemName) =>
     inventory = @character\get_inventory!
@@ -587,7 +591,7 @@ parseTable = {
   }
 
   examine: {
-    args: { name: "target", type: "long string" } -- TODO make user examineable
+    args: { name: "target", type: "long string" }
   }
 
   -- exit: {}
@@ -666,7 +670,7 @@ parseTable = {
     args: {}
   }
 
-  power: { -- TODO charge alias
+  power: {
     args: {
       { name: "realm", type: "string", required: false }
       { name: "power", type: "number", required: false }
@@ -748,7 +752,8 @@ for command in *parseTable
 
 
 parseCommand = (input) =>
-  input = split input
+  unless "table" == type input
+    input = split input
   commandName = input[1]
   arguments = {}
 
