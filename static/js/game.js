@@ -1,4 +1,4 @@
-var commandUrl = "https://ld39.guard13007.com/command";
+var commandUrl = "https://realms.guard13007.com/command";
 var version = 28; // internal version number indicating only changes on client-side requiring a user to refresh their page
 var timeOut = 30;
 
