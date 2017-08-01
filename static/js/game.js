@@ -32,10 +32,10 @@ function update() {
 
       var justEntered = false;
       if (data.you) {
-        Self = data.you;
         if (!Self) {
           justEntered = true;
         }
+        Self = data.you;
       }
 
       for (var character in data.characters) {
