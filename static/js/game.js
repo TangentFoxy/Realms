@@ -1,6 +1,6 @@
 var commandUrl = "https://realms.guard13007.com/command";
 var version = 0;    // the first update() call gets the current version
-var timeOut = 30;   // the first update() call overwrites this value from the server
+var timeOut = 30;   // the first update() call overwrites this value from the server (NOTE NO IT DOESN'T)
 var updateTimer;    // used by/for setTimeout on update loop
 
 var Terminal;
@@ -23,7 +23,7 @@ function update() {
       if (version == 0) {
         version = data.version;
         // updateTimer = setTimeout(update, 1000);
-        return true;
+        return true; // somehow even though we return here, update is called on the correct interval... what the actual fuck
       }
 
       if (data.echo) {
@@ -112,6 +112,7 @@ $(function() {
     if (command == "") { return false; }
 
     var args = command.split(" ");
+    if (args[0] == "logout") { clearTimeout(updateTimer); }
 
     if (args[0] == "exit") {
       Terminal.pause();
