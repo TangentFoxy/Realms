@@ -754,8 +754,16 @@ for _, command in pairs parseTable
 
 
 parseCommand = (input) =>
-  unless "table" == type input
+  if "table" == type input
+    for argument in *input
+      if argument\find " "
+        report_error(@, "attempted to use spaces where they shouldn't be used", "command: #{input[1]}")
+        return format_error "Spaces are not allowed in emails or passwords."
+  elseif "string" == type input
     input = split input
+  else
+    return report_error(@, "an invalid type was passed to parseCommand", tostring(input))
+
   commandName = input[1]
   arguments = {}
 
