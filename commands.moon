@@ -698,6 +698,7 @@ parseTable = {
     args: {
       { name: "message", type: "long string" }
     }
+    user: false
     alive: false
   }
 
