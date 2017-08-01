@@ -45,13 +45,15 @@ class extends lapis.Application
   }
 
   "/test": json_params =>
-    output = ""
+
     local recursive_print
     recursive_print = (tab, depth=0) ->
-      for key, value in pairs @params
-        output..="#{string.rep " ", depth}#{key}=#{value}\n"
+      for key, value in pairs tab
+        output ..= "#{string.rep " ", depth}#{key}=#{value}\n"
         if "table" == type value
-          recursive_print value, depth+1
+          output ..= recursive_print value, depth+1
+      return output
+    output = recursive_print @params
     return layout: false, output
 
   "/command/update": =>
