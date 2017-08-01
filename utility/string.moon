@@ -38,7 +38,7 @@ format_error = (err) ->
 report_error = (Request, err, trace) ->
   message = "[[;red;]SERVER ERROR: #{err}]"
   if trace
-    message ..= "\n\n#{trace}"
+    message ..= "\n#{trace}"
 
   local report
   if Request.user

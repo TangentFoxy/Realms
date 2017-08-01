@@ -772,6 +772,8 @@ parseCommand = (input) =>
           break -- we are done parsing arguments at the first long string
         elseif arg.required
           return "[[;white;]#{commandName}][[;red;] requires ][[;white;]#{arg.name}][[;red;].]"
+        else
+          table.insert arguments, false
 
       elseif arg.type == "string"
         if input[1] and input[1]\len! > 0
@@ -779,6 +781,8 @@ parseCommand = (input) =>
           table.remove input, 1
         elseif arg.required
           return "[[;white;]#{commandName}][[;red;] requires ][[;white;]#{arg.name}][[;red;].]"
+        else
+          table.insert arguments, false
 
       elseif arg.type == "number"
         value = tonumber input[1]
@@ -787,18 +791,20 @@ parseCommand = (input) =>
           table.remove input, 1
         elseif arg.required
           return "[[;white;]#{commandName}][[;red;] requires ][[;white;]#{arg.name}][[;red;].]"
+        else
+          table.insert arguments, false
 
       else
         return report_error(@, "invalid arg.type '#{arg.type}'", commandName)
 
     if command.admin or (@user and @user.admin)
-      if adminCommands[command]
-        return adminCommands[command] @, unpack arguments
-      elseif commands[command]
-        return commands[command] @, unpack arguments
+      if adminCommands[commandName]
+        return adminCommands[commandName](@, unpack arguments)
+      elseif commands[commandName]
+        return commands[commandName](@, unpack arguments)
     else
-      if commands[command]
-        return commands[command] @, unpack arguments
+      if commands[commandName]
+        return commands[commandName](@, unpack arguments)
       else
         return report_error(@, "invalid command in parseTable", commandName)
 
