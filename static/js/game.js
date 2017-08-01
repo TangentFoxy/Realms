@@ -20,6 +20,8 @@ function update() {
         return false; // NOTE may not actually disconnect you
       }
 
+      if ($.isEmptyObject(data)) { return false; } // should stop (which we don't want)
+
       if (version == 0) {
         version = data.version;
         // updateTimer = setTimeout(update, 1000);
