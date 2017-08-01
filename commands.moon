@@ -19,7 +19,7 @@ local commands, adminCommands
 --  but called using . syntax and passed a Request Object from Lapis as self.
 
 -- Responses are either a string that is to be returned with no layout,
---  a table of a format to be defined containing more instructions,       TODO
+--  a table to be returned via json,
 --  or false (which means return no message).
 
 adminCommands = {

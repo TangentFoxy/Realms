@@ -33,10 +33,13 @@ class extends lapis.Application
         @character = Characters\find user_id: @user.id
 
       result = parseCommand(@, @params.command)
-      if result == nil
-        return layout: false, report_error(@, @params.command, result)
 
-      return layout: false, result
+      if "table" == type result
+        return json: result
+      elseif result == nil
+        return layout: false, report_error(@, @params.command, result)
+      else
+        return layout: false, result
 
     GET: =>
       return layout: false, status: 405, "Method not allowed."
