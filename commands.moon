@@ -516,7 +516,7 @@ commands = {
 
   update: =>
     unless @user and @character
-      return json: { } -- return nothing while not logged in (note: this is after the very first call which just returns the version number)
+      return { } -- return nothing while not logged in (note: this is after the very first call which just returns the version number)
 
     you = { name: @user.name, health: @character.health } -- TODO make health a local command since you should have it from the server
 
