@@ -17,7 +17,7 @@ function update() {
 
       if (typeof(data) == "string") {
         Terminal.echo(data + "\n[[b;pink;]You have been disconnected from the update loop to prevent this error message from repeating. Please try reloading the page later.]");
-        return false;
+        return false; // NOTE may not actually disconnect you
       }
 
       if (version == 0) {
@@ -67,10 +67,12 @@ function update() {
         }
       }
 
-      for (var i = 0; i < data.events.length; i++) {
-        var e = data.events[i];
-        if (!Events[e.id]) {
-          Events[e.id] = e;
+      if (data.events) {
+        for (var i = 0; i < data.events.length; i++) {
+          var e = data.events[i];
+          if (!Events[e.id]) {
+            Events[e.id] = e;
+          }
         }
       }
 
@@ -100,10 +102,6 @@ function update() {
     }
   });
 
-  // flat out doesn't work
-  // if (Self) { // currently doesn't handle logouts does it?
-  //   updateTimer = setTimeout(update, 1000);
-  // }
   updateTimer = setTimeout(update, 1000);
 }
 
@@ -112,7 +110,6 @@ $(function() {
     if (command == "") { return false; }
 
     var args = command.split(" ");
-    if (args[0] == "logout") { clearTimeout(updateTimer); }
 
     if (args[0] == "exit") {
       Terminal.pause();
