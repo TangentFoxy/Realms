@@ -623,7 +623,7 @@ class extends lapis.Application
             if realm = Realms\find name: args[2]
               if args[3]
                 if count = tonumber(args[3])
-                  if @character.health - count > 1
+                  if @character.health - count > 0
                     realm\update { power: realm.power + count }
                     @character\update { health: @character.health - count }
                     -- Event msg, source me, no target
