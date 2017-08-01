@@ -48,6 +48,7 @@ class extends lapis.Application
 
     local recursive_print
     recursive_print = (tab, depth=0) ->
+      output = ""
       for key, value in pairs tab
         output ..= "#{string.rep " ", depth}#{key}=#{value}\n"
         if "table" == type value
