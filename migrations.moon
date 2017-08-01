@@ -21,9 +21,13 @@ Items = require "models.Items"
     create_table "characters", {
       {"id", types.serial primary_key: true}
       {"user_id", types.foreign_key unique: true}
+      -- {"health", types.integer default: 1}
+      -- {"souls", types.text null: true}
 
       {"x", types.integer default: 0}
       {"y", types.integer default: 0}
+      -- {"realm", types.varchar default: "nullspace"}
+
       {"time", types.time default: "1970-01-01 00:00:00"} -- assume they've never been on by default
     }
 
@@ -44,13 +48,15 @@ Items = require "models.Items"
   [5]: =>
     create_table "events", {
       {"id", types.serial primary_key: true}
-      {"source_id", types.foreign_key null: true}
-      {"target_id", types.foreign_key null: true}
+      {"source_id", types.foreign_key null: true} -- these are character IDs
+      {"target_id", types.foreign_key null: true} -- these are character IDs
       {"type", types.text}   -- TODO if I refactor / care, convert this to a varchar
       {"data", types.text}
 
       {"x", types.integer default: 0}
       {"y", types.integer default: 0}
+      -- {"realm", types.varchar default: "nullspace"}
+
       {"time", types.time default: "1970-01-01 00:00:00"}
     }
 
@@ -68,8 +74,11 @@ Items = require "models.Items"
     create_table "items", {
       {"id", types.serial primary_key: true}
       {"character_id", types.foreign_key null: true}
+
       {"type", types.varchar}
       {"data", types.text}
+      -- {"name", types.varchar null: true}
+      -- {"special", types.text null: true}
 
       {"x", types.integer default: 0}
       {"y", types.integer default: 0}
@@ -163,7 +172,7 @@ Items = require "models.Items"
     }
     Items\create {
       name: "sticky notes"
-      type: "item" -- do I have a generic item type yet?
+      type: "item"
       data: "A small pad of yellow sticky notes with attached pencil."
       realm: "userland"
       special: "sticky_notes"

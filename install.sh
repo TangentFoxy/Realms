@@ -1,6 +1,6 @@
 #!/bin/bash
-PROJECT=ld39
-DOMAIN=ld39.guard13007.com    # uncomment certbot-auto line below
+PROJECT=realms
+DOMAIN=realms.guard13007.com    # uncomment certbot-auto line below
 
 set -o errexit   # exit on error
 
@@ -12,7 +12,7 @@ chmod a+x ./certbot-auto
 mv ./certbot-auto /bin/certbot-auto
 certbot-auto certonly --standalone -m paul.liverman.iii@gmail.com -d $DOMAIN
 
-echo "RUN 'createdb ld39'"
+echo "RUN 'createdb $PROJECT'"
 echo "THEN 'psql' and:"
 echo "  ALTER USER postgres WITH PASSWORD 'password';"
 echo "  \q"

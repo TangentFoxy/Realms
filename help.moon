@@ -1,3 +1,7 @@
+-- TODO a large re-organization, where build will return a list of all commands, rather than all topics stapled together
+--  and topics should list some info about each topic instead of just their names
+--  NOTE topics now receives an is_admin boolean just like build!! use it!!
+
 topics = {"basics", "accounts", "interaction", "combat", "souls", "realms", "terminal"}
 
 admin = [[
@@ -8,7 +12,7 @@ Admin Commands:
   [[;white;]list] - lists all users, along with their user IDs and email addresses
   [[;white;]online] - lists all users online, along with their coordinates
   [[;white;]whoami] - lists your username, user ID, and email address
-  [[;white;]deluser] - deletes a user, [[;red;]WARNING: DOES NOT CONFIRM BEFORE DELETING]
+  [[;white;]deluser] user - deletes a user, [[;red;]WARNING: DOES NOT CONFIRM BEFORE DELETING]
 ]]
 
 basics = [[
@@ -41,9 +45,9 @@ interaction = [[
 Interaction:
 
   [[;white;]say] - say something to everyone in the room you are in
-  [[;white;]report] - send a message to administrators (reporting a bug, player, an idea - whatever!)
+  [[;white;]report] msg - send a message to administrators (reporting a bug, player, an idea - whatever!)
   [[;white;]look] (OR 'looks') - see who and what is in the room with you
-  [[;white;]examine] (OR 'x') - look at an [[;yellow;]item] in the room, or in your inventory
+  [[;white;]examine] (OR 'x') item - look at an [[;yellow;]item] in the room, or in your inventory
   [[;white;]take] item OR soul(s) - take an item, or a soul, or multiple souls ('[[;white;]get]' also works)
   [[;white;]inventory] - view the items you are holding ('[[;white;]inv]' or '[[;white;]i]' also works)
   [[;white;]north] (OR 'n') - go north, if there is a room to the north

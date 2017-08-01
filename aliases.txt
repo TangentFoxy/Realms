@@ -1,0 +1,11 @@
+aliases
+
+who am i -> whoami
+hp -> health
+get -> take
+charge -> power
+place -> drop
+i -> inventory
+inv -> inventory
+x -> examine
+looks -> look

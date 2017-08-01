@@ -1,31 +1,49 @@
+version = 29 -- NOTE may need to change depending on whether or not I push bug fixes to running version
 lapis = require "lapis"
 
-Users = require "models.Users"
-Realms = require "models.Realms"
+-- NOTE may not need these
 Events = require "models.Events"
+Realms = require "models.Realms"
+Users = require "models.Users"
 
-import now from require "utility.time"
+import respond_to, json_params from require "lapis.application"
+import report_error from require "utility.string"
+import now from require "utility.time" -- NOTE may not be needed
 
 class extends lapis.Application
-  @before_filter =>
-    u = @req.parsed_url
-    if u.path != "/users/login"
-      @session.redirect = "#{u.scheme}://#{u.host}#{u.path}"
-    if @session.info
-      @info = @session.info
-      @session.info = nil
-
   layout: "layout"
 
-  @include "githook"
-  -- @include "users" -- do not allow logins without interface
-  @include "command"
-
   handle_error: (err, trace) =>
-    return layout: false, err.."\n\n"..trace
+    return layout: false, report_error(@, err, trace)
+
+  @include "githook"
 
   [index: "/"]: => render: true
 
+  [execute_commands: "/command"]: respond_to {
+    POST: json_params =>
+      if not @params.version or tonumber(@params.version) < version
+        return layout: false, version
+
+      if @session.id
+        @user = Users\find id: @session.id
+        @character = Characters\find user_id: @user.id
+        unless @character
+          @character = Characters\create { user_id: @user.id }
+
+      result = parseCommand(@, @params.command)
+      if result == nil
+        return layout: false, report_error(@, @params.command, result)
+
+      return layout: false, result
+
+    GET: =>
+      return layout: false, status: 405, "Method not allowed."
+  }
+
+
+
+  -- TODO rewrite this shit
   [cron: "/update_realms"]: =>
     if @req.parsed_url.host == "127.0.0.1"
       realms = Realms\select "WHERE true"

@@ -1,9 +1,17 @@
 import Model from require "lapis.db.model"
 import recently from require "utility.time"
 
-Characters = require "models.Characters"
+local Characters
 
 class Realms extends Model
+  -- instance method
+  get_character_count: =>
+    unless Characters
+      Characters = require "models.Characters"
+    Characters\count "realm = ? AND time = ?", @name, recently!
+
+
+  -- NOTE old
   count_characters: =>
     Characters\count "realm = ? AND time >= ?", @name, recently!
 
