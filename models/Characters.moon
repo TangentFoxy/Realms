@@ -13,13 +13,13 @@ class Characters extends Model
     unless Rooms
       Rooms = require "models.Rooms"
     -- TODO if in inventory realm, return a fake Room object
-    Rooms\find x: @character.x, y: @character.y, realm: @character.realm
+    Rooms\find x: @x, y: @y, realm: @realm
 
   -- instance method
   get_inventory: =>
     unless Items
       Items = require "models.Items"
-    Items\select "WHERE character_id = ?", @character.id
+    Items\select "WHERE character_id = ?", @id
 
 
 
