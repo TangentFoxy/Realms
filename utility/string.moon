@@ -40,6 +40,9 @@ report_error = (Request, err, trace) ->
   if trace
     message ..= "\n#{trace}"
 
+  if report = Events\find type: "report", data: message
+    return "[[;red;]An error has occured\n#{err}]\n[[;white;]A report (##{report.id}) has already been filed about it.]"
+
   local report
   if Request.user
     report = Events\create {
