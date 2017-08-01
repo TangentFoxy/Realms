@@ -187,7 +187,7 @@ $(function() {
           History.enable();
 
           Terminal.pause();
-          $.post(commandUrl, {command: {1:"create", 2:name, 3:email, 4:password}, version: version}).then(function(response) {
+          $.post(commandUrl, {command: "create " + name + " " + email + " " + password, version: version}).then(function(response) {
             if (response.indexOf("Welcome, ") == 0) {
               Self = name;
             }
