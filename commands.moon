@@ -736,7 +736,7 @@ parseTable = {
 }
 
 -- setting defaults
-for command in *parseTable
+for _, command in pairs parseTable
   for arg in *command.args
     if arg.required == nil
       arg.required = true
