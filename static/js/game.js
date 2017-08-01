@@ -21,9 +21,9 @@ function update() {
       }
 
       if (version == 0) {
-        console.log("double update");
         version = data.version;
-        return update();
+        updateTimer = setTimeout(update, 1);
+        return true;
       }
 
       if (data.echo) {
@@ -100,9 +100,9 @@ function update() {
     }
   });
 
-  //if (Self) { // currently doesn't handle logouts does it?
+  if (Self) { // currently doesn't handle logouts does it?
     updateTimer = setTimeout(update, 1000);
-  //}
+  }
 }
 
 $(function() {
