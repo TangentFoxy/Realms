@@ -385,8 +385,9 @@ commands = {
       return format_error "That name is taken."
 
   report: (message) =>
+    local report
     if @user
-      Events\create {
+      report = Events\create {
         source_id: @character.id
         type: "report"
         data: "[[;white;]#{@user.name}]: [[;lime;]#{message}]"
@@ -396,12 +397,12 @@ commands = {
         time: now!
       }
     else
-      Events\create {
+      report = Events\create {
         type: "report"
         data: "[[;lime;]#{message}]"
         time: now!
       }
-    return "Your report has been submitted."
+    return "Report #[[;white;]#{report.id}] has been submitted."
 
   revive: =>
     if @character.health <= 0
