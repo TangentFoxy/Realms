@@ -100,9 +100,11 @@ function update() {
     }
   });
 
-  if (Self) { // currently doesn't handle logouts does it?
-    updateTimer = setTimeout(update, 1000);
-  }
+  // flat out doesn't work
+  // if (Self) { // currently doesn't handle logouts does it?
+  //   updateTimer = setTimeout(update, 1000);
+  // }
+  updateTimer = setTimeout(update, 1000);
 }
 
 $(function() {
