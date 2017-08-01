@@ -173,7 +173,7 @@ $(function() {
         data.pop();
         History.set(data);
         Terminal.pause();
-        $.post(commandUrl, {command: {1:"create", 2:args[1], 3:args[2], 4:args[3]}, version: version}).then(function(response) {
+        $.post(commandUrl, {command: {[1]:"create", [2]:args[1], [3]:args[2], [4]:args[3]}, version: version}).then(function(response) {
           if (response.indexOf("Welcome, ") == 0) {
             Self = args[1];
           }
@@ -229,7 +229,7 @@ $(function() {
           user = args[1];
         } else {
           Terminal.push(function(c) {
-            user = c;
+            name = c;
             Terminal.pop();
           }, {
             prompt: "Username: ",
