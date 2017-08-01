@@ -61,7 +61,7 @@ adminCommands = {
       if user\update { admin: true }
         return "[[;white;]#{user.name}] is now an administrator."
       else
-        return report_error(@, "error making an administrator", user.name)
+        error("error making '#{user.name}' administrator")
     else
       return format_error "There is no user by that name."
 
@@ -109,7 +109,7 @@ commands = {
       if @user\update { email: email }
         return "Email has been removed from your account."
       else
-        return report_error(@, "error removing email from account")
+        error("error removing email from account ##{user.id}")
 
   chpass: (password) =>
     if password
@@ -190,7 +190,7 @@ commands = {
 
   examine: (targetName) => -- TODO make characters examineable
     target = commands.get_target(@, targetName)
-    return nil
+    error("examine not implemented yet")
 
   -- exit: () =>
 
@@ -371,7 +371,7 @@ commands = {
     if targetName == "soul" or targetName == "souls"
       return format_error "You cannot punch the incorporeal."
     target = commands.get_target(@, targetName)
-    return nil
+    error("punch not implemented yet")
 
   realms: =>
     output = ""

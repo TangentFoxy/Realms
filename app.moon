@@ -37,7 +37,7 @@ class extends lapis.Application
       if "table" == type result
         return json: result
       elseif result == nil
-        error "#{@params.command} executed and returned nil"
+        error("'#{@params.command}' executed and returned nil")
       else
         return layout: false, result
 
