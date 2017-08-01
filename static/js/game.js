@@ -21,7 +21,7 @@ function update() {
       }
 
       if (data.echo) {
-        Terminal.echo(data.echo {keepWords: true}); // TODO document the echo feature for personal use in like a server-wide announcement or whatever. Or don't. I want a global event to be possible anyhow.
+        Terminal.echo(data.echo, {keepWords: true}); // TODO document the echo feature for personal use in like a server-wide announcement or whatever. Or don't. I want a global event to be possible anyhow.
       }
 
       var justEntered = false;
