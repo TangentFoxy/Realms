@@ -22,7 +22,7 @@ function update() {
 
       if (version == 0) {
         version = data.version;
-        updateTimer = setTimeout(update, 1);
+        updateTimer = setTimeout(update, 1000);
         return true;
       }
 
