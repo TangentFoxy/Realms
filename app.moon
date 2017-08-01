@@ -28,6 +28,8 @@ class extends lapis.Application
 
       if @session.id
         @user = Users\find id: @session.id
+        unless @user
+          @session.id = nil -- invalid session (may be a user that was deleted)
         @character = Characters\find user_id: @user.id
         unless @character
           @character = Characters\create { user_id: @user.id }
