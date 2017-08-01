@@ -129,6 +129,8 @@ commands = {
     if @user
       return "[[;red;]You are already logged in as ][[;white;]#{@user.name}][[;red;].]"
     else
+      if email == "none" -- fucking dirty hack
+        email = nil
       local digest
       if password
         digest = bcrypt.digest password, config.digest_rounds

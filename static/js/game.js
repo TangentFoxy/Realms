@@ -120,7 +120,7 @@ $(function() {
         data.pop();
         History.set(data);
         Terminal.pause();
-        $.post(commandUrl, {command: {1:"login", 2:args[1], 3:args[2]}, version: version}).then(function(response) {
+        $.post(commandUrl, {command: "login " + args[1] + " " + args[2], version: version}).then(function(response) {
           if (response.indexOf("Welcome back, ") == 0) {
             Self = args[1];
           }
@@ -133,7 +133,7 @@ $(function() {
           History.enable();
 
           Terminal.pause();
-          $.post(commandUrl, {command: {1:"login", 2:name, 3:password}, version: version}).then(function(response) {
+          $.post(commandUrl, {command: "login " + name + " " + password, version: version}).then(function(response) {
             if (response.indexOf("Welcome back, ") == 0) {
               Self = name;
             }
@@ -173,7 +173,7 @@ $(function() {
         data.pop();
         History.set(data);
         Terminal.pause();
-        $.post(commandUrl, {command: {[1]:"create", [2]:args[1], [3]:args[2], [4]:args[3]}, version: version}).then(function(response) {
+        $.post(commandUrl, {command: "create " + args[1] + " " + args[2] + " " + args[3], version: version}).then(function(response) {
           if (response.indexOf("Welcome, ") == 0) {
             Self = args[1];
           }
@@ -211,7 +211,11 @@ $(function() {
         email = args[2];
       } else {
         Terminal.push(function(c) {
-          email = c;
+          if (c.length > 0) {
+            email = c;
+          } else {
+            email = "none";
+          }
           Terminal.pop();
         }, {
           prompt: "Email: ",
@@ -245,12 +249,12 @@ $(function() {
         var data = History.data();
         data.pop();
         History.set(data);
-        return $.post(commandUrl, {command: {1:"chpass", 2:args[1]}, version: version});
+        return $.post(commandUrl, {command: "chpass " + args[1], version: version});
       } else {
         Terminal.push(function(c) {
           Terminal.pop();
           History.enable();
-          return $.post(commandUrl, {command: {1:"chpass", 2:c}, version: version});
+          return $.post(commandUrl, {command: "chpass " + c, version: version});
         }, {
           prompt: "Password: ",
           onStart: function() {
