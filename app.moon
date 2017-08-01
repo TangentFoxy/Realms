@@ -44,6 +44,12 @@ class extends lapis.Application
       return layout: false, status: 405, "Method not allowed."
   }
 
+  "/test": json_params =>
+    output = ""
+    for key, value in pairs @params
+      output..="#{key}=#{value}\n"
+    return layout: false, output
+
   "/command/update": =>
     return json: { nope: "nothing" } -- squelch errors client-side as well as server-side for now
 
