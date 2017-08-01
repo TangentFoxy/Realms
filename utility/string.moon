@@ -1,3 +1,5 @@
+import now from require "utility.time"
+
 Events = require "models.Events"
 
 -- splits string into table by spaces
