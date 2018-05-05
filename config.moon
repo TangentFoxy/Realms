@@ -2,13 +2,13 @@ config = require "lapis.config"
 import sql_password, session_secret from require "secret"
 
 config "production", ->
-  session_name "ld39"
+  session_name "realms"
   secret session_secret
   postgres ->
     host "127.0.0.1"
-    user "postgres"
+    user "realms"
     password sql_password
-    database "ld39"
+    database "realms"
   port 443
   num_workers 4
   code_cache "on"
